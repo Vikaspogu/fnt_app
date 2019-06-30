@@ -111,7 +111,7 @@ class App extends React.Component {
                 pathname: "/requesttalk"
               }}
             >
-              Tech Talk Requests
+              Requested Tech Talks
             </Link>
           </NavItem>
           <NavItem itemId={3} isActive={activeItem === 3} to="/requestsocial">
@@ -120,7 +120,7 @@ class App extends React.Component {
                 pathname: "/requestsocial"
               }}
             >
-              Social Events Requests
+              Requested Social Events
             </Link>
           </NavItem>
         </NavList>
