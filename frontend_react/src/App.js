@@ -88,38 +88,22 @@ class App extends React.Component {
       <Nav onSelect={this.onNavSelect} aria-label="Nav">
         <NavList variant={NavVariants.simple}>
           <NavItem itemId={0} isActive={activeItem === 0}>
-            <Link
-              to={{
-                pathname: "/techevent"
-              }}
-            >
+            <Link to="/techevent">
               Upcoming Tech Talks
             </Link>
           </NavItem>
           <NavItem itemId={1} isActive={activeItem === 1}>
-            <Link
-              to={{
-                pathname: "/socialevent"
-              }}
-            >
+            <Link to="/socialevent">
               Upcoming Social Events
             </Link>
           </NavItem>
-          <NavItem itemId={2} isActive={activeItem === 2} to="/requesttalk">
-            <Link
-              to={{
-                pathname: "/requesttalk"
-              }}
-            >
+          <NavItem itemId={2} isActive={activeItem === 2}>
+            <Link to="/requesttalk">
               Requested Tech Talks
             </Link>
           </NavItem>
-          <NavItem itemId={3} isActive={activeItem === 3} to="/requestsocial">
-            <Link
-              to={{
-                pathname: "/requestsocial"
-              }}
-            >
+          <NavItem itemId={3} isActive={activeItem === 3}>
+            <Link to="/requestsocial">
               Requested Social Events
             </Link>
           </NavItem>
