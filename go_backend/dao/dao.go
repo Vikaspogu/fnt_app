@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -53,7 +54,6 @@ func InsertManyValues(techtalk []models.TechTalk) {
 
 // InsertOneValue inserts one item from TechTalk model
 func InsertOneValue(TechTalk models.TechTalk) {
-	fmt.Println(TechTalk)
 	_, err := db.Collection(COLLNAME).InsertOne(context.Background(), TechTalk)
 	if err != nil {
 		log.Println(err)
@@ -84,8 +84,12 @@ func GetAlltechtalk() []models.TechTalk {
 }
 
 // DeleteTechTalk deletes an existing TechTalk
-func DeleteTechTalk(TechTalk models.TechTalk) {
-	_, err := db.Collection(COLLNAME).DeleteOne(context.Background(), TechTalk, nil)
+func DeleteTechTalk(TechTalkID string) {
+	objectIDS, err := primitive.ObjectIDFromHex(TechTalkID)
+	if err != nil {
+		fmt.Printf("deleteTask: couldn't convert to-do ID from input: %v", err)
+	}
+	_, err = db.Collection(COLLNAME).DeleteOne(context.Background(), bson.D{{"_id", objectIDS}})
 	if err != nil {
 		log.Println(err)
 	}

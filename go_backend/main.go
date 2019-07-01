@@ -21,9 +21,9 @@ func main() {
 	})
 	router.GET("/alltechtalks", AllTechTalks)
 	router.POST("/techtalk", CreateTechTalk)
-	router.PUT("/techtalk/{id}", UpdateTechTalk)
-	router.DELETE("/techtalk", DeleteTechTalk)
-	router.GET("/techtalk/{id}", FindTechTalk)
+	router.PUT("/techtalk/:id", UpdateTechTalk)
+	router.DELETE("/techtalk/:id", DeleteTechTalk)
+	router.GET("/techtalk/:id", FindTechTalk)
 	// Start and run the server
 	router.Run(":8080")
 }
@@ -57,5 +57,7 @@ func FindTechTalk(c *gin.Context) {
 
 //DeleteTechTalk endpoint
 func DeleteTechTalk(c *gin.Context) {
-	c.String(http.StatusOK, "not implemented yet !")
+	techtalkID := c.Param("id")
+	dao.DeleteTechTalk(techtalkID)
+	c.String(http.StatusOK, "Delete Successful")
 }
