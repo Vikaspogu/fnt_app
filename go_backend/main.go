@@ -1,70 +1,60 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"go_backend/dao"
 	"go_backend/models"
-	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 var techTalk []models.TechTalk
 
 func main() {
-	r := mux.NewRouter()
-	r.Use(loggingMiddleware)
-	r.HandleFunc("/alltechtalks", AllTechTalks).Methods("GET")
-	r.HandleFunc("/techtalk", CreateTechTalk).Methods("POST")
-	r.HandleFunc("/techtalk/{id}", UpdateTechTalk).Methods("PUT")
-	r.HandleFunc("/techtalk", DeleteTechTalk).Methods("DELETE")
-	r.HandleFunc("/techtalk/{id}", FindTechTalk).Methods("GET")
-	fmt.Println("Starting server on port 8080...")
-	if err := http.ListenAndServe(":8080", r); err != nil {
-		log.Fatal(err)
-	}
-}
-
-func loggingMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Do stuff here
-		log.Println(r.RequestURI)
-		// Call the next handler, which can be another middleware in the chain, or the final handler.
-		next.ServeHTTP(w, r)
+	// Set the router as the default one shipped with Gin
+	router := gin.Default()
+	// Setup route group for the router
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
 	})
+	router.GET("/alltechtalks", AllTechTalks)
+	router.POST("/techtalk", CreateTechTalk)
+	router.PUT("/techtalk/{id}", UpdateTechTalk)
+	router.DELETE("/techtalk", DeleteTechTalk)
+	router.GET("/techtalk/{id}", FindTechTalk)
+	// Start and run the server
+	router.Run(":8080")
 }
 
 //AllTechTalks endpoint
-func AllTechTalks(w http.ResponseWriter, r *http.Request) {
+func AllTechTalks(c *gin.Context) {
 	payload := dao.GetAlltechtalk()
-	json.NewEncoder(w).Encode(payload)
+	c.JSON(http.StatusOK, payload)
 }
 
 //CreateTechTalk endpoint
-func CreateTechTalk(w http.ResponseWriter, r *http.Request) {
+func CreateTechTalk(c *gin.Context) {
 	var techTalk models.TechTalk
-	_ = json.NewDecoder(r.Body).Decode(&techTalk)
 	dao.InsertOneValue(techTalk)
-	json.NewEncoder(w).Encode(techTalk)
-
+	c.JSON(http.StatusOK, techTalk)
 }
 
 //UpdateTechTalk endpoint
-func UpdateTechTalk(w http.ResponseWriter, r *http.Request) {
-	techtalkID := mux.Vars(r)["id"]
+func UpdateTechTalk(c *gin.Context) {
+	techtalkID := c.Param("id")
 	var techtalk models.TechTalk
-	_ = json.NewDecoder(r.Body).Decode(&techtalk)
 	dao.UpdateTechTalk(techtalk, techtalkID)
 }
 
 //FindTechTalk endpoint
-func FindTechTalk(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "not implemented yet !")
+func FindTechTalk(c *gin.Context) {
+	fmt.Fprintln(c.Writer, "not implemented yet !")
 }
 
 //DeleteTechTalk endpoint
-func DeleteTechTalk(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "not implemented yet !")
+func DeleteTechTalk(c *gin.Context) {
+	fmt.Fprintln(c.Writer, "not implemented yet !")
 }

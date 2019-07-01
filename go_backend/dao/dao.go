@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go_backend/models"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -14,9 +15,6 @@ import (
 const (
 	//DBName database name
 	DBName = "fntdb"
-	//URI mongodb uri to connect
-	//URI = "mongodb://localhost:27017"
-	URI = "mongodb://mongouser:mongopass@localhost:27017"
 	//COLLNAME mongo collection
 	COLLNAME = "techtalk"
 )
@@ -26,6 +24,10 @@ var db *mongo.Database
 // Connect establish a connection to database
 func init() {
 	ctx := context.Background()
+	URI := os.Getenv("DATABASE_URL")
+	if URI == "" {
+		URI = "mongodb://@localhost:27017"
+	}
 	clientOpts := options.Client().ApplyURI(URI)
 	client, err := mongo.Connect(ctx, clientOpts)
 	if err != nil {
