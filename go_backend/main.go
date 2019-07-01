@@ -5,6 +5,7 @@ import (
 	"go_backend/models"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,6 +26,7 @@ func main() {
 	router.DELETE("/techtalk/:id", DeleteTechTalk)
 	router.GET("/techtalk/:id", FindTechTalk)
 	// Start and run the server
+	router.Use(cors.Default())
 	router.Run(":8080")
 }
 
