@@ -37,14 +37,16 @@ func AllTechTalks(c *gin.Context) {
 //CreateTechTalk endpoint
 func CreateTechTalk(c *gin.Context) {
 	var techTalk models.TechTalk
+	c.BindJSON(&techTalk)
 	dao.InsertOneValue(techTalk)
 	c.JSON(http.StatusOK, techTalk)
 }
 
 //UpdateTechTalk endpoint
 func UpdateTechTalk(c *gin.Context) {
-	techtalkID := c.Param("id")
 	var techtalk models.TechTalk
+	techtalkID := c.Param("id")
+	c.BindJSON(&techtalk)
 	dao.UpdateTechTalk(techtalk, techtalkID)
 }
 
