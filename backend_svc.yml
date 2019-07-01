@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  labels:
+    app: fnt-backend
+  name: fnt-backend
+  namespace: vpogu-sandbox
+spec:
+  ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    deploymentconfig: fnt-backend
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
+

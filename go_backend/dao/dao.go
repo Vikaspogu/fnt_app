@@ -28,16 +28,15 @@ func init() {
 	if URI == "" {
 		URI = "mongodb://@localhost:27017"
 	}
+	fmt.Println("Mongodb connection details:: ", URI)
 	clientOpts := options.Client().ApplyURI(URI)
 	client, err := mongo.Connect(ctx, clientOpts)
 	if err != nil {
 		log.Println(err)
 	}
-	if err != nil {
-		log.Println(err)
-	}
 	// Collection types can be used to access the database
 	db = client.Database(DBName)
+	fmt.Println("Connection success to Database:: ", db.Name())
 }
 
 // InsertManyValues inserts many items from byte slice

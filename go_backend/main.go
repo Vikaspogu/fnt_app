@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"go_backend/dao"
 	"go_backend/models"
 	"net/http"
@@ -51,10 +50,10 @@ func UpdateTechTalk(c *gin.Context) {
 
 //FindTechTalk endpoint
 func FindTechTalk(c *gin.Context) {
-	fmt.Fprintln(c.Writer, "not implemented yet !")
+	c.String(http.StatusOK, "not implemented yet !")
 }
 
 //DeleteTechTalk endpoint
 func DeleteTechTalk(c *gin.Context) {
-	fmt.Fprintln(c.Writer, "not implemented yet !")
+	c.String(http.StatusOK, "not implemented yet !")
 }
