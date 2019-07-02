@@ -24,7 +24,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URI = process.env.BACKEND_URI != null ? process.env.BACKEND_URI : "http://localhost:8080"
+const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:8080"
 class TechEventsList extends React.Component {
   constructor(props) {
     super(props);
@@ -49,7 +49,7 @@ class TechEventsList extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on Delete action, on row: ', rowId),
+            console.log('clicked on Delete action, on row: ', rowData.topic),
         },
       ],
     };

@@ -24,7 +24,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URI = process.env.BACKEND_URI != null ? process.env.BACKEND_URI : "http://localhost:8080"
+const BACKEND_URI =  process.env.BACKEND_URI || "http://localhost:8080"
 class SocialEventsList extends React.Component {
   constructor(props) {
     super(props);
