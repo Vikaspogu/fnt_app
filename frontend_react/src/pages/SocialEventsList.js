@@ -19,11 +19,13 @@ import {
   TableHeader,
   TableBody,
   headerCol,
+  cellWidth
 } from '@patternfly/react-table';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
+const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:8080"
 class SocialEventsList extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class SocialEventsList extends React.Component {
       addiInfo: '',
       mobNoti: false,
       columns: [
-        { title: 'Place', cellTransforms: [headerCol()] },
+        { title: 'Place', cellTransforms: [headerCol()], transforms: [cellWidth(10)] },
         'Location',
         'Date & Time',
         'Additional Information',
@@ -95,7 +97,7 @@ class SocialEventsList extends React.Component {
   }
 
   getAllSocialEventsItems = () => {
-    axios.get('http://fnt-backend:8080/allsocialevents').then(res => {
+    axios.get(BACKEND_URI+'/allsocialevents').then(res => {
       var rows = [];
       res.data.map(data => {
         var modrows = [
@@ -113,7 +115,7 @@ class SocialEventsList extends React.Component {
   addNewSocialEvent = () => {
     const { place, location, date, addiInfo, mobNoti } = this.state;
     axios
-      .post('http://fnt-backend:8080/socialevent', {
+      .post(BACKEND_URI+'/socialevent', {
         place: place,
         location: location,
         date: date,
