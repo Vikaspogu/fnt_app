@@ -24,7 +24,6 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URI =  process.env.BACKEND_URI || "http://localhost:8080"
 class SocialEventsList extends React.Component {
   constructor(props) {
     super(props);
@@ -96,7 +95,7 @@ class SocialEventsList extends React.Component {
   }
 
   getAllSocialEventsItems = () => {
-    axios.get(BACKEND_URI+'/allsocialevents').then(res => {
+    axios.get('http://fnt-backend:8080/allsocialevents').then(res => {
       var rows = [];
       res.data.map(data => {
         var modrows = [
@@ -114,7 +113,7 @@ class SocialEventsList extends React.Component {
   addNewSocialEvent = () => {
     const { place, location, date, addiInfo, mobNoti } = this.state;
     axios
-      .post(BACKEND_URI+'/socialevent', {
+      .post('http://fnt-backend:8080/socialevent', {
         place: place,
         location: location,
         date: date,
