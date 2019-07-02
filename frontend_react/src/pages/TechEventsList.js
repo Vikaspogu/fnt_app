@@ -24,8 +24,6 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URI = process.env.BACKEND_URI || "http://localhost:8080"
-
 class TechEventsList extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +101,7 @@ class TechEventsList extends React.Component {
   }
 
   getAllTechTalkItems = () => {
-    axios.get(BACKEND_URI+'/alltechtalks').then(res => {
+    axios.get('http://fnt-backend-vpogu-sandbox.apps.opencontainer.io/alltechtalks').then(res => {
       var rows = [];
       res.data.map(data => {
         var modrows = [
@@ -122,7 +120,7 @@ class TechEventsList extends React.Component {
   addNewTechTalk = () => {
     const { topic, presenter, location, date, addiInfo, mobNoti } = this.state;
     axios
-      .post(BACKEND_URI+'/techtalk', {
+      .post('http://fnt-backend-vpogu-sandbox.apps.opencontainer.io/techtalk', {
         topic: topic,
         presenter: presenter,
         location: location,
