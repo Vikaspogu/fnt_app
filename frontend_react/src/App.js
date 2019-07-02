@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Avatar,
   Brand,
@@ -18,23 +18,23 @@ import {
   SkipToContent,
   Toolbar,
   ToolbarGroup,
-  ToolbarItem
-} from "@patternfly/react-core";
-import PropTypes from "prop-types";
-import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
-import accessibleStyles from "@patternfly/react-styles/css/utilities/Accessibility/accessibility";
-import spacingStyles from "@patternfly/react-styles/css/utilities/Spacing/spacing";
-import { css } from "@patternfly/react-styles";
-import { BellIcon, CogIcon } from "@patternfly/react-icons";
+  ToolbarItem,
+} from '@patternfly/react-core';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
+import accessibleStyles from '@patternfly/react-styles/css/utilities/Accessibility/accessibility';
+import spacingStyles from '@patternfly/react-styles/css/utilities/Spacing/spacing';
+import { css } from '@patternfly/react-styles';
+import { BellIcon, CogIcon } from '@patternfly/react-icons';
 
 //This imports are must to render css
-import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/patternfly.css";
+import '@patternfly/react-core/dist/styles/base.css';
+import '@patternfly/patternfly/patternfly.css';
 
-import imgAvatar from "patternfly/dist/img/logo-alt.svg";
-import imgBrand from "patternfly/dist/img/brand-alt.svg";
-import AppRouter from "./router/AppRouter";
+import imgAvatar from 'patternfly/dist/img/logo-alt.svg';
+import imgBrand from 'patternfly/dist/img/brand-alt.svg';
+import AppRouter from './router/AppRouter';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,37 +42,37 @@ class App extends React.Component {
     this.state = {
       isDropdownOpen: false,
       isKebabDropdownOpen: false,
-      activeItem: 0
+      activeItem: 0,
     };
   }
 
   onDropdownToggle = isDropdownOpen => {
     this.setState({
-      isDropdownOpen
+      isDropdownOpen,
     });
   };
 
   onDropdownSelect = event => {
     this.setState({
-      isDropdownOpen: !this.state.isDropdownOpen
+      isDropdownOpen: !this.state.isDropdownOpen,
     });
   };
 
   onKebabDropdownToggle = isKebabDropdownOpen => {
     this.setState({
-      isKebabDropdownOpen
+      isKebabDropdownOpen,
     });
   };
 
   onKebabDropdownSelect = event => {
     this.setState({
-      isKebabDropdownOpen: !this.state.isKebabDropdownOpen
+      isKebabDropdownOpen: !this.state.isKebabDropdownOpen,
     });
   };
 
   onNavSelect = result => {
     this.setState({
-      activeItem: result.itemId
+      activeItem: result.itemId,
     });
   };
 
@@ -88,24 +88,16 @@ class App extends React.Component {
       <Nav onSelect={this.onNavSelect} aria-label="Nav">
         <NavList variant={NavVariants.simple}>
           <NavItem itemId={0} isActive={activeItem === 0}>
-            <Link to="/techevent">
-              Upcoming Tech Talks
-            </Link>
+            <Link to="/techevent">Upcoming Tech Talks</Link>
           </NavItem>
           <NavItem itemId={1} isActive={activeItem === 1}>
-            <Link to="/socialevent">
-              Upcoming Social Events
-            </Link>
+            <Link to="/socialevent">Upcoming Social Events</Link>
           </NavItem>
           <NavItem itemId={2} isActive={activeItem === 2}>
-            <Link to="/requesttalk">
-              Requested Tech Talks
-            </Link>
+            <Link to="/requesttalk">Requested Tech Talks</Link>
           </NavItem>
           <NavItem itemId={3} isActive={activeItem === 3}>
-            <Link to="/requestsocial">
-              Requested Social Events
-            </Link>
+            <Link to="/requestsocial">Requested Social Events</Link>
           </NavItem>
         </NavList>
       </Nav>
@@ -116,10 +108,10 @@ class App extends React.Component {
       </DropdownItem>,
       <DropdownItem>
         <CogIcon /> Settings
-      </DropdownItem>
+      </DropdownItem>,
     ];
     const userDropdownItems = [
-      <DropdownItem component="button">logout</DropdownItem>
+      <DropdownItem component="button">logout</DropdownItem>,
     ];
     const PageToolbar = (
       <Toolbar>
@@ -206,7 +198,7 @@ class App extends React.Component {
           isManagedSidebar
           skipToContent={PageSkipToContent}
         >
-        <AppRouter />
+          <AppRouter />
         </Page>
       </React.Fragment>
     );
@@ -215,7 +207,7 @@ class App extends React.Component {
 
 App.propTypes = {
   history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };
 
 export default withRouter(App);

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"go_backend/models"
-	"log"
 	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,8 +15,8 @@ import (
 const (
 	//DBName database name
 	DBName = "fntdb"
-	//COLLNAME mongo collection
-	COLLNAME = "techtalk"
+	//TECHCOLL mongo collection
+	TECHCOLL = "techtalk"
 )
 
 var db *mongo.Database
@@ -33,38 +32,26 @@ func init() {
 	clientOpts := options.Client().ApplyURI(URI)
 	client, err := mongo.Connect(ctx, clientOpts)
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 	}
 	// Collection types can be used to access the database
 	db = client.Database(DBName)
 	fmt.Println("Connection success to Database:: ", db.Name())
 }
 
-// InsertManyValues inserts many items from byte slice
-func InsertManyValues(techtalk []models.TechTalk) {
-	var ttk []interface{}
-	for _, p := range techtalk {
-		ttk = append(ttk, p)
-	}
-	_, err := db.Collection(COLLNAME).InsertMany(context.Background(), ttk)
+// InsertOneTalk inserts one item from TechTalk model
+func InsertOneTalk(TechTalk models.TechTalk) {
+	_, err := db.Collection(TECHCOLL).InsertOne(context.Background(), TechTalk)
 	if err != nil {
-		log.Println(err)
-	}
-}
-
-// InsertOneValue inserts one item from TechTalk model
-func InsertOneValue(TechTalk models.TechTalk) {
-	_, err := db.Collection(COLLNAME).InsertOne(context.Background(), TechTalk)
-	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 	}
 }
 
 // GetAlltechtalk returns all techtalk from DB
 func GetAlltechtalk() []models.TechTalk {
-	cur, err := db.Collection(COLLNAME).Find(context.Background(), bson.D{}, nil)
+	cur, err := db.Collection(TECHCOLL).Find(context.Background(), bson.D{}, nil)
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 	}
 	var elements []models.TechTalk
 	var elem models.TechTalk
@@ -72,12 +59,12 @@ func GetAlltechtalk() []models.TechTalk {
 	for cur.Next(context.Background()) {
 		err := cur.Decode(&elem)
 		if err != nil {
-			log.Println(err)
+			fmt.Println(err)
 		}
 		elements = append(elements, elem)
 	}
 	if err := cur.Err(); err != nil {
-		log.Println(err)
+		fmt.Println(err)
 	}
 	cur.Close(context.Background())
 	return elements
@@ -89,9 +76,9 @@ func DeleteTechTalk(TechTalkID string) {
 	if err != nil {
 		fmt.Printf("deleteTask: couldn't convert to-do ID from input: %v", err)
 	}
-	_, err = db.Collection(COLLNAME).DeleteOne(context.Background(), bson.D{{"_id", objectIDS}})
+	_, err = db.Collection(TECHCOLL).DeleteOne(context.Background(), bson.D{{"_id", objectIDS}})
 	if err != nil {
-		log.Println(err)
+		fmt.Println(err)
 	}
 }
 

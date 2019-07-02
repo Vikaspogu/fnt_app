@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardBody,
@@ -7,10 +7,10 @@ import {
   PageSection,
   PageSectionVariants,
   TextContent,
-  Text
-} from "@patternfly/react-core";
-import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/patternfly.css";
+  Text,
+} from '@patternfly/react-core';
+import '@patternfly/react-core/dist/styles/base.css';
+import '@patternfly/patternfly/patternfly.css';
 
 class RequestSocial extends React.Component {
   constructor(props) {

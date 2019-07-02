@@ -3,7 +3,7 @@ import {
   HashRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
 } from 'react-router-dom';
 import RequestSocial from '../pages/RequestSocial';
 import RequestTechTalk from '../pages/RequestTechTalk';

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   PageSection,
   PageSectionVariants,
@@ -12,61 +12,46 @@ import {
   FormGroup,
   TextInput,
   TextArea,
-  Checkbox
-} from "@patternfly/react-core";
+  Checkbox,
+} from '@patternfly/react-core';
 import {
   Table,
   TableHeader,
   TableBody,
-  headerCol
-} from "@patternfly/react-table";
-import "@patternfly/react-core/dist/styles/base.css";
-import "@patternfly/patternfly/patternfly.css";
+  headerCol,
+} from '@patternfly/react-table';
+import '@patternfly/react-core/dist/styles/base.css';
+import '@patternfly/patternfly/patternfly.css';
+import axios from 'axios';
 
+const BACKEND_URI = process.env.BACKEND_URI != null ? process.env.BACKEND_URI : "http://localhost:8080"
 class TechEventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isModalOpen: false,
       page: 1,
-      topic: "",
-      presenter: "",
-      location: "",
-      date: "",
-      time: "",
-      addiInfo: "",
+      topic: '',
+      presenter: '',
+      location: '',
+      date: '',
+      addiInfo: '',
       mobNoti: false,
       columns: [
-        { title: "Topic", cellTransforms: [headerCol()] },
-        "Presenter",
-        "Location",
-        "Date & Time",
-        "Additional Information"
+        { title: 'Topic', cellTransforms: [headerCol()] },
+        'Presenter',
+        'Location',
+        'Date & Time',
+        'Additional Information',
       ],
-      rows: [
-        {
-          cells: ["one", "two", "a", "four", "five"]
-        },
-        {
-          cells: ["two", "two", "k", "four", "five"]
-        },
-        {
-          cells: ["three", "two", "b", "four", "five"]
-        },
-        {
-          cells: ["four", "two", "a", "four", "five"]
-        },
-        {
-          cells: ["five", "two", "k", "four", "five"]
-        }
-      ],
+      rows: [],
       actions: [
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log("clicked on Delete action, on row: ", rowId)
-        }
-      ]
+            console.log('clicked on Delete action, on row: ', rowId),
+        },
+      ],
     };
     this.onChange = (value, event) => {
       this.setState({ value });
@@ -83,9 +68,6 @@ class TechEventsList extends React.Component {
     this.handleTextInputChangeDate = date => {
       this.setState({ date });
     };
-    this.handleTextInputChangeTime = time => {
-      this.setState({ time });
-    };
     this.handleTextInputChangeAddInfo = addiInfo => {
       this.setState({ addiInfo });
     };
@@ -94,20 +76,66 @@ class TechEventsList extends React.Component {
     };
     this.handleModalToggle = () => {
       this.setState(({ isModalOpen }) => ({
-        isModalOpen: !isModalOpen
+        isModalOpen: !isModalOpen,
+        topic: '',
+        presenter: '',
+        location: '',
+        date: '',
+        addiInfo: '',
+        mobNoti: false,
       }));
     };
     this.onSetPage = (_event, pageNumber) => {
       this.setState({
-        page: pageNumber
+        page: pageNumber,
       });
     };
     this.onPerPageSelect = (_event, perPage) => {
       this.setState({
-        perPage
+        perPage,
       });
     };
   }
+
+  componentDidMount() {
+    this.getAllTechTalkItems();
+  }
+
+  getAllTechTalkItems = () => {
+    axios.get(BACKEND_URI+'/alltechtalks').then(res => {
+      var rows = [];
+      res.data.map(data => {
+        var modrows = [
+          data.topic,
+          data.presenter,
+          data.location,
+          data.date,
+          data.additionalInfo,
+        ];
+        rows.push(modrows);
+      });
+      this.setState({ rows: rows });
+    });
+  };
+
+  addNewTechTalk = () => {
+    const { topic, presenter, location, date, addiInfo, mobNoti } = this.state;
+    axios
+      .post(BACKEND_URI+'/techtalk', {
+        topic: topic,
+        presenter: presenter,
+        location: location,
+        date: date,
+        additionalInfo: addiInfo,
+        mobileNotify: mobNoti,
+      })
+      .then(res => {
+        this.setState(({ isModalOpen }) => ({
+          isModalOpen: !isModalOpen,
+        }));
+        this.getAllTechTalkItems();
+      });
+  };
 
   render() {
     const {
@@ -119,9 +147,8 @@ class TechEventsList extends React.Component {
       presenter,
       location,
       date,
-      time,
       addiInfo,
-      mobNoti
+      mobNoti,
     } = this.state;
     return (
       <React.Fragment>
@@ -163,10 +190,10 @@ class TechEventsList extends React.Component {
               <Button
                 key="confirm"
                 variant="primary"
-                onClick={this.handleModalToggle}
+                onClick={this.addNewTechTalk}
               >
                 Confirm
-              </Button>
+              </Button>,
             ]}
           >
             <Form isHorizontal>
@@ -214,24 +241,18 @@ class TechEventsList extends React.Component {
                   name="horizontal-form-email"
                 />
               </FormGroup>
-              <FormGroup label="Date" isRequired fieldId="horizontal-form-date">
+              <FormGroup
+                label="Date & Time"
+                isRequired
+                fieldId="horizontal-form-date"
+              >
                 <TextInput
                   value={date}
                   onChange={this.handleTextInputChangeDate}
                   isRequired
-                  type="date"
+                  type="datetime-local"
                   id="horizontal-form-date"
                   name="horizontal-form-date"
-                />
-              </FormGroup>
-              <FormGroup label="Time" isRequired fieldId="horizontal-form-time">
-                <TextInput
-                  value={time}
-                  onChange={this.handleTextInputChangeTime}
-                  isRequired
-                  type="time"
-                  id="horizontal-form-time"
-                  name="horizontal-form-time"
                 />
               </FormGroup>
               <FormGroup
@@ -242,15 +263,17 @@ class TechEventsList extends React.Component {
                   value={addiInfo}
                   onChange={this.handleTextInputChangeAddInfo}
                   name="horizontal-form-exp"
+                  type="text"
                   id="horizontal-form-exp"
                 />
               </FormGroup>
-              <FormGroup>
+              <FormGroup fieldId="horizontal-form-checkbox">
                 <Checkbox
                   label="Send mobile notification"
-                  id="alt-form-checkbox-1"
-                  name="alt-form-checkbox-1"
+                  id="send-noti-checkbox"
+                  name="send-noti-checkbox"
                   isChecked={mobNoti}
+                  aria-label="send-noti-checkbox"
                   onChange={this.handleTextInputChangeMobNotification}
                 />
               </FormGroup>

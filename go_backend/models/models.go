@@ -12,9 +12,19 @@ type TechTalk struct {
 	Topic          string             `json:"topic"`
 	Presenter      string             `json:"presenter"`
 	Location       string             `json:"location"`
-	Date           time.Time          `bson:"date" json:"date,omitempty"`
+	Date           string             `json:"date"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	MobileNotify   bool               `json:"mobileNotify"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
-	UpdatedAt      time.Time          `bson:"updated_at" json:"updated_at,omitempty"`
+}
+
+//SocialEvent model
+type SocialEvent struct {
+	ID             primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Place          string             `json:"place"`
+	Location       string             `json:"location"`
+	Date           string             `json:"date"`
+	AdditionalInfo string             `json:"additionalInfo"`
+	MobileNotify   bool               `json:"mobileNotify"`
+	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }

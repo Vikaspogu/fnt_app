@@ -10,6 +10,7 @@ module.exports = {
   },
   devServer: {
     contentBase: './build',
+    port: 9000
   },
   module: {
     rules: [
