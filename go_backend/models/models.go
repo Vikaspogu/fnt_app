@@ -28,3 +28,22 @@ type SocialEvent struct {
 	MobileNotify   bool               `json:"mobileNotify"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
+
+//RequestedSocial model
+type RequestedSocial struct {
+	ID             primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Place          string             `json:"place"`
+	Location       string             `json:"location"`
+	AdditionalInfo string             `json:"additionalInfo"`
+	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
+}
+
+//RequestedTalk model
+type RequestedTalk struct {
+	ID             primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Topic          string             `json:"topic"`
+	Presenter      string             `json:"presenter"`
+	Date           string             `json:"date"`
+	AdditionalInfo string             `json:"additionalInfo"`
+	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
+}

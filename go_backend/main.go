@@ -31,6 +31,16 @@ func main() {
 	router.POST("/socialevent", CreateSocialEvent)
 	router.PUT("/socialevent/:id", UpdateSocialEvent)
 	router.DELETE("/socialevent/:id", DeleteSocialEvent)
+	//request social event endpoints
+	router.GET("/allrequestedsocial", AllRequestedSocial)
+	router.POST("/requestedsocial", CreateRequestedSocial)
+	router.PUT("/requestedsocial/:id", UpdateRequestedSocial)
+	router.DELETE("/requestedsocial/:id", DeleteRequestedSocial)
+	//request tech talk endpoints
+	router.GET("/allrequestedtalk", AllRequestedTalk)
+	router.POST("/requestedtalk", CreateRequestedTalk)
+	router.PUT("/requestedtalk/:id", UpdateRequestedTalk)
+	router.DELETE("/requestedtalk/:id", DeleteRequestedTalk)
 	// Start and run the server
 	router.Run(":8080")
 }
@@ -63,6 +73,68 @@ func UpdateTechTalk(c *gin.Context) {
 func DeleteTechTalk(c *gin.Context) {
 	techtalkID := c.Param("id")
 	dao.DeleteTechTalk(techtalkID)
+	c.String(http.StatusOK, "Delete Successful")
+}
+
+//AllRequestedSocial endpoint
+func AllRequestedSocial(c *gin.Context) {
+	payload := dao.GetAllRequestedSocial()
+	c.JSON(http.StatusOK, payload)
+}
+
+//CreateRequestedSocial endpoint
+func CreateRequestedSocial(c *gin.Context) {
+	var requestedSocial models.RequestedSocial
+	requestedSocial.ID = primitive.NewObjectID()
+	requestedSocial.CreatedAt = time.Now()
+	c.BindJSON(&requestedSocial)
+	dao.InsertRequestedSocial(requestedSocial)
+	c.JSON(http.StatusOK, requestedSocial)
+}
+
+//UpdateRequestedSocial endpoint
+func UpdateRequestedSocial(c *gin.Context) {
+	var requestedSocial models.RequestedSocial
+	requestedSocialID := c.Param("id")
+	c.BindJSON(&requestedSocial)
+	dao.UpdateRequestedSocial(requestedSocial, requestedSocialID)
+}
+
+//DeleteRequestedSocial endpoint
+func DeleteRequestedSocial(c *gin.Context) {
+	requestedSocialID := c.Param("id")
+	dao.DeleteRequestedSocial(requestedSocialID)
+	c.String(http.StatusOK, "Delete Successful")
+}
+
+//AllRequestedTalk endpoint
+func AllRequestedTalk(c *gin.Context) {
+	payload := dao.GetAllRequestedTalks()
+	c.JSON(http.StatusOK, payload)
+}
+
+//CreateRequestedTalk endpoint
+func CreateRequestedTalk(c *gin.Context) {
+	var requestedTech models.RequestedTalk
+	requestedTech.ID = primitive.NewObjectID()
+	requestedTech.CreatedAt = time.Now()
+	c.BindJSON(&requestedTech)
+	dao.InsertRequestedTalk(requestedTech)
+	c.JSON(http.StatusOK, requestedTech)
+}
+
+//UpdateRequestedTalk endpoint
+func UpdateRequestedTalk(c *gin.Context) {
+	var requestedTech models.RequestedTalk
+	requestedTechID := c.Param("id")
+	c.BindJSON(&requestedTech)
+	dao.UpdateRequestedTalk(requestedTech, requestedTechID)
+}
+
+//DeleteRequestedTalk endpoint
+func DeleteRequestedTalk(c *gin.Context) {
+	requestedTechID := c.Param("id")
+	dao.DeleteRequestedTalk(requestedTechID)
 	c.String(http.StatusOK, "Delete Successful")
 }
 
