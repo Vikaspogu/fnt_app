@@ -34,6 +34,7 @@ type RequestedSocial struct {
 	ID             primitive.ObjectID `bson:"_id" json:"id,omitempty"`
 	Place          string             `json:"place"`
 	Location       string             `json:"location"`
+	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
@@ -44,6 +45,7 @@ type RequestedTalk struct {
 	Topic          string             `json:"topic"`
 	Presenter      string             `json:"presenter"`
 	Date           string             `json:"date"`
+	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
