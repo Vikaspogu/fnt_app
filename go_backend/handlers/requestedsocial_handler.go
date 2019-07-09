@@ -28,9 +28,9 @@ func CreateRequestedSocial(c *gin.Context) {
 
 //UpdateSocialVotes endpoint
 func UpdateSocialVotes(c *gin.Context) {
-	requestedSocialID := c.Param("id")
-	votes := c.Param("votes")
-	dao.UpdateSocialVotes(votes, requestedSocialID)
+	var requestedSocial models.RequestedSocial
+	c.BindJSON(&requestedSocial)
+	dao.UpdateSocialVotes(requestedSocial)
 }
 
 //DeleteRequestedSocial endpoint

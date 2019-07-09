@@ -58,13 +58,13 @@ func DeleteRequestedSocial(RequestedSocialID string) {
 }
 
 // UpdateSocialVotes updates votes
-func UpdateSocialVotes(Votes string, RequestedSocialID string) {
+func UpdateSocialVotes(RequestedSocial models.RequestedSocial) {
 	_, err := db.Collection(REQUESTSOCIAL).UpdateOne(
 		context.Background(),
-		bson.M{"_id": RequestedSocialID},
+		bson.M{"_id": RequestedSocial.ID},
 		bson.M{
 			"$set": bson.M{
-				"votes": Votes,
+				"votes": RequestedSocial.Votes,
 			},
 		},
 	)

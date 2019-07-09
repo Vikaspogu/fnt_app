@@ -31,8 +31,8 @@ func main() {
 	//request social event endpoints
 	router.GET("/allrequestedsocial", handlers.AllRequestedSocial)
 	router.POST("/requestedsocial", handlers.CreateRequestedSocial)
-	router.PUT("/requestedsocial/:id", handlers.UpdateSocialVotes)
 	router.DELETE("/requestedsocial/:id", handlers.DeleteRequestedSocial)
+	router.POST("/votesocial", handlers.UpdateSocialVotes)
 	//request tech talk endpoints
 	router.GET("/allrequestedtalk", handlers.AllRequestedTalk)
 	router.POST("/requestedtalk", handlers.CreateRequestedTalk)
