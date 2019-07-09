@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"go_backend/dao"
 	"go_backend/models"
 	"net/http"
@@ -30,6 +31,7 @@ func CreateRequestedSocial(c *gin.Context) {
 func UpdateSocialVotes(c *gin.Context) {
 	var requestedSocial models.RequestedSocial
 	c.BindJSON(&requestedSocial)
+	fmt.Println("#######", requestedSocial)
 	dao.UpdateSocialVotes(requestedSocial)
 }
 
