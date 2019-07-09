@@ -57,7 +57,18 @@ func DeleteRequestedSocial(RequestedSocialID string) {
 	}
 }
 
-// UpdateRequestedSocial updates an existing RequestedSocial
-func UpdateRequestedSocial(RequestedSocial models.RequestedSocial, RequestedSocialID string) {
-
+// UpdateSocialVotes updates votes
+func UpdateSocialVotes(Votes string, RequestedSocialID string) {
+	_, err := db.Collection(REQUESTSOCIAL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": RequestedSocialID},
+		bson.M{
+			"$set": bson.M{
+				"votes": Votes,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
