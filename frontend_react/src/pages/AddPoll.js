@@ -19,7 +19,8 @@ import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
-class RequestTechTalk extends React.Component {
+
+class AddPoll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,11 +46,11 @@ class RequestTechTalk extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllRequestedTechTalks();
+    this.getAllRequestedSocialItems();
   }
 
-  getAllRequestedTechTalks = () => {
-    axios.get(BACKEND_URL.concat('allrequestedtech'))
+  getAllRequestedSocialItems = () => {
+    axios.get(BACKEND_URL.concat('allrequestedsocial'))
       .then(res => {
         var rows = [];
         res.data.map(data => {
@@ -70,7 +71,7 @@ class RequestTechTalk extends React.Component {
       <React.Fragment>
         <PageSection variant={PageSectionVariants.light}>
           <TextContent>
-            <Text component="h1">Requested Tech Talks</Text>
+            <Text component="h1">Requested Social Events</Text>
           </TextContent>
         </PageSection>
         <PageSection>
@@ -93,4 +94,4 @@ class RequestTechTalk extends React.Component {
   }
 }
 
-export default RequestTechTalk;
+export default AddPoll;

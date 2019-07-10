@@ -99,6 +99,9 @@ class App extends React.Component {
           <NavItem itemId={3} isActive={activeItem === 3}>
             <Link to="/requestsocial">Requested Social Events</Link>
           </NavItem>
+          <NavItem itemId={4} isActive={activeItem === 4}>
+            <Link to="/addpoll">Add Poll</Link>
+          </NavItem>
         </NavList>
       </Nav>
     );

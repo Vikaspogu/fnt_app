@@ -25,6 +25,7 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
 class SocialEventsList extends React.Component {
   constructor(props) {
     super(props);
@@ -96,7 +97,7 @@ class SocialEventsList extends React.Component {
   }
 
   getAllSocialEventsItems = () => {
-    axios.get('http://fnt-backend-vpogu-sandbox.apps.opencontainer.io/allsocialevents').then(res => {
+    axios.get(BACKEND_URL.concat('allsocialevents')).then(res => {
       var rows = [];
       res.data.map(data => {
         var modrows = [
@@ -113,15 +114,13 @@ class SocialEventsList extends React.Component {
 
   addNewSocialEvent = () => {
     const { place, location, date, addiInfo, mobNoti } = this.state;
-    axios
-      .post('http://fnt-backend-vpogu-sandbox.apps.opencontainer.io/socialevent', {
+    axios.post(BACKEND_URL.concat('socialevent'), {
         place: place,
         location: location,
         date: date,
         additionalInfo: addiInfo,
         mobileNotify: mobNoti,
-      })
-      .then(res => {
+      }).then(res => {
         this.setState(({ isModalOpen }) => ({
           isModalOpen: !isModalOpen,
         }));

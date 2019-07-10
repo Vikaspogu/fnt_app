@@ -9,6 +9,7 @@ import RequestSocial from '../pages/RequestSocial';
 import RequestTechTalk from '../pages/RequestTechTalk';
 import SocialEventsList from '../pages/SocialEventsList';
 import TechEventsList from '../pages/TechEventsList';
+import AddPoll from '../pages/AddPoll';
 
 const AppRouter = () => (
   <Router>
@@ -18,6 +19,7 @@ const AppRouter = () => (
         <Route path="/requesttalk" component={RequestTechTalk} exact />
         <Route path="/socialevent" component={SocialEventsList} exact />
         <Route path="/techevent" component={TechEventsList} exact />
+        <Route path="/addpoll" component={AddPoll} exact/>
         <Redirect from="*" to="/techevent" key="default-route" />
       </Switch>
     </div>
