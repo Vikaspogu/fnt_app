@@ -31,7 +31,8 @@
     "style-loader": "^0.23.1",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -53,8 +54,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3"
   }
 }
