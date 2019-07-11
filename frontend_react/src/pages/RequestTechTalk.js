@@ -36,10 +36,15 @@ class RequestTechTalk extends React.Component {
       rows: [],
       actions: [
         {
+          title: 'Edit',
+          onClick: (event, rowId, rowData, extra) =>
+            console.log('clicked on edit action, on row: ', rowId),
+        },
+        {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on Delete action, on row: ', rowId),
-        },
+            console.log('clicked on Delete action, on row: ', rowData.topic),
+        }
       ],
     };
   }
@@ -73,7 +78,7 @@ class RequestTechTalk extends React.Component {
             <Text component="h1">Requested Tech Talks</Text>
           </TextContent>
         </PageSection>
-        <PageSection>
+        <PageSection type='nav' isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />

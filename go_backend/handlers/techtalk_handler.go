@@ -29,9 +29,8 @@ func CreateTechTalk(c *gin.Context) {
 //UpdateTechTalk endpoint
 func UpdateTechTalk(c *gin.Context) {
 	var techtalk models.TechTalk
-	techtalkID := c.Param("id")
 	c.BindJSON(&techtalk)
-	dao.UpdateTechTalk(techtalk, techtalkID)
+	dao.UpdateTechTalk(techtalk)
 }
 
 //DeleteTechTalk endpoint

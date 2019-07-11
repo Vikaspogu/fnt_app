@@ -21,22 +21,26 @@ func main() {
 	//Tech events endpoints
 	router.GET("/alltechtalks", handlers.AllTechTalks)
 	router.POST("/techtalk", handlers.CreateTechTalk)
-	router.PUT("/techtalk/:id", handlers.UpdateTechTalk)
+	router.POST("/updatetechtalk", handlers.UpdateTechTalk)
 	router.DELETE("/techtalk/:id", handlers.DeleteTechTalk)
+
 	//Social event endpoints
 	router.GET("/allsocialevents", handlers.AllSocialEvents)
 	router.POST("/socialevent", handlers.CreateSocialEvent)
-	router.PUT("/socialevent/:id", handlers.UpdateSocialEvent)
+	router.POST("/updatesocialevent", handlers.UpdateSocialEvent)
 	router.DELETE("/socialevent/:id", handlers.DeleteSocialEvent)
+
 	//request social event endpoints
 	router.GET("/allrequestedsocial", handlers.AllRequestedSocial)
 	router.POST("/requestedsocial", handlers.CreateRequestedSocial)
+	router.POST("/updaterequestedsocial", handlers.UpdateRequestedSocial)
 	router.DELETE("/requestedsocial/:id", handlers.DeleteRequestedSocial)
 	router.POST("/votesocial", handlers.UpdateSocialVotes)
+
 	//request tech talk endpoints
 	router.GET("/allrequestedtalk", handlers.AllRequestedTalk)
 	router.POST("/requestedtalk", handlers.CreateRequestedTalk)
-	router.PUT("/requestedtalk/:id", handlers.UpdateRequestedTalk)
+	router.POST("/updaterequestedtalk", handlers.UpdateRequestedTalk)
 	router.DELETE("/requestedtalk/:id", handlers.DeleteRequestedTalk)
 	// Start and run the server
 	router.Run(":8080")

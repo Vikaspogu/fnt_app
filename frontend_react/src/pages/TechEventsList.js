@@ -19,20 +19,22 @@ import {
   TableHeader,
   TableBody,
   headerCol,
+  classNames,
+  Visibility,
 } from '@patternfly/react-table';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 
 class TechEventsList extends React.Component {
-  
   constructor(props) {
     super(props);
     this.state = {
       isModalOpen: false,
       page: 1,
+      id: '',
       topic: '',
       presenter: '',
       location: '',
@@ -40,18 +42,46 @@ class TechEventsList extends React.Component {
       addiInfo: '',
       mobNoti: false,
       columns: [
+        {
+          title: 'Id',
+          columnTransforms: [classNames(Visibility.hidden)]
+        },
         { title: 'Topic', cellTransforms: [headerCol()] },
         'Presenter',
         'Location',
         'Date & Time',
         'Additional Information',
+        {
+          title: 'Mobile Notification',
+          columnTransforms: [classNames(Visibility.hidden)]
+        }
       ],
       rows: [],
       actions: [
         {
+          title: 'Edit',
+          onClick: (event, rowId, rowData, extra) => {
+            console.log('clicked on edit action, on row: ', rowData);
+            this.setState({
+              id: rowData.id.title,
+              topic: rowData.topic.title,
+              presenter: rowData.presenter.title,
+              location: rowData.location.title,
+              date: rowData[4],
+              addiInfo: rowData[5],
+              mobNoti: rowData[6],
+              isModalOpen: true,
+            });
+          },
+        },
+        {
+          isSeparator: true,
+        },
+        {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on Delete action, on row: ', rowData.topic),
+            axios.delete(BACKEND_URL.concat('techtalk/'+rowData.id.title))
+            .then(res => {this.getAllTechTalkItems()})
         },
       ],
     };
@@ -108,11 +138,13 @@ class TechEventsList extends React.Component {
       var rows = [];
       res.data.map(data => {
         var modrows = [
+          data.id,
           data.topic,
           data.presenter,
           data.location,
           data.date,
           data.additionalInfo,
+          data.mobileNotify
         ];
         rows.push(modrows);
       });
@@ -120,14 +152,14 @@ class TechEventsList extends React.Component {
     });
   };
 
-  addNewTechTalk = () => {
-    const { topic, presenter, location, date, addiInfo, mobNoti } = this.state;
-    axios
-      .post(BACKEND_URL.concat('techtalk'), {
-        topic: topic,
-        presenter: presenter,
-        location: location,
-        date: date,
+  addUpdateTechTalk = () => {
+    const { id, topic, presenter, location, date, addiInfo, mobNoti } = this.state;
+    axios.post(BACKEND_URL.concat(id !== '' ? 'updatetechtalk' : 'techtalk'), {
+        id,
+        topic,
+        presenter,
+        location,
+        date,
         additionalInfo: addiInfo,
         mobileNotify: mobNoti,
       })
@@ -141,6 +173,7 @@ class TechEventsList extends React.Component {
 
   render() {
     const {
+      id,
       columns,
       rows,
       actions,
@@ -154,7 +187,7 @@ class TechEventsList extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        <PageSection variant={PageSectionVariants.light}>
+        <PageSection variant={PageSectionVariants.light} isFilled={true}>
           <TextContent>
             <Text component="h1">Upcoming Tech Talks</Text>
           </TextContent>
@@ -162,7 +195,7 @@ class TechEventsList extends React.Component {
             Add Tech Talk
           </Button>
         </PageSection>
-        <PageSection className={'--pf-c-page--BackgroundColor'}>
+        <PageSection variant={PageSectionVariants.default} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />
@@ -178,7 +211,7 @@ class TechEventsList extends React.Component {
           />
           <Modal
             isLarge
-            title="Add Tech Talk"
+            title={id !== '' ? 'Update Tech Talk' : 'Add Tech Talk' }
             isOpen={isModalOpen}
             onClose={this.handleModalToggle}
             actions={[
@@ -192,9 +225,9 @@ class TechEventsList extends React.Component {
               <Button
                 key="confirm"
                 variant="primary"
-                onClick={this.addNewTechTalk}
+                onClick={this.addUpdateTechTalk}
               >
-                Confirm
+                {id !== '' ? 'Update' : 'Submit' }
               </Button>,
             ]}
           >

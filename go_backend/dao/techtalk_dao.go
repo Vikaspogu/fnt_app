@@ -83,6 +83,15 @@ func DeleteTechTalk(TechTalkID string) {
 }
 
 // UpdateTechTalk updates an existing TechTalk
-func UpdateTechTalk(TechTalk models.TechTalk, TechTalkID string) {
-
+func UpdateTechTalk(TechTalk models.TechTalk) {
+	_, err := db.Collection(TECHCOLL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": TechTalk.ID},
+		bson.M{
+			"$set": TechTalk,
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

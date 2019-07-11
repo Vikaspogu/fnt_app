@@ -74,7 +74,7 @@ class AddPoll extends React.Component {
             <Text component="h1">Requested Social Events</Text>
           </TextContent>
         </PageSection>
-        <PageSection>
+        <PageSection type='nav' isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />

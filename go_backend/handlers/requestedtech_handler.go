@@ -29,9 +29,8 @@ func CreateRequestedTalk(c *gin.Context) {
 //UpdateRequestedTalk endpoint
 func UpdateRequestedTalk(c *gin.Context) {
 	var requestedTech models.RequestedTalk
-	requestedTechID := c.Param("id")
 	c.BindJSON(&requestedTech)
-	dao.UpdateRequestedTalk(requestedTech, requestedTechID)
+	dao.UpdateRequestedTalk(requestedTech)
 }
 
 //DeleteRequestedTalk endpoint

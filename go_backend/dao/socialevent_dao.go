@@ -58,6 +58,15 @@ func DeleteSocialEvent(SocialEventID string) {
 }
 
 // UpdateSocialEvent updates an existing SocialEvent
-func UpdateSocialEvent(SocialEvent models.SocialEvent, SocialEventID string) {
-
+func UpdateSocialEvent(SocialEvent models.SocialEvent) {
+	_, err := db.Collection(SOCIALCOLL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": SocialEvent.ID},
+		bson.M{
+			"$set": SocialEvent,
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

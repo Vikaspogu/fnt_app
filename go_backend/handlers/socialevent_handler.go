@@ -29,9 +29,8 @@ func CreateSocialEvent(c *gin.Context) {
 //UpdateSocialEvent endpoint
 func UpdateSocialEvent(c *gin.Context) {
 	var socialEvent models.SocialEvent
-	socialEventID := c.Param("id")
 	c.BindJSON(&socialEvent)
-	dao.UpdateSocialEvent(socialEvent, socialEventID)
+	dao.UpdateSocialEvent(socialEvent)
 }
 
 //DeleteSocialEvent endpoint

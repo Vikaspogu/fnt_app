@@ -58,6 +58,15 @@ func DeleteRequestedTalk(RequestedTalkID string) {
 }
 
 // UpdateRequestedTalk updates an existing RequestedTalk
-func UpdateRequestedTalk(RequestedTalk models.RequestedTalk, RequestedTalkID string) {
-
+func UpdateRequestedTalk(RequestedTalk models.RequestedTalk) {
+	_, err := db.Collection(REQUESTTECH).UpdateOne(
+		context.Background(),
+		bson.M{"_id": RequestedTalk.ID},
+		bson.M{
+			"$set": RequestedTalk,
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

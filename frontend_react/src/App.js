@@ -36,6 +36,8 @@ import imgAvatar from 'patternfly/dist/img/logo-alt.svg';
 import imgBrand from 'patternfly/dist/img/brand-alt.svg';
 import AppRouter from './router/AppRouter';
 
+import '../app.css';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
