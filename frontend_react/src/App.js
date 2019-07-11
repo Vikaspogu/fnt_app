@@ -15,7 +15,6 @@ import {
   Page,
   PageHeader,
   PageSidebar,
-  SkipToContent,
   Toolbar,
   ToolbarGroup,
   ToolbarItem,
@@ -36,7 +35,6 @@ import imgAvatar from 'patternfly/dist/img/logo-alt.svg';
 import imgBrand from 'patternfly/dist/img/brand-alt.svg';
 import AppRouter from './router/AppRouter';
 
-import '../app.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -189,19 +187,12 @@ class App extends React.Component {
       />
     );
     const Sidebar = <PageSidebar nav={PageNav} />;
-    const PageSkipToContent = (
-      <SkipToContent href="#main-content-page-layout-default-nav">
-        Skip to Content
-      </SkipToContent>
-    );
-
     return (
       <React.Fragment>
         <Page
           header={Header}
           sidebar={Sidebar}
           isManagedSidebar
-          skipToContent={PageSkipToContent}
         >
           <AppRouter />
         </Page>

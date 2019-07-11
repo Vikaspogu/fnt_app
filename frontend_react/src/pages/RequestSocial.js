@@ -4,8 +4,6 @@ import {
   PageSectionVariants,
   TextContent,
   Text,
-  Pagination,
-  PaginationVariant,
 } from '@patternfly/react-core';
 import {
   Table,
@@ -84,15 +82,6 @@ class RequestSocial extends React.Component {
             <TableHeader />
             <TableBody />
           </Table>
-          <Pagination
-            itemCount={100}
-            widgetId="pagination-options-menu-bottom"
-            perPage={this.state.perPage}
-            page={this.state.page}
-            variant={PaginationVariant.bottom}
-            onSetPage={this.onSetPage}
-            onPerPageSelect={this.onPerPageSelect}
-          />
         </PageSection>
       </React.Fragment>
     );

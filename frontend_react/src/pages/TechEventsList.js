@@ -5,8 +5,6 @@ import {
   TextContent,
   Text,
   Button,
-  Pagination,
-  PaginationVariant,
   Modal,
   Form,
   FormGroup,
@@ -33,7 +31,6 @@ class TechEventsList extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
-      page: 1,
       id: '',
       topic: '',
       presenter: '',
@@ -116,17 +113,7 @@ class TechEventsList extends React.Component {
         addiInfo: '',
         mobNoti: false,
       }));
-    };
-    this.onSetPage = (_event, pageNumber) => {
-      this.setState({
-        page: pageNumber,
-      });
-    };
-    this.onPerPageSelect = (_event, perPage) => {
-      this.setState({
-        perPage,
-      });
-    };
+    }
   }
 
   componentDidMount() {
@@ -195,20 +182,11 @@ class TechEventsList extends React.Component {
             Add Tech Talk
           </Button>
         </PageSection>
-        <PageSection variant={PageSectionVariants.default} isFilled={true}>
+        <PageSection variant={PageSectionVariants.light} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />
           </Table>
-          <Pagination
-            itemCount={100}
-            widgetId="pagination-options-menu-bottom"
-            perPage={this.state.perPage}
-            page={this.state.page}
-            variant={PaginationVariant.bottom}
-            onSetPage={this.onSetPage}
-            onPerPageSelect={this.onPerPageSelect}
-          />
           <Modal
             isLarge
             title={id !== '' ? 'Update Tech Talk' : 'Add Tech Talk' }

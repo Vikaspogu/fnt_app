@@ -5,8 +5,6 @@ import {
   TextContent,
   Text,
   Button,
-  Pagination,
-  PaginationVariant,
   Modal,
   Form,
   FormGroup,
@@ -33,7 +31,6 @@ class SocialEventsList extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
-      page: 1,
       place: '',
       location: '',
       date: '',
@@ -109,16 +106,6 @@ class SocialEventsList extends React.Component {
         mobNoti: false,
       }));
     };
-    this.onSetPage = (_event, pageNumber) => {
-      this.setState({
-        page: pageNumber,
-      });
-    };
-    this.onPerPageSelect = (_event, perPage) => {
-      this.setState({
-        perPage,
-      });
-    };
   }
 
   componentDidMount() {
@@ -188,15 +175,6 @@ class SocialEventsList extends React.Component {
             <TableHeader />
             <TableBody />
           </Table>
-          <Pagination
-            itemCount={100}
-            widgetId="pagination-options-menu-bottom"
-            perPage={this.state.perPage}
-            page={this.state.page}
-            variant={PaginationVariant.bottom}
-            onSetPage={this.onSetPage}
-            onPerPageSelect={this.onPerPageSelect}
-          />
           <Modal
             isLarge
             title={id !== '' ? 'Update Social Event' : 'Add Social Event' }
