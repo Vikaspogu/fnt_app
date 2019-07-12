@@ -52,7 +52,7 @@ class RequestTechTalk extends React.Component {
   }
 
   getAllRequestedTechTalks = () => {
-    axios.get(BACKEND_URL.concat('allrequestedtech'))
+    axios.get(BACKEND_URL.concat('allrequestedtalk'))
       .then(res => {
         var rows = [];
         res.data.map(data => {
