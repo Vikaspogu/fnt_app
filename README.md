@@ -1,9 +1,9 @@
-## Fnt App
+# Fnt App
 
-# Frontend 
+## Frontend 
 
 Frontend is developed using ReactJS and Pattenfly as design
 
-# Golang backend
+## Golang backend
 
 Go backend using gin gonic, mongo as database
