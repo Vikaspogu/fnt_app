@@ -57,8 +57,7 @@ class TechEventsList extends React.Component {
       actions: [
         {
           title: 'Edit',
-          onClick: (event, rowId, rowData, extra) => {
-            console.log('clicked on edit action, on row: ', rowData);
+          onClick: (event, rowId, rowData, extra) => {console.log
             this.setState({
               id: rowData.id.title,
               topic: rowData.topic.title,
