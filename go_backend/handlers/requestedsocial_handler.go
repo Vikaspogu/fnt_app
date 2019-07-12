@@ -21,6 +21,7 @@ func CreateRequestedSocial(c *gin.Context) {
 	var requestedSocial models.RequestedSocial
 	requestedSocial.ID = primitive.NewObjectID()
 	requestedSocial.CreatedAt = time.Now()
+	requestedSocial.Votes = []string{}
 	c.BindJSON(&requestedSocial)
 	dao.InsertRequestedSocial(requestedSocial)
 	c.JSON(http.StatusOK, requestedSocial)

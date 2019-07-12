@@ -21,6 +21,7 @@ func CreateRequestedTalk(c *gin.Context) {
 	var requestedTech models.RequestedTalk
 	requestedTech.ID = primitive.NewObjectID()
 	requestedTech.CreatedAt = time.Now()
+	requestedTech.Votes = []string{}
 	c.BindJSON(&requestedTech)
 	dao.InsertRequestedTalk(requestedTech)
 	c.JSON(http.StatusOK, requestedTech)
