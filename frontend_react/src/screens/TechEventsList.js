@@ -41,7 +41,7 @@ class TechEventsList extends React.Component {
       columns: [
         {
           title: 'Id',
-          columnTransforms: [classNames(Visibility.hidden)]
+          columnTransforms: [classNames(Visibility.hidden)],
         },
         { title: 'Topic', cellTransforms: [headerCol()] },
         'Presenter',
@@ -50,14 +50,14 @@ class TechEventsList extends React.Component {
         'Additional Information',
         {
           title: 'Mobile Notification',
-          columnTransforms: [classNames(Visibility.hidden)]
-        }
+          columnTransforms: [classNames(Visibility.hidden)],
+        },
       ],
       rows: [],
       actions: [
         {
           title: 'Edit',
-          onClick: (event, rowId, rowData, extra) => {console.log
+          onClick: (event, rowId, rowData, extra) => {
             this.setState({
               id: rowData.id.title,
               topic: rowData.topic.title,
@@ -76,8 +76,11 @@ class TechEventsList extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            axios.delete(BACKEND_URL.concat('techtalk/'+rowData.id.title))
-            .then(res => {this.getAllTechTalkItems()})
+            axios
+              .delete(BACKEND_URL.concat('techtalk/' + rowData.id.title))
+              .then(res => {
+                this.getAllTechTalkItems();
+              }),
         },
       ],
     };
@@ -112,7 +115,7 @@ class TechEventsList extends React.Component {
         addiInfo: '',
         mobNoti: false,
       }));
-    }
+    };
   }
 
   componentDidMount() {
@@ -122,7 +125,7 @@ class TechEventsList extends React.Component {
   getAllTechTalkItems = () => {
     axios.get(BACKEND_URL.concat('alltechtalks')).then(res => {
       var rows = [];
-      res.data.map(data => {
+      res.data && res.data.map(data => {
         var modrows = [
           data.id,
           data.topic,
@@ -130,7 +133,7 @@ class TechEventsList extends React.Component {
           data.location,
           data.date,
           data.additionalInfo,
-          data.mobileNotify
+          data.mobileNotify,
         ];
         rows.push(modrows);
       });
@@ -139,22 +142,49 @@ class TechEventsList extends React.Component {
   };
 
   addUpdateTechTalk = () => {
-    const { id, topic, presenter, location, date, addiInfo, mobNoti } = this.state;
-    axios.post(BACKEND_URL.concat(id !== '' ? 'updatetechtalk' : 'techtalk'), {
-        id,
-        topic,
-        presenter,
-        location,
-        date,
-        additionalInfo: addiInfo,
-        mobileNotify: mobNoti,
-      })
-      .then(res => {
-        this.setState(({ isModalOpen }) => ({
-          isModalOpen: !isModalOpen,
-        }));
-        this.getAllTechTalkItems();
-      });
+    const {
+      id,
+      topic,
+      presenter,
+      location,
+      date,
+      addiInfo,
+      mobNoti,
+    } = this.state;
+    if (id !== '') {
+      axios
+        .post(BACKEND_URL.concat('updatetechtalk'), {
+          id,
+          topic,
+          presenter,
+          location,
+          date,
+          additionalInfo: addiInfo,
+          mobileNotify: mobNoti,
+        })
+        .then(res => {
+          this.setState(({ isModalOpen }) => ({
+            isModalOpen: !isModalOpen,
+          }));
+          this.getAllTechTalkItems();
+        });
+    } else {
+      axios
+        .post(BACKEND_URL.concat('techtalk'), {
+          topic,
+          presenter,
+          location,
+          date,
+          additionalInfo: addiInfo,
+          mobileNotify: mobNoti,
+        })
+        .then(res => {
+          this.setState(({ isModalOpen }) => ({
+            isModalOpen: !isModalOpen,
+          }));
+          this.getAllTechTalkItems();
+        });
+    }
   };
 
   render() {
@@ -184,11 +214,11 @@ class TechEventsList extends React.Component {
         <PageSection variant={PageSectionVariants.light} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
-            <TableBody />
+            <TableBody/>
           </Table>
           <Modal
             isLarge
-            title={id !== '' ? 'Update Tech Talk' : 'Add Tech Talk' }
+            title={id !== '' ? 'Update Tech Talk' : 'Add Tech Talk'}
             isOpen={isModalOpen}
             onClose={this.handleModalToggle}
             actions={[
@@ -204,7 +234,7 @@ class TechEventsList extends React.Component {
                 variant="primary"
                 onClick={this.addUpdateTechTalk}
               >
-                {id !== '' ? 'Update' : 'Submit' }
+                {id !== '' ? 'Update' : 'Submit'}
               </Button>,
             ]}
           >

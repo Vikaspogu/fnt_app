@@ -25,12 +25,13 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 class SocialEventsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isModalOpen: false,
+      id: '',
       place: '',
       location: '',
       date: '',
@@ -39,16 +40,20 @@ class SocialEventsList extends React.Component {
       columns: [
         {
           title: 'Id',
-          columnTransforms: [classNames(Visibility.hidden)]
+          columnTransforms: [classNames(Visibility.hidden)],
         },
-        { title: 'Place', cellTransforms: [headerCol()], transforms: [cellWidth(10)] },
+        {
+          title: 'Place',
+          cellTransforms: [headerCol()],
+          transforms: [cellWidth(10)],
+        },
         'Location',
         'Date & Time',
         'Additional Information',
         {
           title: 'Mobile Notification',
-          columnTransforms: [classNames(Visibility.hidden)]
-        }
+          columnTransforms: [classNames(Visibility.hidden)],
+        },
       ],
       rows: [],
       actions: [
@@ -64,7 +69,7 @@ class SocialEventsList extends React.Component {
               mobNoti: rowData[5],
               isModalOpen: true,
             });
-          }
+          },
         },
         {
           isSeparator: true,
@@ -72,10 +77,13 @@ class SocialEventsList extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) => {
-            axios.delete(BACKEND_URL.concat('socialevent/'+rowData.id.title))
-            .then(res => {this.getAllSocialEventsItems()});
-          }
-        }
+            axios
+              .delete(BACKEND_URL.concat('socialevent/' + rowData.id.title))
+              .then(res => {
+                this.getAllSocialEventsItems();
+              });
+          },
+        },
       ],
     };
     this.onChange = (value, event) => {
@@ -115,14 +123,14 @@ class SocialEventsList extends React.Component {
   getAllSocialEventsItems = () => {
     axios.get(BACKEND_URL.concat('allsocialevents')).then(res => {
       var rows = [];
-      res.data.map(data => {
+      res.data && res.data.map(data => {
         var modrows = [
           data.id,
           data.place,
           data.location,
           data.date,
           data.additionalInfo,
-          data.mobileNotify
+          data.mobileNotify,
         ];
         rows.push(modrows);
       });
@@ -132,19 +140,38 @@ class SocialEventsList extends React.Component {
 
   addUpdateTechTalk = () => {
     const { id, place, location, date, addiInfo, mobNoti } = this.state;
-    axios.post(BACKEND_URL.concat(id !== '' ? 'updatesocialevent' : 'socialevent'), {
-        id,
-        place,
-        location,
-        date,
-        additionalInfo: addiInfo,
-        mobileNotify: mobNoti,
-      }).then(res => {
-        this.setState(({ isModalOpen }) => ({
-          isModalOpen: !isModalOpen,
-        }));
-        this.getAllSocialEventsItems();
-      });
+    if (id !== '') {
+      axios
+        .post(BACKEND_URL.concat('updatesocialevent'), {
+          id,
+          place,
+          location,
+          date,
+          additionalInfo: addiInfo,
+          mobileNotify: mobNoti,
+        })
+        .then(res => {
+          this.setState(({ isModalOpen }) => ({
+            isModalOpen: !isModalOpen,
+          }));
+          this.getAllSocialEventsItems();
+        });
+    } else {
+      axios
+        .post(BACKEND_URL.concat('socialevent'), {
+          place,
+          location,
+          date,
+          additionalInfo: addiInfo,
+          mobileNotify: mobNoti,
+        })
+        .then(res => {
+          this.setState(({ isModalOpen }) => ({
+            isModalOpen: !isModalOpen,
+          }));
+          this.getAllSocialEventsItems();
+        });
+    }
   };
 
   render() {
@@ -170,14 +197,14 @@ class SocialEventsList extends React.Component {
             Add Social Event
           </Button>
         </PageSection>
-        <PageSection type='nav' isFilled={true}>
+        <PageSection type="nav" isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />
           </Table>
           <Modal
             isLarge
-            title={id !== '' ? 'Update Social Event' : 'Add Social Event' }
+            title={id !== '' ? 'Update Social Event' : 'Add Social Event'}
             isOpen={isModalOpen}
             onClose={this.handleModalToggle}
             actions={[
@@ -193,7 +220,7 @@ class SocialEventsList extends React.Component {
                 variant="primary"
                 onClick={this.addUpdateTechTalk}
               >
-                {id !== '' ? 'Update' : 'Submit' }
+                {id !== '' ? 'Update' : 'Submit'}
               </Button>,
             ]}
           >
