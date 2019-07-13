@@ -5,11 +5,11 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
-import RequestSocial from '../pages/RequestSocial';
-import RequestTechTalk from '../pages/RequestTechTalk';
-import SocialEventsList from '../pages/SocialEventsList';
-import TechEventsList from '../pages/TechEventsList';
-import AddPoll from '../pages/AddPoll';
+import RequestSocial from '../screens/RequestSocial';
+import RequestTechTalk from '../screens/RequestTechTalk';
+import SocialEventsList from '../screens/SocialEventsList';
+import TechEventsList from '../screens/TechEventsList';
+import AddPoll from '../screens/AddPoll';
 
 const AppRouter = () => (
   <Router>

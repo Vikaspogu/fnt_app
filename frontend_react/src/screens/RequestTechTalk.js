@@ -23,11 +23,11 @@ class RequestTechTalk extends React.Component {
     this.state = {
       columns: [
         {
-          title: 'Place',
+          title: 'Topic',
           cellTransforms: [headerCol()],
           transforms: [cellWidth(10)],
         },
-        'Location',
+        'Presenter',
         'Votes',
         'Additional Information',
       ],
@@ -57,8 +57,8 @@ class RequestTechTalk extends React.Component {
         var rows = [];
         res.data.map(data => {
           var modrows = [
-            data.place,
-            data.location,
+            data.topic,
+            data.presenter,
             data.votes.length,
             data.additionalInfo,
           ];
