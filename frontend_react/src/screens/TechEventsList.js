@@ -23,6 +23,7 @@ import {
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
+import moment from 'moment';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 
@@ -131,7 +132,7 @@ class TechEventsList extends React.Component {
           data.topic,
           data.presenter,
           data.location,
-          data.date,
+          moment(data.date).format("MMMM D, YYYY, h:mm a"),
           data.additionalInfo,
           data.mobileNotify,
         ];
