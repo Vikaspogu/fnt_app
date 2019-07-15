@@ -48,10 +48,10 @@ class RequestSocial extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllRequestedSocialItems();
+    this.getAllRequestedSocialEvents();
   }
 
-  getAllRequestedSocialItems = () => {
+  getAllRequestedSocialEvents = () => {
     axios.get(BACKEND_URL.concat('allrequestedsocial'))
       .then(res => {
         var rows = [];

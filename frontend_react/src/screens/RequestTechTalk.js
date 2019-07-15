@@ -67,6 +67,7 @@ class RequestTechTalk extends React.Component {
         this.setState({ rows: rows });
       });
   };
+  
   render() {
     const { columns, rows, actions } = this.state;
     return (

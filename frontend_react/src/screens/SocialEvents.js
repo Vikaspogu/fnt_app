@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableBody,
   headerCol,
+  cellWidth,
   classNames,
   Visibility,
 } from '@patternfly/react-table';
@@ -27,14 +28,13 @@ import moment from 'moment';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 
-class TechEventsList extends React.Component {
+class SocialEvents extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isModalOpen: false,
       id: '',
-      topic: '',
-      presenter: '',
+      place: '',
       location: '',
       date: '',
       addiInfo: '',
@@ -44,8 +44,11 @@ class TechEventsList extends React.Component {
           title: 'Id',
           columnTransforms: [classNames(Visibility.hidden)],
         },
-        { title: 'Topic', cellTransforms: [headerCol()] },
-        'Presenter',
+        {
+          title: 'Place',
+          cellTransforms: [headerCol()],
+          transforms: [cellWidth(10)],
+        },
         'Location',
         'Date & Time',
         'Additional Information',
@@ -61,12 +64,11 @@ class TechEventsList extends React.Component {
           onClick: (event, rowId, rowData, extra) => {
             this.setState({
               id: rowData.id.title,
-              topic: rowData.topic.title,
-              presenter: rowData.presenter.title,
+              place: rowData.place.title,
               location: rowData.location.title,
-              date: rowData[4],
-              addiInfo: rowData[5],
-              mobNoti: rowData[6],
+              date: rowData[3],
+              addiInfo: rowData[4],
+              mobNoti: rowData[5],
               isModalOpen: true,
             });
           },
@@ -76,23 +78,21 @@ class TechEventsList extends React.Component {
         },
         {
           title: 'Delete',
-          onClick: (event, rowId, rowData, extra) =>
+          onClick: (event, rowId, rowData, extra) => {
             axios
-              .delete(BACKEND_URL.concat('techtalk/' + rowData.id.title))
+              .delete(BACKEND_URL.concat('socialevent/' + rowData.id.title))
               .then(res => {
-                this.getAllTechTalkItems();
-              }),
+                this.getAllSocialEvents();
+              });
+          },
         },
       ],
     };
     this.onChange = (value, event) => {
       this.setState({ value });
     };
-    this.handleTextInputChangeTopic = topic => {
-      this.setState({ topic });
-    };
-    this.handleTextInputChangePresenter = presenter => {
-      this.setState({ presenter });
+    this.handleTextInputChangePlace = place => {
+      this.setState({ place });
     };
     this.handleTextInputChangeLocation = location => {
       this.setState({ location });
@@ -109,8 +109,7 @@ class TechEventsList extends React.Component {
     this.handleModalToggle = () => {
       this.setState(({ isModalOpen }) => ({
         isModalOpen: !isModalOpen,
-        topic: '',
-        presenter: '',
+        place: '',
         location: '',
         date: '',
         addiInfo: '',
@@ -120,17 +119,16 @@ class TechEventsList extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllTechTalkItems();
+    this.getAllSocialEvents();
   }
 
-  getAllTechTalkItems = () => {
-    axios.get(BACKEND_URL.concat('alltechtalks')).then(res => {
+  getAllSocialEvents = () => {
+    axios.get(BACKEND_URL.concat('allsocialevents')).then(res => {
       var rows = [];
       res.data && res.data.map(data => {
         var modrows = [
           data.id,
-          data.topic,
-          data.presenter,
+          data.place,
           data.location,
           moment(data.date).format("MMMM D, YYYY, h:mm a"),
           data.additionalInfo,
@@ -142,22 +140,13 @@ class TechEventsList extends React.Component {
     });
   };
 
-  addUpdateTechTalk = () => {
-    const {
-      id,
-      topic,
-      presenter,
-      location,
-      date,
-      addiInfo,
-      mobNoti,
-    } = this.state;
+  addUpdateSocialEvent = () => {
+    const { id, place, location, date, addiInfo, mobNoti } = this.state;
     if (id !== '') {
       axios
-        .post(BACKEND_URL.concat('updatetechtalk'), {
+        .post(BACKEND_URL.concat('updatesocialevent'), {
           id,
-          topic,
-          presenter,
+          place,
           location,
           date,
           additionalInfo: addiInfo,
@@ -167,13 +156,12 @@ class TechEventsList extends React.Component {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
-          this.getAllTechTalkItems();
+          this.getAllSocialEvents();
         });
     } else {
       axios
-        .post(BACKEND_URL.concat('techtalk'), {
-          topic,
-          presenter,
+        .post(BACKEND_URL.concat('socialevent'), {
+          place,
           location,
           date,
           additionalInfo: addiInfo,
@@ -183,20 +171,19 @@ class TechEventsList extends React.Component {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
-          this.getAllTechTalkItems();
+          this.getAllSocialEvents();
         });
     }
   };
 
   render() {
     const {
-      id,
       columns,
       rows,
       actions,
       isModalOpen,
-      topic,
-      presenter,
+      id,
+      place,
       location,
       date,
       addiInfo,
@@ -204,22 +191,22 @@ class TechEventsList extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        <PageSection variant={PageSectionVariants.light} isFilled={true}>
+        <PageSection variant={PageSectionVariants.light}>
           <TextContent>
-            <Text component="h1">Upcoming Tech Talks</Text>
+            <Text component="h1">Upcoming Social Events</Text>
           </TextContent>
           <Button variant="primary" onClick={this.handleModalToggle}>
-            Add Tech Talk
+            Add Social Event
           </Button>
         </PageSection>
-        <PageSection variant={PageSectionVariants.light} isFilled={true}>
+        <PageSection type="nav" isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
-            <TableBody/>
+            <TableBody />
           </Table>
           <Modal
             isLarge
-            title={id !== '' ? 'Update Tech Talk' : 'Add Tech Talk'}
+            title={id !== '' ? 'Update Social Event' : 'Add Social Event'}
             isOpen={isModalOpen}
             onClose={this.handleModalToggle}
             actions={[
@@ -233,7 +220,7 @@ class TechEventsList extends React.Component {
               <Button
                 key="confirm"
                 variant="primary"
-                onClick={this.addUpdateTechTalk}
+                onClick={this.addUpdateSocialEvent}
               >
                 {id !== '' ? 'Update' : 'Submit'}
               </Button>,
@@ -241,33 +228,18 @@ class TechEventsList extends React.Component {
           >
             <Form isHorizontal>
               <FormGroup
-                label="Topic"
-                isRequired
-                fieldId="horizontal-form-topic"
-              >
-                <TextInput
-                  value={topic}
-                  isRequired
-                  type="text"
-                  id="horizontal-form-topic"
-                  aria-describedby="horizontal-form-topic-helper"
-                  name="horizontal-form-topic"
-                  onChange={this.handleTextInputChangeTopic}
-                />
-              </FormGroup>
-              <FormGroup
-                label="Presenter"
+                label="Place"
                 isRequired
                 fieldId="horizontal-form-name"
               >
                 <TextInput
-                  value={presenter}
+                  value={place}
                   isRequired
                   type="text"
                   id="horizontal-form-name"
                   aria-describedby="horizontal-form-name-helper"
                   name="horizontal-form-name"
-                  onChange={this.handleTextInputChangePresenter}
+                  onChange={this.handleTextInputChangePlace}
                 />
               </FormGroup>
               <FormGroup
@@ -284,11 +256,7 @@ class TechEventsList extends React.Component {
                   name="horizontal-form-email"
                 />
               </FormGroup>
-              <FormGroup
-                label="Date & Time"
-                isRequired
-                fieldId="horizontal-form-date"
-              >
+              <FormGroup label="Date" isRequired fieldId="horizontal-form-date">
                 <TextInput
                   value={date}
                   onChange={this.handleTextInputChangeDate}
@@ -296,6 +264,7 @@ class TechEventsList extends React.Component {
                   type="datetime-local"
                   id="horizontal-form-date"
                   name="horizontal-form-date"
+                  min={moment().format('YYYY-MM-DDThh:mm')}
                 />
               </FormGroup>
               <FormGroup
@@ -306,15 +275,14 @@ class TechEventsList extends React.Component {
                   value={addiInfo}
                   onChange={this.handleTextInputChangeAddInfo}
                   name="horizontal-form-exp"
-                  type="text"
                   id="horizontal-form-exp"
                 />
               </FormGroup>
               <FormGroup fieldId="horizontal-form-checkbox">
                 <Checkbox
                   label="Send mobile notification"
-                  id="send-noti-checkbox"
-                  name="send-noti-checkbox"
+                  id="alt-form-checkbox-1"
+                  name="alt-form-checkbox-1"
                   isChecked={mobNoti}
                   aria-label="send-noti-checkbox"
                   onChange={this.handleTextInputChangeMobNotification}
@@ -328,4 +296,4 @@ class TechEventsList extends React.Component {
   }
 }
 
-export default TechEventsList;
+export default SocialEvents;
