@@ -152,6 +152,9 @@ class TechTalks extends React.Component {
       addiInfo,
       mobNoti,
     } = this.state;
+    if (topic === '' || presenter === '' || location === '' || date === ''){
+      return
+    }
     if (id !== '') {
       axios
         .post(BACKEND_URL.concat('updatetechtalk'), {
@@ -243,11 +246,14 @@ class TechTalks extends React.Component {
               <FormGroup
                 label="Topic"
                 isRequired
+                helperTextInvalid="Enter event's topic"
+                isValid={topic !== ''}
                 fieldId="horizontal-form-topic"
               >
                 <TextInput
                   value={topic}
                   isRequired
+                  isValid={topic !== ''}
                   type="text"
                   id="horizontal-form-topic"
                   aria-describedby="horizontal-form-topic-helper"
@@ -259,10 +265,13 @@ class TechTalks extends React.Component {
                 label="Presenter"
                 isRequired
                 fieldId="horizontal-form-name"
+                helperTextInvalid="Enter name of presenter"
+                isValid={presenter !== ''}
               >
                 <TextInput
                   value={presenter}
                   isRequired
+                  isValid={presenter !== ''}
                   type="text"
                   id="horizontal-form-name"
                   aria-describedby="horizontal-form-name-helper"
@@ -274,11 +283,14 @@ class TechTalks extends React.Component {
                 label="Location"
                 isRequired
                 fieldId="horizontal-form-email"
+                helperTextInvalid="Enter event's location"
+                isValid={location !== ''}
               >
                 <TextInput
                   value={location}
                   onChange={this.handleTextInputChangeLocation}
                   isRequired
+                  isValid={location !== ''}
                   type="email"
                   id="horizontal-form-email"
                   name="horizontal-form-email"
@@ -287,12 +299,15 @@ class TechTalks extends React.Component {
               <FormGroup
                 label="Date & Time"
                 isRequired
+                helperTextInvalid="Enter event's date & time"
+                isValid={date !== ''}
                 fieldId="horizontal-form-date"
               >
                 <TextInput
                   value={date}
                   onChange={this.handleTextInputChangeDate}
                   isRequired
+                  isValid={date !== ''}
                   type="datetime-local"
                   id="horizontal-form-date"
                   name="horizontal-form-date"

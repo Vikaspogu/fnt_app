@@ -142,6 +142,9 @@ class SocialEvents extends React.Component {
 
   addUpdateSocialEvent = () => {
     const { id, place, location, date, addiInfo, mobNoti } = this.state;
+    if (place === '' || location === '' || date === ''){
+      return
+    }
     if (id !== '') {
       axios
         .post(BACKEND_URL.concat('updatesocialevent'), {
@@ -231,10 +234,13 @@ class SocialEvents extends React.Component {
                 label="Place"
                 isRequired
                 fieldId="horizontal-form-name"
+                helperTextInvalid="Enter place's name"
+                isValid={place !== ''}
               >
                 <TextInput
                   value={place}
                   isRequired
+                  isValid={place !== ''}
                   type="text"
                   id="horizontal-form-name"
                   aria-describedby="horizontal-form-name-helper"
@@ -246,21 +252,27 @@ class SocialEvents extends React.Component {
                 label="Location"
                 isRequired
                 fieldId="horizontal-form-email"
+                helperTextInvalid="Enter place's location"
+                isValid={location !== ''}
               >
                 <TextInput
                   value={location}
                   onChange={this.handleTextInputChangeLocation}
                   isRequired
+                  isValid={location !== ''}
                   type="email"
                   id="horizontal-form-email"
                   name="horizontal-form-email"
                 />
               </FormGroup>
-              <FormGroup label="Date" isRequired fieldId="horizontal-form-date">
+              <FormGroup label="Date" isRequired fieldId="horizontal-form-date"
+                helperTextInvalid="Enter event date & time"
+                isValid={date !== ''}>
                 <TextInput
                   value={date}
                   onChange={this.handleTextInputChangeDate}
                   isRequired
+                  isValid={date !== ''}
                   type="datetime-local"
                   id="horizontal-form-date"
                   name="horizontal-form-date"
