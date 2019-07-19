@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -50,6 +51,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./index.html'),
     }),
+    new MomentLocalesPlugin(),
+      new MomentLocalesPlugin({
+          localesToKeep: ['es-us'],
+      }),
   ],
   devtool: 'inline-source-map',
   performance: {

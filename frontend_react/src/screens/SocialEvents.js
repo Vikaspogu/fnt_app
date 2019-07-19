@@ -66,7 +66,7 @@ class SocialEvents extends React.Component {
               id: rowData.id.title,
               place: rowData.place.title,
               location: rowData.location.title,
-              date: rowData[3],
+              date: moment(rowData[3], "MMMM D, YYYY, h:mm a").format('YYYY-MM-DDThh:mm'),
               addiInfo: rowData[4],
               mobNoti: rowData[5],
               isModalOpen: true,
@@ -130,7 +130,7 @@ class SocialEvents extends React.Component {
           data.id,
           data.place,
           data.location,
-          moment(data.date).format("MMMM D, YYYY, h:mm a"),
+          moment(data.date, 'YYYY-MM-DDThh:mm').format("MMMM D, YYYY, h:mm a"),
           data.additionalInfo,
           data.mobileNotify,
         ];

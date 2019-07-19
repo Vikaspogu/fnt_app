@@ -64,7 +64,7 @@ class TechTalks extends React.Component {
               topic: rowData.topic.title,
               presenter: rowData.presenter.title,
               location: rowData.location.title,
-              date: rowData[4],
+              date: moment(rowData[4], "MMMM D, YYYY, h:mm a").format('YYYY-MM-DDThh:mm'),
               addiInfo: rowData[5],
               mobNoti: rowData[6],
               isModalOpen: true,
@@ -132,7 +132,7 @@ class TechTalks extends React.Component {
           data.topic,
           data.presenter,
           data.location,
-          moment(data.date).format("MMMM D, YYYY, h:mm a"),
+          moment(data.date, 'YYYY-MM-DDThh:mm').format("MMMM D, YYYY, h:mm a"),
           data.additionalInfo,
           data.mobileNotify,
         ];
