@@ -86,3 +86,20 @@ func UpdateRequestedSocial(RequestedSocial models.RequestedSocial) {
 		fmt.Println(err)
 	}
 }
+
+// PromoteSocialRequest updates votes
+func PromoteSocialRequest(RequestedSocial models.RequestedSocial) {
+	fmt.Println(RequestedSocial.ID, RequestedSocial.Promoted)
+	_, err := db.Collection(REQUESTSOCIAL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": RequestedSocial.ID},
+		bson.M{
+			"$set": bson.M{
+				"promoted": RequestedSocial.Promoted,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

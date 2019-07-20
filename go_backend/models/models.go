@@ -15,6 +15,7 @@ type TechTalk struct {
 	Date           string             `json:"date"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	MobileNotify   bool               `json:"mobileNotify"`
+	PhotoURI       string             `json:"photoUri"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
 
@@ -26,6 +27,7 @@ type SocialEvent struct {
 	Date           string             `json:"date"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	MobileNotify   bool               `json:"mobileNotify"`
+	PhotoURI       string             `json:"photoUri"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
 
@@ -36,6 +38,7 @@ type RequestedSocial struct {
 	Location       string             `json:"location"`
 	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
+	Promoted       bool               `json:"promoted"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
 
@@ -47,5 +50,6 @@ type RequestedTalk struct {
 	Date           string             `json:"date"`
 	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
+	Promoted       bool               `json:"promoted"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }

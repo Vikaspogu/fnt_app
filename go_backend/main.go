@@ -34,6 +34,7 @@ func main() {
 	router.GET("/allrequestedsocial", handlers.AllRequestedSocial)
 	router.POST("/requestedsocial", handlers.CreateRequestedSocial)
 	router.POST("/updaterequestedsocial", handlers.UpdateRequestedSocial)
+	router.PUT("/promotesocialrequest", handlers.PromoteSocialRequest)
 	router.DELETE("/requestedsocial/:id", handlers.DeleteRequestedSocial)
 	router.POST("/votesocial", handlers.UpdateSocialVotes)
 
@@ -42,6 +43,7 @@ func main() {
 	router.POST("/requestedtalk", handlers.CreateRequestedTalk)
 	router.POST("/updaterequestedtalk", handlers.UpdateRequestedTalk)
 	router.DELETE("/requestedtalk/:id", handlers.DeleteRequestedTalk)
+	router.PUT("/promoterequesttalk", handlers.PromoteRequestedTalk)
 	// Start and run the server
 	router.Run(":8080")
 }

@@ -70,3 +70,19 @@ func UpdateRequestedTalk(RequestedTalk models.RequestedTalk) {
 		fmt.Println(err)
 	}
 }
+
+// PromoteRequestedTalk updates an existing RequestedTalk
+func PromoteRequestedTalk(RequestedTalk models.RequestedTalk) {
+	_, err := db.Collection(REQUESTTECH).UpdateOne(
+		context.Background(),
+		bson.M{"_id": RequestedTalk.ID},
+		bson.M{
+			"$set": bson.M{
+				"promoted": RequestedTalk.Promoted,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

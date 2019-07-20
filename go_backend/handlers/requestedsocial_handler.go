@@ -41,6 +41,13 @@ func UpdateRequestedSocial(c *gin.Context) {
 	dao.UpdateRequestedSocial(requestedSocial)
 }
 
+//PromoteSocialRequest endpoint
+func PromoteSocialRequest(c *gin.Context) {
+	var requestedSocial models.RequestedSocial
+	c.BindJSON(&requestedSocial)
+	dao.PromoteSocialRequest(requestedSocial)
+}
+
 //DeleteRequestedSocial endpoint
 func DeleteRequestedSocial(c *gin.Context) {
 	requestedSocialID := c.Param("id")

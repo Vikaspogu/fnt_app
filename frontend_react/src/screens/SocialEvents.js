@@ -21,6 +21,7 @@ import {
   classNames,
   Visibility,
 } from '@patternfly/react-table';
+import { PlusCircleIcon, CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
@@ -51,11 +52,8 @@ class SocialEvents extends React.Component {
         },
         'Location',
         'Date & Time',
+        'Mobile',
         'Additional Information',
-        {
-          title: 'Mobile Notification',
-          columnTransforms: [classNames(Visibility.hidden)],
-        },
       ],
       rows: [],
       actions: [
@@ -131,8 +129,15 @@ class SocialEvents extends React.Component {
           data.place,
           data.location,
           moment(data.date, 'YYYY-MM-DDThh:mm').format("MMMM D, YYYY, h:mm a"),
+          {
+            title: (
+              <React.Fragment>
+                {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+              </React.Fragment>
+            ),
+            props: { ariaControls : 'compound-expansion-table-3' }
+          },
           data.additionalInfo,
-          data.mobileNotify,
         ];
         rows.push(modrows);
       });
@@ -199,7 +204,7 @@ class SocialEvents extends React.Component {
             <Text component="h1">Upcoming Social Events</Text>
           </TextContent>
           <Button variant="primary" onClick={this.handleModalToggle}>
-            Add Social Event
+            <PlusCircleIcon /> Add Social Event
           </Button>
         </PageSection>
         <PageSection type="nav" isFilled={true}>

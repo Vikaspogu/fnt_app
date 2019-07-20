@@ -34,6 +34,13 @@ func UpdateRequestedTalk(c *gin.Context) {
 	dao.UpdateRequestedTalk(requestedTech)
 }
 
+//PromoteRequestedTalk endpoint
+func PromoteRequestedTalk(c *gin.Context) {
+	var requestedTech models.RequestedTalk
+	c.BindJSON(&requestedTech)
+	dao.PromoteRequestedTalk(requestedTech)
+}
+
 //DeleteRequestedTalk endpoint
 func DeleteRequestedTalk(c *gin.Context) {
 	requestedTechID := c.Param("id")

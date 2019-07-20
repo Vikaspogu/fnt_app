@@ -20,6 +20,7 @@ import {
   classNames,
   Visibility,
 } from '@patternfly/react-table';
+import { PlusCircleIcon, CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
@@ -48,11 +49,8 @@ class TechTalks extends React.Component {
         'Presenter',
         'Location',
         'Date & Time',
+        'Mobile',
         'Additional Information',
-        {
-          title: 'Mobile Notification',
-          columnTransforms: [classNames(Visibility.hidden)],
-        },
       ],
       rows: [],
       actions: [
@@ -64,7 +62,9 @@ class TechTalks extends React.Component {
               topic: rowData.topic.title,
               presenter: rowData.presenter.title,
               location: rowData.location.title,
-              date: moment(rowData[4], "MMMM D, YYYY, h:mm a").format('YYYY-MM-DDThh:mm'),
+              date: moment(rowData[4], 'MMMM D, YYYY, h:mm a').format(
+                'YYYY-MM-DDThh:mm'
+              ),
               addiInfo: rowData[5],
               mobNoti: rowData[6],
               isModalOpen: true,
@@ -126,18 +126,28 @@ class TechTalks extends React.Component {
   getAllTechTalks = () => {
     axios.get(BACKEND_URL.concat('alltechtalks')).then(res => {
       var rows = [];
-      res.data && res.data.map(data => {
-        var modrows = [
-          data.id,
-          data.topic,
-          data.presenter,
-          data.location,
-          moment(data.date, 'YYYY-MM-DDThh:mm').format("MMMM D, YYYY, h:mm a"),
-          data.additionalInfo,
-          data.mobileNotify,
-        ];
-        rows.push(modrows);
-      });
+      res.data &&
+        res.data.map(data => {
+          var modrows = [
+            data.id,
+            data.topic,
+            data.presenter,
+            data.location,
+            moment(data.date, 'YYYY-MM-DDThh:mm').format(
+              'MMMM D, YYYY, h:mm a'
+            ),
+            {
+              title: (
+                <React.Fragment>
+                  {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+                </React.Fragment>
+              ),
+              props: { ariaControls : 'compound-expansion-table-3' }
+            },
+            data.additionalInfo,
+          ];
+          rows.push(modrows);
+        });
       this.setState({ rows: rows });
     });
   };
@@ -152,8 +162,8 @@ class TechTalks extends React.Component {
       addiInfo,
       mobNoti,
     } = this.state;
-    if (topic === '' || presenter === '' || location === '' || date === ''){
-      return
+    if (topic === '' || presenter === '' || location === '' || date === '') {
+      return;
     }
     if (id !== '') {
       axios
@@ -212,13 +222,13 @@ class TechTalks extends React.Component {
             <Text component="h1">Upcoming Tech Talks</Text>
           </TextContent>
           <Button variant="primary" onClick={this.handleModalToggle}>
-            Add Tech Talk
+            <PlusCircleIcon /> Add Tech Talk
           </Button>
         </PageSection>
         <PageSection variant={PageSectionVariants.light} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
-            <TableBody/>
+            <TableBody />
           </Table>
           <Modal
             isLarge
