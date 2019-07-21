@@ -70,3 +70,19 @@ func UpdateSocialEvent(SocialEvent models.SocialEvent) {
 		fmt.Println(err)
 	}
 }
+
+//UpdateImageSocial update image
+func UpdateImageSocial(SocialEvent models.SocialEvent) {
+	_, err := db.Collection(SOCIALCOLL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": SocialEvent.ID},
+		bson.M{
+			"$set": bson.M{
+				"photoUri": SocialEvent.PhotoURI,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

@@ -141,7 +141,8 @@ class RequestTechTalk extends React.Component {
   render() {
     const { columns, rows, actions, isModalOpen,
       id,
-      place,
+      topic,
+      presenter,
       location,
       date,
       addiInfo,
@@ -182,28 +183,46 @@ class RequestTechTalk extends React.Component {
           >
             <Form isHorizontal>
               <FormGroup
-                label="Place"
+                label="Topic"
                 isRequired
-                fieldId="horizontal-form-name"
-                helperTextInvalid="Enter place's name"
-                isValid={place !== ''}
+                helperTextInvalid="Enter event's topic"
+                isValid={topic !== ''}
+                fieldId="horizontal-form-topic"
               >
                 <TextInput
-                  value={place}
+                  value={topic}
                   isRequired
-                  isValid={place !== ''}
+                  isValid={topic !== ''}
+                  type="text"
+                  id="horizontal-form-topic"
+                  aria-describedby="horizontal-form-topic-helper"
+                  name="horizontal-form-topic"
+                  onChange={this.handleTextInputChangeTopic}
+                />
+              </FormGroup>
+              <FormGroup
+                label="Presenter"
+                isRequired
+                fieldId="horizontal-form-name"
+                helperTextInvalid="Enter name of presenter"
+                isValid={presenter !== ''}
+              >
+                <TextInput
+                  value={presenter}
+                  isRequired
+                  isValid={presenter !== ''}
                   type="text"
                   id="horizontal-form-name"
                   aria-describedby="horizontal-form-name-helper"
                   name="horizontal-form-name"
-                  onChange={this.handleTextInputChangePlace}
+                  onChange={this.handleTextInputChangePresenter}
                 />
               </FormGroup>
               <FormGroup
                 label="Location"
                 isRequired
                 fieldId="horizontal-form-email"
-                helperTextInvalid="Enter place's location"
+                helperTextInvalid="Enter event's location"
                 isValid={location !== ''}
               >
                 <TextInput
@@ -216,9 +235,13 @@ class RequestTechTalk extends React.Component {
                   name="horizontal-form-email"
                 />
               </FormGroup>
-              <FormGroup label="Date" isRequired fieldId="horizontal-form-date"
-                helperTextInvalid="Enter event date & time"
-                isValid={date !== ''}>
+              <FormGroup
+                label="Date & Time"
+                isRequired
+                helperTextInvalid="Enter event's date & time"
+                isValid={date !== ''}
+                fieldId="horizontal-form-date"
+              >
                 <TextInput
                   value={date}
                   onChange={this.handleTextInputChangeDate}
@@ -238,14 +261,15 @@ class RequestTechTalk extends React.Component {
                   value={addiInfo}
                   onChange={this.handleTextInputChangeAddInfo}
                   name="horizontal-form-exp"
+                  type="text"
                   id="horizontal-form-exp"
                 />
               </FormGroup>
               <FormGroup fieldId="horizontal-form-checkbox">
                 <Checkbox
                   label="Send mobile notification"
-                  id="alt-form-checkbox-1"
-                  name="alt-form-checkbox-1"
+                  id="send-noti-checkbox"
+                  name="send-noti-checkbox"
                   isChecked={mobNoti}
                   aria-label="send-noti-checkbox"
                   onChange={this.handleTextInputChangeMobNotification}

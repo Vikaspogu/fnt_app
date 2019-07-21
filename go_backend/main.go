@@ -18,17 +18,20 @@ func main() {
 			"message": "pong",
 		})
 	})
+
 	//Tech events endpoints
 	router.GET("/alltechtalks", handlers.AllTechTalks)
 	router.POST("/techtalk", handlers.CreateTechTalk)
 	router.POST("/updatetechtalk", handlers.UpdateTechTalk)
 	router.DELETE("/techtalk/:id", handlers.DeleteTechTalk)
+	router.PUT("/updatetechimg", handlers.UpdateImageTechTalk)
 
 	//Social event endpoints
 	router.GET("/allsocialevents", handlers.AllSocialEvents)
 	router.POST("/socialevent", handlers.CreateSocialEvent)
 	router.POST("/updatesocialevent", handlers.UpdateSocialEvent)
 	router.DELETE("/socialevent/:id", handlers.DeleteSocialEvent)
+	router.PUT("/updatesocialimg", handlers.UpdateImageSocial)
 
 	//request social event endpoints
 	router.GET("/allrequestedsocial", handlers.AllRequestedSocial)
@@ -37,6 +40,7 @@ func main() {
 	router.PUT("/promotesocialrequest", handlers.PromoteSocialRequest)
 	router.DELETE("/requestedsocial/:id", handlers.DeleteRequestedSocial)
 	router.POST("/votesocial", handlers.UpdateSocialVotes)
+	router.PUT("/updatereqsocialimg", handlers.UpdateImageReqSocial)
 
 	//request tech talk endpoints
 	router.GET("/allrequestedtalk", handlers.AllRequestedTalk)
@@ -44,6 +48,7 @@ func main() {
 	router.POST("/updaterequestedtalk", handlers.UpdateRequestedTalk)
 	router.DELETE("/requestedtalk/:id", handlers.DeleteRequestedTalk)
 	router.PUT("/promoterequesttalk", handlers.PromoteRequestedTalk)
+
 	// Start and run the server
 	router.Run(":8080")
 }

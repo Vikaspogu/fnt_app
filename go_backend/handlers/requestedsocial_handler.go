@@ -54,3 +54,10 @@ func DeleteRequestedSocial(c *gin.Context) {
 	dao.DeleteRequestedSocial(requestedSocialID)
 	c.String(http.StatusOK, "Delete Successful")
 }
+
+//UpdateImageReqSocial endpoint
+func UpdateImageReqSocial(c *gin.Context) {
+	var requestedSocial models.RequestedSocial
+	c.BindJSON(&requestedSocial)
+	dao.UpdateImageReqSocial(requestedSocial)
+}

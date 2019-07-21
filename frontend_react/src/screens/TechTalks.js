@@ -27,6 +27,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
+const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
 
 class TechTalks extends React.Component {
   constructor(props) {
@@ -77,8 +78,7 @@ class TechTalks extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            axios
-              .delete(BACKEND_URL.concat('techtalk/' + rowData.id.title))
+            axios.delete(BACKEND_URL.concat('techtalk/' + rowData.id.title))
               .then(res => {
                 this.getAllTechTalks();
               }),
@@ -126,30 +126,39 @@ class TechTalks extends React.Component {
   getAllTechTalks = () => {
     axios.get(BACKEND_URL.concat('alltechtalks')).then(res => {
       var rows = [];
-      res.data &&
-        res.data.map(data => {
-          var modrows = [
-            data.id,
-            data.topic,
-            data.presenter,
-            data.location,
-            moment(data.date, 'YYYY-MM-DDThh:mm').format(
-              'MMMM D, YYYY, h:mm a'
-            ),
-            {
-              title: (
-                <React.Fragment>
-                  {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
-                </React.Fragment>
-              )
-            },
-            data.additionalInfo,
-          ];
-          rows.push(modrows);
-        });
+      res.data && res.data.map(data => {
+        var modrows = [
+          data.id,
+          data.topic,
+          data.presenter,
+          data.location,
+          moment(data.date, 'YYYY-MM-DDThh:mm').format(
+            'MMMM D, YYYY, h:mm a'
+          ),
+          {
+            title: (
+              <React.Fragment>
+                {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+              </React.Fragment>
+            )
+          },
+          data.additionalInfo,
+        ];
+        rows.push(modrows);
+      });
       this.setState({ rows: rows });
     });
   };
+
+  updateImageTechTalk = (keyword, id) => {
+    console.log(keyword+id);
+    axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
+      axios.put(BACKEND_URL.concat('updatetechimg'), {
+          id,
+          photoUri: res.data
+      })
+    })
+  }
 
   addUpdateTechTalk = () => {
     const {
@@ -165,8 +174,7 @@ class TechTalks extends React.Component {
       return;
     }
     if (id !== '') {
-      axios
-        .post(BACKEND_URL.concat('updatetechtalk'), {
+      axios.post(BACKEND_URL.concat('updatetechtalk'), {
           id,
           topic,
           presenter,
@@ -174,28 +182,26 @@ class TechTalks extends React.Component {
           date,
           additionalInfo: addiInfo,
           mobileNotify: mobNoti,
-        })
-        .then(res => {
+        }).then(res => {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
           this.getAllTechTalks();
         });
     } else {
-      axios
-        .post(BACKEND_URL.concat('techtalk'), {
+      axios.post(BACKEND_URL.concat('techtalk'), {
           topic,
           presenter,
           location,
           date,
           additionalInfo: addiInfo,
           mobileNotify: mobNoti,
-        })
-        .then(res => {
+        }).then(res => {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
           this.getAllTechTalks();
+          this.updateImageTechTalk(res.data.topic, res.data.id);
         });
     }
   };

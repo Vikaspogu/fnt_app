@@ -39,6 +39,7 @@ type RequestedSocial struct {
 	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	Promoted       bool               `json:"promoted"`
+	PhotoURI       string             `json:"photoUri"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
 
@@ -51,5 +52,6 @@ type RequestedTalk struct {
 	Votes          []string           `json:"votes"`
 	AdditionalInfo string             `json:"additionalInfo"`
 	Promoted       bool               `json:"promoted"`
+	PhotoURI       string             `json:"photoUri"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }

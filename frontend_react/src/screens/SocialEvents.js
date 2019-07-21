@@ -28,6 +28,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
+const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
 
 class SocialEvents extends React.Component {
   constructor(props) {
@@ -144,41 +145,48 @@ class SocialEvents extends React.Component {
     });
   };
 
+  updateImageSocial = (keyword, id) => {
+    console.log(keyword+id);
+    axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
+      axios.put(BACKEND_URL.concat('updatesocialimg'), {
+          id,
+          photoUri: res.data
+      })
+    })
+  }
+
   addUpdateSocialEvent = () => {
     const { id, place, location, date, addiInfo, mobNoti } = this.state;
-    if (place === '' || location === '' || date === ''){
+    if (place === '' || location === '' || date === '') {
       return
     }
     if (id !== '') {
-      axios
-        .post(BACKEND_URL.concat('updatesocialevent'), {
+      axios.post(BACKEND_URL.concat('updatesocialevent'), {
           id,
           place,
           location,
           date,
           additionalInfo: addiInfo,
           mobileNotify: mobNoti,
-        })
-        .then(res => {
+        }).then(res => {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
           this.getAllSocialEvents();
         });
     } else {
-      axios
-        .post(BACKEND_URL.concat('socialevent'), {
+      axios.post(BACKEND_URL.concat('socialevent'), {
           place,
           location,
           date,
           additionalInfo: addiInfo,
           mobileNotify: mobNoti,
-        })
-        .then(res => {
+        }).then(res => {
           this.setState(({ isModalOpen }) => ({
             isModalOpen: !isModalOpen,
           }));
           this.getAllSocialEvents();
+          this.updateImageSocial(res.data.place, res.data.id);
         });
     }
   };

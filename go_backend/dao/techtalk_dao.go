@@ -95,3 +95,19 @@ func UpdateTechTalk(TechTalk models.TechTalk) {
 		fmt.Println(err)
 	}
 }
+
+//UpdateImageTechTalk update image
+func UpdateImageTechTalk(TechTalk models.TechTalk) {
+	_, err := db.Collection(TECHCOLL).UpdateOne(
+		context.Background(),
+		bson.M{"_id": TechTalk.ID},
+		bson.M{
+			"$set": bson.M{
+				"photouri": TechTalk.PhotoURI,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

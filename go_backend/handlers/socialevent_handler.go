@@ -39,3 +39,10 @@ func DeleteSocialEvent(c *gin.Context) {
 	dao.DeleteSocialEvent(socialEventID)
 	c.String(http.StatusOK, "Delete Successful")
 }
+
+//UpdateImageSocial endpoint
+func UpdateImageSocial(c *gin.Context) {
+	var socialEvent models.SocialEvent
+	c.BindJSON(&socialEvent)
+	dao.UpdateImageSocial(socialEvent)
+}

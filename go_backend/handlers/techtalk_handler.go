@@ -39,3 +39,10 @@ func DeleteTechTalk(c *gin.Context) {
 	dao.DeleteTechTalk(techtalkID)
 	c.String(http.StatusOK, "Delete Successful")
 }
+
+//UpdateImageTechTalk endpoint
+func UpdateImageTechTalk(c *gin.Context) {
+	var techtalk models.TechTalk
+	c.BindJSON(&techtalk)
+	dao.UpdateImageTechTalk(techtalk)
+}

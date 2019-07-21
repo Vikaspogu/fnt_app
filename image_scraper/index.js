@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors')
 const puppeteer = require("puppeteer");
 const delay = require("delay");
 const app = express();
@@ -6,20 +7,25 @@ const url = require("url");
 const querystring = require("querystring");
 const port = process.env.PORT || 3000;
 
+app.use(cors())
+
 app.get("/scrape/:keyword", async (req, res) => {
   var keyword = req.params.keyword;
   var uri = await imageExtract(keyword);
+  console.log("Scraping image for " + keyword + " " + uri);
   res.send(uri);
 });
 
 async function imageExtract(imageName) {
   try {
     // open the headless browser
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: true
+    });
     // open a new page
     const page = await browser.newPage();
     // enter url in page
-    page.goto(`https://www.google.com/search?q=${imageName}&tbm=isch`);
+    page.goto(`https://www.google.com/search?q=${imageName} logo&source=lnms&tbm=isch&sa=X`);
     await delay(1000);
     await page.waitForSelector("#search a");
     const stories = await page.evaluate(() => {
