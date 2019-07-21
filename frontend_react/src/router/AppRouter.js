@@ -15,12 +15,12 @@ const AppRouter = () => (
   <Router>
     <div>
       <Switch>
-        <Route path="/requestsocial" component={RequestSocial} exact />
-        <Route path="/requesttalk" component={RequestTechTalk} exact />
+        <Route path="/requestedsocial" component={RequestSocial} exact />
+        <Route path="/requestedtalk" component={RequestTechTalk} exact />
         <Route path="/socialevent" component={SocialEvents} exact />
-        <Route path="/techevent" component={TechTalks} exact />
+        <Route path="/techtalks" component={TechTalks} exact />
         <Route path="/addpoll" component={AddPoll} exact/>
-        <Redirect from="*" to="/techevent" key="default-route" />
+        <Redirect from="*" to="/techtalks" key="default-route" />
       </Switch>
     </div>
   </Router>

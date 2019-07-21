@@ -70,10 +70,10 @@ class AddPoll extends React.Component {
       <React.Fragment>
         <PageSection variant={PageSectionVariants.light}>
           <TextContent>
-            <Text component="h1">Requested Social Events</Text>
+            <Text component="h1">Add Poll</Text>
           </TextContent>
         </PageSection>
-        <PageSection type='nav' isFilled={true}>
+        <PageSection type='nav' style={{height: '80vh'}} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />

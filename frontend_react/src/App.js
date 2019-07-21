@@ -34,7 +34,7 @@ import '@patternfly/patternfly/patternfly.css';
 import imgAvatar from 'patternfly/dist/img/logo-alt.svg';
 import imgBrand from 'patternfly/dist/img/brand-alt.svg';
 import AppRouter from './router/AppRouter';
-
+import './app.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -88,16 +88,16 @@ class App extends React.Component {
       <Nav onSelect={this.onNavSelect} aria-label="Nav">
         <NavList variant={NavVariants.simple}>
           <NavItem itemId={0} isActive={activeItem === 0}>
-            <Link to="/techevent">Upcoming Tech Talks</Link>
+            <Link to="/techtalks">Upcoming Tech Talks</Link>
           </NavItem>
           <NavItem itemId={1} isActive={activeItem === 1}>
             <Link to="/socialevent">Upcoming Social Events</Link>
           </NavItem>
           <NavItem itemId={2} isActive={activeItem === 2}>
-            <Link to="/requesttalk">Requested Tech Talks</Link>
+            <Link to="/requestedtalk">Requested Tech Talks</Link>
           </NavItem>
           <NavItem itemId={3} isActive={activeItem === 3}>
-            <Link to="/requestsocial">Requested Social Events</Link>
+            <Link to="/requestedsocial">Requested Social Events</Link>
           </NavItem>
           <NavItem itemId={4} isActive={activeItem === 4}>
             <Link to="/addpoll">Add Poll</Link>

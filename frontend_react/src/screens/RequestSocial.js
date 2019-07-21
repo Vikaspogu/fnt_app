@@ -128,8 +128,7 @@ class RequestSocial extends React.Component {
               <React.Fragment>
                 {data.promoted ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
-            ),
-            props: { ariaControls : 'compound-expansion-table-3' }
+            )
           },
           data.additionalInfo,
         ];
@@ -169,7 +168,7 @@ class RequestSocial extends React.Component {
             <Text component="h1">Requested Social Events</Text>
           </TextContent>
         </PageSection>
-        <PageSection type="nav" isFilled={true}>
+        <PageSection type="nav" style={{height: '80vh'}} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />

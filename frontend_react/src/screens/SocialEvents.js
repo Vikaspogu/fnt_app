@@ -134,8 +134,7 @@ class SocialEvents extends React.Component {
               <React.Fragment>
                 {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
-            ),
-            props: { ariaControls : 'compound-expansion-table-3' }
+            )
           },
           data.additionalInfo,
         ];
@@ -207,7 +206,7 @@ class SocialEvents extends React.Component {
             <PlusCircleIcon /> Add Social Event
           </Button>
         </PageSection>
-        <PageSection type="nav" isFilled={true}>
+        <PageSection type="nav" style={{height: '75vh'}} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />

@@ -127,8 +127,7 @@ class RequestTechTalk extends React.Component {
               <React.Fragment>
                 {data.promoted ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
-            ),
-            props: { ariaControls : 'compound-expansion-table-3' }
+            )
           },
             data.additionalInfo,
           ];
@@ -153,7 +152,7 @@ class RequestTechTalk extends React.Component {
             <Text component="h1">Requested Tech Talks</Text>
           </TextContent>
         </PageSection>
-        <PageSection type='nav' isFilled={true}>
+        <PageSection type='nav' style={{height: '80vh'}} isFilled={true}>
           <Table actions={actions} cells={columns} rows={rows}>
             <TableHeader />
             <TableBody />
