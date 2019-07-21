@@ -216,7 +216,7 @@ class TechTalks extends React.Component {
     } = this.state;
     return (
       <React.Fragment>
-        <PageSection variant={PageSectionVariants.light} isFilled={true}>
+        <PageSection variant={PageSectionVariants.light}>
           <TextContent>
             <Text component="h1">Upcoming Tech Talks</Text>
           </TextContent>

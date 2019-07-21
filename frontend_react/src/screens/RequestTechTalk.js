@@ -119,6 +119,7 @@ class RequestTechTalk extends React.Component {
         var rows = [];
         res.data.map(data => {
           var modrows = [
+            data.id,
             data.topic,
             data.presenter,
             data.votes !== [] ? data.votes.length : 0,
