@@ -20,6 +20,12 @@ app.get("/scrape/:keyword", async (req, res) => {
   }
 });
 
+app.get("/", async (req, res) => {
+  res.send({
+    ping: "pong"
+  });
+});
+
 async function imageExtract(imageName) {
   try {
     // open the headless browser
