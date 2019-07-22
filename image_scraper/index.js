@@ -10,29 +10,32 @@ const port = process.env.PORT || 3000;
 app.use(cors())
 
 app.get("/scrape/:keyword", async (req, res) => {
-  var keyword = req.params.keyword;
-  var uri = await imageExtract(keyword);
-  console.log("Scraping image for " + keyword + " " + uri);
-  res.send(uri);
+  try {
+    var keyword = req.params.keyword;
+    var uri = await imageExtract(keyword);
+    console.log("Scraping image for " + keyword + " " + uri);
+    res.send(uri);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 async function imageExtract(imageName) {
   try {
     // open the headless browser
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], headless: true
-    });
+    const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
     // open a new page
     const page = await browser.newPage();
     // enter url in page
-    page.goto(`https://www.google.com/search?q=${imageName} logo&source=lnms&tbm=isch&sa=X`);
+    await page.goto(`https://www.google.com/search?q=${imageName} logo&source=lnms&tbm=isch&sa=X`);
     await delay(1000);
     await page.waitForSelector("#search a");
     const stories = await page.evaluate(() => {
       const links = Array.from(document.querySelectorAll("#search a"));
       return links.map(link => link.href);
     });
-    const imgs = stories.map(link => querystring.parse(url.parse(link).query).imgurl).filter(img => img);
+    const imgs = await stories.map(link => querystring.parse(url.parse(link).query).imgurl).filter(img => img);
+    await browser.close();
     return await Promise.resolve(imgs[0]);
   } catch (err) {
     // Catch and display errors
