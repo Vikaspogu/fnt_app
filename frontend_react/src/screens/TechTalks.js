@@ -138,7 +138,7 @@ class TechTalks extends React.Component {
           {
             title: (
               <React.Fragment>
-                {data.mobileNotify ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+                {data.mobileNotify ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
             )
           },

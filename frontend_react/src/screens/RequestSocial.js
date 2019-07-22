@@ -68,14 +68,12 @@ class RequestSocial extends React.Component {
           isSeparator: true,
         },
         {
-          title: 'Edit',
-          onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on edit action, on row: ', rowId),
-        },
-        {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on Delete action, on row: ', rowData.topic),
+            axios.delete(BACKEND_URL.concat('requestedsocial/' + rowData.id.title))
+              .then(res => {
+                this.getAllRequestedSocialEvents();
+              }),
         },
       ],
     };
@@ -125,7 +123,7 @@ class RequestSocial extends React.Component {
           {
             title: (
               <React.Fragment>
-                {data.promoted ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+                {data.promoted ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
             )
           },

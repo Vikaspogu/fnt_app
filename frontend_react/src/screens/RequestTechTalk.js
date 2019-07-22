@@ -67,14 +67,12 @@ class RequestTechTalk extends React.Component {
           isSeparator: true,
         },
         {
-          title: 'Edit',
-          onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on edit action, on row: ', rowId),
-        },
-        {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            console.log('clicked on Delete action, on row: ', rowData.topic),
+            axios.delete(BACKEND_URL.concat('requestedtalk/' + rowData.id.title))
+            .then(res => {
+              this.getAllRequestedTechTalks();
+            }),
         }
       ],
     };
@@ -125,7 +123,7 @@ class RequestTechTalk extends React.Component {
           {
             title: (
               <React.Fragment>
-                {data.promoted ? <CheckCircleIcon key="icon" /> : <ErrorCircleOIcon key="icon"/> }
+                {data.promoted ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/> }
               </React.Fragment>
             )
           },
@@ -135,6 +133,28 @@ class RequestTechTalk extends React.Component {
         });
         this.setState({ rows: rows });
       });
+  };
+
+  promoteTechTalk = () => {
+    const { id, topic, presenter, location, date, addiInfo, mobNoti } = this.state;
+    axios.post(BACKEND_URL.concat('techtalk'), {
+      topic,
+      presenter,
+      location,
+      date,
+      additionalInfo: addiInfo,
+      mobileNotify: mobNoti,
+    }).then(res => {
+      axios.put(BACKEND_URL.concat('promoterequesttalk'),{
+          id,
+          promoted: true,
+      }).then(res => {
+        this.setState(({ isModalOpen }) => ({
+        isModalOpen: !isModalOpen,
+        }))
+        this.getAllRequestedTechTalks();
+      })
+    })
   };
   
   render() {
@@ -174,9 +194,9 @@ class RequestTechTalk extends React.Component {
               <Button
                 key="confirm"
                 variant="primary"
-                onClick={this.addUpdateSocialEvent}
+                onClick={this.promoteTechTalk}
               >
-                {id !== '' ? 'Update' : 'Submit'}
+                Promote
               </Button>,
             ]}
           >
