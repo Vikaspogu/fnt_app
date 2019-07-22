@@ -78,7 +78,7 @@ func UpdateImageSocial(SocialEvent models.SocialEvent) {
 		bson.M{"_id": SocialEvent.ID},
 		bson.M{
 			"$set": bson.M{
-				"photoUri": SocialEvent.PhotoUri,
+				"photouri": SocialEvent.PhotoUri,
 			},
 		},
 	)
