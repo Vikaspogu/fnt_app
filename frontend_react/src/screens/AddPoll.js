@@ -51,7 +51,7 @@ class AddPoll extends React.Component {
     axios.get(BACKEND_URL.concat('allrequestedsocial'))
       .then(res => {
         var rows = [];
-        res.data.map(data => {
+        res.data && res.data.map(data => {
           var modrows = [
             data.place,
             data.location,

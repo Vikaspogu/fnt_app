@@ -117,7 +117,7 @@ class RequestSocial extends React.Component {
   getAllRequestedSocialEvents = () => {
     axios.get(BACKEND_URL.concat('allrequestedsocial')).then(res => {
       var rows = [];
-      res.data.map(data => {
+      res.data && res.data.map(data => {
         var modrows = [
           data.id,
           data.place,
