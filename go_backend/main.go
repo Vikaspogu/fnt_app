@@ -19,35 +19,42 @@ func main() {
 		})
 	})
 
-	//Tech events endpoints
+	//Tech events CRUD endpoints
 	router.GET("/alltechtalks", handlers.AllTechTalks)
 	router.POST("/techtalk", handlers.CreateTechTalk)
 	router.POST("/updatetechtalk", handlers.UpdateTechTalk)
 	router.DELETE("/techtalk/:id", handlers.DeleteTechTalk)
-	router.PUT("/updatetechimg", handlers.UpdateImageTechTalk)
 
-	//Social event endpoints
+	//Social event CRUD endpoints
 	router.GET("/allsocialevents", handlers.AllSocialEvents)
 	router.POST("/socialevent", handlers.CreateSocialEvent)
 	router.POST("/updatesocialevent", handlers.UpdateSocialEvent)
 	router.DELETE("/socialevent/:id", handlers.DeleteSocialEvent)
-	router.PUT("/updatesocialimg", handlers.UpdateImageSocial)
 
-	//request social event endpoints
+	//request social event CRUD endpoints
 	router.GET("/allrequestedsocial", handlers.AllRequestedSocial)
 	router.POST("/requestedsocial", handlers.CreateRequestedSocial)
 	router.POST("/updaterequestedsocial", handlers.UpdateRequestedSocial)
-	router.PUT("/promotesocialrequest", handlers.PromoteSocialRequest)
 	router.DELETE("/requestedsocial/:id", handlers.DeleteRequestedSocial)
-	router.POST("/votesocial", handlers.UpdateSocialVotes)
-	router.PUT("/updatereqsocialimg", handlers.UpdateImageReqSocial)
 
-	//request tech talk endpoints
+	//request tech talk CRUD endpoints
 	router.GET("/allrequestedtalk", handlers.AllRequestedTalk)
 	router.POST("/requestedtalk", handlers.CreateRequestedTalk)
 	router.POST("/updaterequestedtalk", handlers.UpdateRequestedTalk)
 	router.DELETE("/requestedtalk/:id", handlers.DeleteRequestedTalk)
+
+	//update Scrape Image
+	router.PUT("/updatetechimg", handlers.UpdateImageTechTalk)
+	router.PUT("/updatesocialimg", handlers.UpdateImageSocial)
+	router.PUT("/updatereqsocialimg", handlers.UpdateImageReqSocial)
+	router.PUT("/updatereqtalkimg", handlers.UpdateImageReqTalk)
+
+	//promote events to Upcoming schedule
+	router.PUT("/promotesocialrequest", handlers.PromoteSocialRequest)
 	router.PUT("/promoterequesttalk", handlers.PromoteRequestedTalk)
+
+	//vote for the events
+	router.POST("/votesocial", handlers.UpdateSocialVotes)
 
 	// Start and run the server
 	router.Run(":8080")

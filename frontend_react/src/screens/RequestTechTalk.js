@@ -56,6 +56,7 @@ class RequestTechTalk extends React.Component {
               id: rowData.id.title,
               topic: rowData.topic.title,
               presenter: rowData.presenter.title,
+              location: '',
               votes: rowData.votes.title,
               date: '',
               addiInfo: rowData[5],

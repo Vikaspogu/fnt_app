@@ -86,3 +86,19 @@ func PromoteRequestedTalk(RequestedTalk models.RequestedTalk) {
 		fmt.Println(err)
 	}
 }
+
+//UpdateImageReqTalk update image
+func UpdateImageReqTalk(RequestedTalk models.RequestedTalk) {
+	_, err := db.Collection(REQUESTTECH).UpdateOne(
+		context.Background(),
+		bson.M{"_id": RequestedTalk.ID},
+		bson.M{
+			"$set": bson.M{
+				"photouri": RequestedTalk.PhotoUri,
+			},
+		},
+	)
+	if err != nil {
+		fmt.Println(err)
+	}
+}

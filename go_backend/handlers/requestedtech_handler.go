@@ -47,3 +47,10 @@ func DeleteRequestedTalk(c *gin.Context) {
 	dao.DeleteRequestedTalk(requestedTechID)
 	c.String(http.StatusOK, "Delete Successful")
 }
+
+//UpdateImageReqTalk endpoint
+func UpdateImageReqTalk(c *gin.Context) {
+	var requestedTech models.RequestedTalk
+	c.BindJSON(&requestedTech)
+	dao.UpdateImageReqTalk(requestedTech)
+}
