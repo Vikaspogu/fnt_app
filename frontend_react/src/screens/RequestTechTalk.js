@@ -52,7 +52,6 @@ class RequestTechTalk extends React.Component {
         {
           title: 'Promote to Upcoming',
           onClick: (event, rowId, rowData, extra) => {
-            console.log('clicked on Third action, on row: ', rowData)
             this.setState({
               id: rowData.id.title,
               topic: rowData.topic.title,

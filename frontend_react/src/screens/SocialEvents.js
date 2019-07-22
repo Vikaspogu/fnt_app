@@ -146,7 +146,6 @@ class SocialEvents extends React.Component {
   };
 
   updateImageSocial = (keyword, id) => {
-    console.log(keyword+id);
     axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
       axios.put(BACKEND_URL.concat('updatesocialimg'), {
           id,
