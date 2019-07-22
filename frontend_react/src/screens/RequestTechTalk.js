@@ -40,7 +40,7 @@ class RequestTechTalk extends React.Component {
         {
           title: 'Topic',
           cellTransforms: [headerCol()],
-          transforms: [cellWidth(10)],
+          transforms: [cellWidth(20)],
         },
         'Presenter',
         'Votes',

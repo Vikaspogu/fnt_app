@@ -41,7 +41,7 @@ class RequestSocial extends React.Component {
         {
           title: 'Place',
           cellTransforms: [headerCol()],
-          transforms: [cellWidth(10)],
+          transforms: [cellWidth(20)],
         },
         'Location',
         'Votes',

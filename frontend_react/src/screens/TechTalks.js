@@ -19,6 +19,7 @@ import {
   headerCol,
   classNames,
   Visibility,
+  cellWidth
 } from '@patternfly/react-table';
 import { PlusCircleIcon, CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import '@patternfly/react-core/dist/styles/base.css';
@@ -46,7 +47,7 @@ class TechTalks extends React.Component {
           title: 'Id',
           columnTransforms: [classNames(Visibility.hidden)],
         },
-        { title: 'Topic', cellTransforms: [headerCol()] },
+        { title: 'Topic', cellTransforms: [headerCol()], transforms: [cellWidth(20)]},
         'Presenter',
         'Location',
         'Date & Time',
