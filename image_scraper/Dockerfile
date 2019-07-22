@@ -17,6 +17,6 @@ WORKDIR /app
 COPY . .
 RUN npm install
 RUN npm install puppeteer
-EXPOSE 3000 8080
+EXPOSE 8080
 ENTRYPOINT ["dumb-init", "--"]
 CMD npm start
