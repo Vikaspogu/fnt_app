@@ -110,7 +110,7 @@ func UpdateImageReqSocial(RequestedSocial models.RequestedSocial) {
 		bson.M{"_id": RequestedSocial.ID},
 		bson.M{
 			"$set": bson.M{
-				"photoUri": RequestedSocial.PhotoURI,
+				"photoUri": RequestedSocial.PhotoUri,
 			},
 		},
 	)

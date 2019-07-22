@@ -103,7 +103,7 @@ func UpdateImageTechTalk(TechTalk models.TechTalk) {
 		bson.M{"_id": TechTalk.ID},
 		bson.M{
 			"$set": bson.M{
-				"photouri": TechTalk.PhotoURI,
+				"photoUri": TechTalk.PhotoUri,
 			},
 		},
 	)
