@@ -26,6 +26,7 @@ import accessibleStyles from '@patternfly/react-styles/css/utilities/Accessibili
 import spacingStyles from '@patternfly/react-styles/css/utilities/Spacing/spacing';
 import { css } from '@patternfly/react-styles';
 import { BellIcon, CogIcon } from '@patternfly/react-icons';
+import * as Keycloak from 'keycloak-js'
 
 //This imports are must to render css
 import '@patternfly/react-core/dist/styles/base.css';
@@ -36,6 +37,15 @@ import imgBrand from 'patternfly/dist/img/brand-alt.svg';
 import AppRouter from './router/AppRouter';
 import './app.css';
 
+
+//keycloak init options
+const initOptions = {
+  url: 'https://sso.apps.opencontainer.io/auth', 
+  realm: 'ocp', 
+  clientId: 'fnt-app', 
+  onLoad: 'login-required'
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +53,17 @@ class App extends React.Component {
       isDropdownOpen: false,
       isKebabDropdownOpen: false,
       activeItem: 0,
+      email: '',
+      keycloak: null, 
+      authenticated: false
     };
+  }
+
+  componentDidMount() {
+    let keycloak = Keycloak(initOptions);
+    keycloak.init({onLoad: initOptions.onLoad}).success(authenticated => {
+      this.setState({ keycloak: keycloak, authenticated: authenticated, email: keycloak.tokenParsed.email })
+    })
   }
 
   onDropdownToggle = isDropdownOpen => {
@@ -82,7 +102,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { isDropdownOpen, isKebabDropdownOpen, activeItem } = this.state;
+    const { isDropdownOpen, isKebabDropdownOpen, activeItem, keycloak, authenticated } = this.state;
 
     const PageNav = (
       <Nav onSelect={this.onNavSelect} aria-label="Nav">
@@ -114,7 +134,9 @@ class App extends React.Component {
       </DropdownItem>,
     ];
     const userDropdownItems = [
-      <DropdownItem component="button">logout</DropdownItem>,
+      <DropdownItem component="button" key="1" onClick={()=>{
+        this.state.keycloak.logout();
+      }}>logout</DropdownItem>,
     ];
     const PageToolbar = (
       <Toolbar>
@@ -169,7 +191,7 @@ class App extends React.Component {
               isOpen={isDropdownOpen}
               toggle={
                 <DropdownToggle onToggle={this.onDropdownToggle}>
-                  admin
+                  {this.state.email}
                 </DropdownToggle>
               }
               dropdownItems={userDropdownItems}
@@ -187,16 +209,24 @@ class App extends React.Component {
       />
     );
     const Sidebar = <PageSidebar nav={PageNav} />;
+
+    if (keycloak) {
+      if (authenticated) {
+        return (
+          <React.Fragment>
+            <Page
+              header={Header}
+              sidebar={Sidebar}
+              isManagedSidebar
+            >
+              <AppRouter />
+            </Page>
+          </React.Fragment>
+        );
+      }
+    }
     return (
-      <React.Fragment>
-        <Page
-          header={Header}
-          sidebar={Sidebar}
-          isManagedSidebar
-        >
-          <AppRouter />
-        </Page>
-      </React.Fragment>
+      <div>Initializing Keycloak...</div>
     );
   }
 }
