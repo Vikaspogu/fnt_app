@@ -26,6 +26,8 @@ import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
 import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
@@ -318,15 +320,15 @@ class TechTalks extends React.Component {
                 isValid={date !== ''}
                 fieldId="horizontal-form-date"
               >
-                <TextInput
-                  value={date}
+                <DatePicker
+                  selected={date}
                   onChange={this.handleTextInputChangeDate}
-                  isRequired
-                  isValid={date !== ''}
-                  type="datetime-local"
-                  id="horizontal-form-date"
-                  name="horizontal-form-date"
-                  min={moment().format('YYYY-MM-DDThh:mm')}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={30}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  minDate={new Date()}
+                  timeCaption="time"
                 />
               </FormGroup>
               <FormGroup

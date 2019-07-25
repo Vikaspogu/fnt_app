@@ -25,7 +25,8 @@ import { CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
 import axios from 'axios';
-import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
 class RequestTechTalk extends React.Component {
@@ -262,16 +263,16 @@ class RequestTechTalk extends React.Component {
                 isValid={date !== ''}
                 fieldId="horizontal-form-date"
               >
-                <TextInput
-                  value={date}
-                  onChange={this.handleTextInputChangeDate}
-                  isRequired
-                  isValid={date !== ''}
-                  type="datetime-local"
-                  id="horizontal-form-date"
-                  name="horizontal-form-date"
-                  min={moment().format('YYYY-MM-DDThh:mm')}
-                />
+              <DatePicker
+                selected={date}
+                onChange={this.handleTextInputChangeDate}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={30}
+                dateFormat="MMMM d, yyyy h:mm aa"
+                minDate={new Date()}
+                timeCaption="time"
+              />
               </FormGroup>
               <FormGroup
                 label="Additional Information"

@@ -42,7 +42,7 @@ import './app.css';
 const initOptions = {
   url: 'https://sso.apps.opencontainer.io/auth', 
   realm: 'ocp', 
-  clientId: 'fnt-app', 
+  clientId: 'test', 
   onLoad: 'login-required'
 }
 
@@ -226,7 +226,7 @@ class App extends React.Component {
       }
     }
     return (
-      <div>Initializing Keycloak...</div>
+      <div>Initializing SS0...</div>
     );
   }
 }
