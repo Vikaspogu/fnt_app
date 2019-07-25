@@ -42,7 +42,7 @@ import './app.css';
 const initOptions = {
   url: 'https://sso.apps.opencontainer.io/auth', 
   realm: 'ocp', 
-  clientId: 'test', 
+  clientId: 'fnt-app', 
   onLoad: 'login-required'
 }
 
