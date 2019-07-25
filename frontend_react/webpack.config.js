@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -8,6 +10,38 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     publicPath: '/',
     filename: 'bundle.js',
+    chunkFilename: '[name].bundle.js',
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        }
+      }
+    },
+    minimizer: [new TerserPlugin({
+      sourceMap: true,
+      cache: true,
+      parallel: true,
+      terserOptions: {
+        ecma: undefined,
+        warnings: false,
+        parse: {},
+        compress: {},
+        mangle: true, // Note `mangle.properties` is `false` by default.
+        module: false,
+        output: null,
+        toplevel: false,
+        nameCache: null,
+        ie8: false,
+        keep_classnames: undefined,
+        keep_fnames: false,
+        safari10: false,
+      },
+    })],
   },
   devServer: {
     contentBase: './build',
@@ -52,15 +86,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./index.html'),
     }),
-    new MomentLocalesPlugin(),
-      new MomentLocalesPlugin({
-          localesToKeep: ['es-us'],
-      }),
+    new MomentLocalesPlugin({
+        localesToKeep: ['es-us'],
+    }),
+    new CompressionPlugin({
+      filename: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
+    })
   ],
-  devtool: 'inline-source-map',
   performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000
+    hints: false
   }
 };
