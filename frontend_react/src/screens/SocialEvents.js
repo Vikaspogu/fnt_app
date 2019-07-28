@@ -54,9 +54,13 @@ class SocialEvents extends React.Component {
           transforms: [cellWidth(20)],
         },
         'Location',
-        'Date & Time',
+        'When',
+        {
+          title: 'MobileVal',
+          columnTransforms: [classNames(Visibility.hidden)],
+        },
         'Mobile',
-        'Additional Information',
+        'Information',
       ],
       rows: [],
       actions: [
@@ -67,9 +71,9 @@ class SocialEvents extends React.Component {
               id: rowData.id.title,
               place: rowData.place.title,
               location: rowData.location.title,
-              date: moment(rowData[3], "MMMM D, YYYY, h:mm a").format('YYYY-MM-DDThh:mm'),
-              addiInfo: rowData[4],
-              mobNoti: rowData[5],
+              date: moment(rowData.when.title, "MMMM D, YYYY, h:mm a").toDate(),
+              addiInfo: rowData.information.title,
+              mobNoti: rowData.mobileval.title,
               isModalOpen: true,
             });
           },
@@ -110,6 +114,7 @@ class SocialEvents extends React.Component {
     this.handleModalToggle = () => {
       this.setState(({ isModalOpen }) => ({
         isModalOpen: !isModalOpen,
+        id: '',
         place: '',
         location: '',
         date: '',
@@ -132,6 +137,7 @@ class SocialEvents extends React.Component {
           data.place,
           data.location,
           moment(data.date, 'YYYY-MM-DDThh:mm').format("MMMM D, YYYY, h:mm a"),
+          data.mobileNotify,
           {
             title: (
               <React.Fragment>
@@ -162,7 +168,7 @@ class SocialEvents extends React.Component {
       return
     }
     if (id !== '') {
-      axios.post(BACKEND_URL.concat('updatesocialevent'), {
+      axios.put(BACKEND_URL.concat('updatesocialevent'), {
           id,
           place,
           location,

@@ -36,6 +36,7 @@ import imgAvatar from 'patternfly/dist/img/logo-alt.svg';
 import imgBrand from 'patternfly/dist/img/brand-alt.svg';
 import AppRouter from './router/AppRouter';
 import './app.css';
+import axios from 'axios';
 
 
 //keycloak init options
@@ -62,6 +63,8 @@ class App extends React.Component {
   componentDidMount() {
     let keycloak = Keycloak(initOptions);
     keycloak.init({onLoad: initOptions.onLoad}).success(authenticated => {
+      axios.defaults.headers['Authorization'] = keycloak.token;
+      axios.defaults.headers['Platform'] = 'web';
       this.setState({ keycloak: keycloak, authenticated: authenticated, email: keycloak.tokenParsed.email })
     })
   }

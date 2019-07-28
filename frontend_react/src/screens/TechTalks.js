@@ -52,25 +52,28 @@ class TechTalks extends React.Component {
         { title: 'Topic', cellTransforms: [headerCol()], transforms: [cellWidth(20)]},
         'Presenter',
         'Location',
-        'Date & Time',
+        'When',
+        {
+          title: 'MobileVal',
+          columnTransforms: [classNames(Visibility.hidden)],
+        },
         'Mobile',
-        'Additional Information',
+        'Information',
       ],
       rows: [],
       actions: [
         {
           title: 'Edit',
           onClick: (event, rowId, rowData, extra) => {
+            console.log(rowData);
             this.setState({
               id: rowData.id.title,
               topic: rowData.topic.title,
               presenter: rowData.presenter.title,
               location: rowData.location.title,
-              date: moment(rowData[4], 'MMMM D, YYYY, h:mm a').format(
-                'YYYY-MM-DDThh:mm'
-              ),
-              addiInfo: rowData[5],
-              mobNoti: rowData[6],
+              date: moment(rowData.when.title, "MMMM D, YYYY, h:mm a").toDate(),
+              addiInfo: rowData.information.title,
+              mobNoti: rowData.mobileval.title,
               isModalOpen: true,
             });
           },
@@ -112,6 +115,7 @@ class TechTalks extends React.Component {
     this.handleModalToggle = () => {
       this.setState(({ isModalOpen }) => ({
         isModalOpen: !isModalOpen,
+        id: '',
         topic: '',
         presenter: '',
         location: '',
@@ -138,6 +142,7 @@ class TechTalks extends React.Component {
           moment(data.date, 'YYYY-MM-DDThh:mm').format(
             'MMMM D, YYYY, h:mm a'
           ),
+          data.mobileNotify,
           {
             title: (
               <React.Fragment>
@@ -176,7 +181,7 @@ class TechTalks extends React.Component {
       return;
     }
     if (id !== '') {
-      axios.post(BACKEND_URL.concat('updatetechtalk'), {
+      axios.put(BACKEND_URL.concat('updatetechtalk'), {
           id,
           topic,
           presenter,

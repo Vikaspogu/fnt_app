@@ -97,6 +97,7 @@ module.exports = {
       minRatio: 0.8
     })
   ],
+  devtool: 'cheap-module-source-map',
   performance: {
     hints: false
   }
