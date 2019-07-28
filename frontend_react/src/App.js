@@ -38,7 +38,7 @@ import AppRouter from './router/AppRouter';
 import './app.css';
 import axios from 'axios';
 
-
+const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 //keycloak init options
 const initOptions = {
   url: 'https://sso.apps.opencontainer.io/auth', 
@@ -63,7 +63,11 @@ class App extends React.Component {
   componentDidMount() {
     let keycloak = Keycloak(initOptions);
     keycloak.init({onLoad: initOptions.onLoad}).success(authenticated => {
+      //default base backend URL
+      axios.defaults.baseURL = BACKEND_URL;
+      //default header authorization for JWT verification
       axios.defaults.headers['Authorization'] = keycloak.token;
+      //default header to identify platform
       axios.defaults.headers['Platform'] = 'web';
       this.setState({ keycloak: keycloak, authenticated: authenticated, email: keycloak.tokenParsed.email })
     })

@@ -28,7 +28,6 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 class RequestSocial extends React.Component {
   constructor(props) {
     super(props);
@@ -71,10 +70,7 @@ class RequestSocial extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            axios.delete(BACKEND_URL.concat('requestedsocial/' + rowData.id.title))
-              .then(res => {
-                this.getAllRequestedSocialEvents();
-              }),
+            axios.delete('requestedsocial/' + rowData.id.title).then(res => this.getAllRequestedSocialEvents()),
         },
       ],
     };
@@ -113,7 +109,7 @@ class RequestSocial extends React.Component {
   }
 
   getAllRequestedSocialEvents = () => {
-    axios.get(BACKEND_URL.concat('allrequestedsocial')).then(res => {
+    axios.get('allrequestedsocial').then(res => {
       var rows = [];
       res.data && res.data.map(data => {
         var modrows = [
@@ -138,14 +134,14 @@ class RequestSocial extends React.Component {
 
   promoteSocialEvent = () => {
     const { id, place, location, date, addiInfo, mobNoti } = this.state;
-    axios.post(BACKEND_URL.concat('socialevent'), {
+    axios.post('socialevent', {
       place,
       location,
       date,
       additionalInfo: addiInfo,
       mobileNotify: mobNoti,
     }).then(res => {
-      axios.put(BACKEND_URL.concat('promotesocialrequest'),{
+      axios.put('promotesocialrequest',{
           id,
           promoted: true,
       }).then(res => {

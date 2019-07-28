@@ -28,7 +28,6 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080/";
 class RequestTechTalk extends React.Component {
   constructor(props) {
     super(props);
@@ -71,10 +70,7 @@ class RequestTechTalk extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            axios.delete(BACKEND_URL.concat('requestedtalk/' + rowData.id.title))
-            .then(res => {
-              this.getAllRequestedTechTalks();
-            }),
+            axios.delete('requestedtalk/' + rowData.id.title).then(res => this.getAllRequestedTechTalks()),
         }
       ],
     };
@@ -113,8 +109,7 @@ class RequestTechTalk extends React.Component {
   }
 
   getAllRequestedTechTalks = () => {
-    axios.get(BACKEND_URL.concat('allrequestedtalk'))
-      .then(res => {
+    axios.get('allrequestedtalk').then(res => {
         var rows = [];
         res.data && res.data.map(data => {
           var modrows = [
@@ -139,7 +134,7 @@ class RequestTechTalk extends React.Component {
 
   promoteTechTalk = () => {
     const { id, topic, presenter, location, date, addiInfo, mobNoti } = this.state;
-    axios.post(BACKEND_URL.concat('techtalk'), {
+    axios.post('techtalk', {
       topic,
       presenter,
       location,
@@ -147,7 +142,7 @@ class RequestTechTalk extends React.Component {
       additionalInfo: addiInfo,
       mobileNotify: mobNoti,
     }).then(res => {
-      axios.put(BACKEND_URL.concat('promoterequesttalk'),{
+      axios.put('promoterequesttalk',{
           id,
           promoted: true,
       }).then(res => {

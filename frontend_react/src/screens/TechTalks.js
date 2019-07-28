@@ -29,7 +29,6 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
 
 class TechTalks extends React.Component {
@@ -84,10 +83,7 @@ class TechTalks extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) =>
-            axios.delete(BACKEND_URL.concat('techtalk/' + rowData.id.title))
-              .then(res => {
-                this.getAllTechTalks();
-              }),
+            axios.delete('techtalk/' + rowData.id.title).then(res => this.getAllTechTalks()),
         },
       ],
     };
@@ -131,7 +127,7 @@ class TechTalks extends React.Component {
   }
 
   getAllTechTalks = () => {
-    axios.get(BACKEND_URL.concat('alltechtalks')).then(res => {
+    axios.get('alltechtalks').then(res => {
       var rows = [];
       res.data && res.data.map(data => {
         var modrows = [
@@ -160,7 +156,7 @@ class TechTalks extends React.Component {
 
   updateImageTechTalk = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
-      axios.put(BACKEND_URL.concat('updatetechimg'), {
+      axios.put('updatetechimg', {
           id,
           photoUri: res.data
       })
@@ -181,7 +177,7 @@ class TechTalks extends React.Component {
       return;
     }
     if (id !== '') {
-      axios.put(BACKEND_URL.concat('updatetechtalk'), {
+      axios.put('updatetechtalk', {
           id,
           topic,
           presenter,
@@ -196,7 +192,7 @@ class TechTalks extends React.Component {
           this.getAllTechTalks();
         });
     } else {
-      axios.post(BACKEND_URL.concat('techtalk'), {
+      axios.post('techtalk', {
           topic,
           presenter,
           location,

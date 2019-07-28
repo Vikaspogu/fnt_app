@@ -29,7 +29,6 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
 
 class SocialEvents extends React.Component {
@@ -84,11 +83,7 @@ class SocialEvents extends React.Component {
         {
           title: 'Delete',
           onClick: (event, rowId, rowData, extra) => {
-            axios
-              .delete(BACKEND_URL.concat('socialevent/' + rowData.id.title))
-              .then(res => {
-                this.getAllSocialEvents();
-              });
+            axios.delete('socialevent/' + rowData.id.title).then(res => this.getAllSocialEvents());
           },
         },
       ],
@@ -129,7 +124,7 @@ class SocialEvents extends React.Component {
   }
 
   getAllSocialEvents = () => {
-    axios.get(BACKEND_URL.concat('allsocialevents')).then(res => {
+    axios.get('allsocialevents').then(res => {
       var rows = [];
       res.data && res.data.map(data => {
         var modrows = [
@@ -155,7 +150,7 @@ class SocialEvents extends React.Component {
 
   updateImageSocial = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
-      axios.put(BACKEND_URL.concat('updatesocialimg'), {
+      axios.put('updatesocialimg', {
           id,
           photoUri: res.data
       })
@@ -168,7 +163,7 @@ class SocialEvents extends React.Component {
       return
     }
     if (id !== '') {
-      axios.put(BACKEND_URL.concat('updatesocialevent'), {
+      axios.put('updatesocialevent', {
           id,
           place,
           location,
@@ -182,7 +177,7 @@ class SocialEvents extends React.Component {
           this.getAllSocialEvents();
         });
     } else {
-      axios.post(BACKEND_URL.concat('socialevent'), {
+      axios.post('socialevent', {
           place,
           location,
           date,
