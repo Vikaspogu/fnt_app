@@ -82,7 +82,7 @@ func VerifyToken() gin.HandlerFunc {
 
 //VerifyWebToken for web component
 func VerifyWebToken(c *gin.Context) {
-	SecretKey := "-----BEGIN CERTIFICATE-----\n" + "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApnaH3tm8PKUMcqHe3IvGtWiXeucv76UqcpQsjEWQuWxOSeo7s3jSVT+ZJR9hsUIEop4Z7wUFqBcU2GHZBoiZvJgG+AJHgysLUP1Ln0S1s/c4tOuv66O/9zRYpkXRTy7ujQd4+iGj2izfJ1Bq5D2FPHSKJCWXYeBR5KP9wRejflnfoiZlKBoaoEfYR5cnWCp9FB8r7vPiAYJnGxOwiiH59O9Qb3gw9JkRNE/dJcGCW7eq1YU/hs5XXvfHLA+P/oq4mF+6gXcu+AZCU75l7x5iaIznYQVU8iVAy3fj9ADIJMBNCvkje7yjo3nPwdAinU77SucP+wnyuCHaCHp8P1yCnwIDAQAB" + "\n-----END CERTIFICATE-----"
+	SecretKey := "-----BEGIN CERTIFICATE-----\n" + "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZf+koTiIh8CDmvMgfhw2FFu/gU+cSmi32QBNL8r5RI3hcEy2TagOVcx8QuwCahnyXsVb7ii+9iyRNDZxyPqqA+CLrq808uHOiDhFZJ6Si7O00zqxNc5VjHvhl0y0uGMwspPQHl3cl17Tglm+wPRsHY9LpIv0oaTlXHZTqwTdF+CT4VHiimSVlyJyAb96w3YcgFoSTuPX04UzpU+C3zTrSAuLQimiwlpt0bz8K+xw/GlBCt+zmeADgCyl/Vs4Mo2YsSRye5z4u/NaKrTDyYIGNjZp6V1CP+BpVs/h0PXU6emgIs75dZj2C9xPXFZdy3QjtE9KpvcJ8jq1iUWUT/e+wIDAQAB" + "\n-----END CERTIFICATE-----"
 
 	reqToken := c.GetHeader("Authorization")
 
