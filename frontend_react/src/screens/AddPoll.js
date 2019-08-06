@@ -110,9 +110,9 @@ class AddPoll extends React.Component {
 
   getAllRequestedTechTalks = () => {
     axios.get('allrequestedtalk').then(res => {
-        var rows = [];
+        let rows = [];
         res.data && res.data.map(data => {
-          var modrows = [
+          let modrows = [
             data.id,
             data.topic,
             data.presenter,

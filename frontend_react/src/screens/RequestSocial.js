@@ -110,9 +110,9 @@ class RequestSocial extends React.Component {
 
   getAllRequestedSocialEvents = () => {
     axios.get('allrequestedsocial').then(res => {
-      var rows = [];
+      let rows = [];
       res.data && res.data.map(data => {
-        var modrows = [
+        let modrows = [
           data.id,
           data.place,
           data.location,
