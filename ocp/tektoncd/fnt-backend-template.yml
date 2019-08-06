@@ -50,7 +50,7 @@ spec:
         name: fnt-backend
         env:
           - name: DATABASE_URL
-            value: 'mongodb://mongouser:mongopass@fntdb:27017'
+            value: 'mongodb://admin:mongopass@fntdb:27017'
         ports:
         - containerPort: 8080
           protocol: TCP
