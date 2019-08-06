@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Pipeline
+metadata:
+  name: fnt-frontend-pipeline
+spec:
+  resources:
+  - name: app-git
+    type: git
+  - name: app-image
+    type: image
+  tasks:
+  - name: build
+    taskRef:
+      name: s2i-nodejs
+      kind: Task
+    params:
+      - name: TLSVERIFY
+        value: "false"
+      - name: PATH_CONTEXT
+        value: "frontend_react"
+    resources:
+      inputs:
+      - name: source
+        resource: app-git
+      outputs:
+      - name: image
+        resource: app-image
+  - name: deploy
+    taskRef:
+      name: openshift-client
+      kind: ClusterTask
+    runAfter:
+      - build
+    params:
+    - name: ARGS
+      value: "rollout latest fnt-frontend"

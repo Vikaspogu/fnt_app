@@ -41,11 +41,11 @@ import axios from 'axios';
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 //keycloak init options
 const initOptions = {
-  url: 'https://sso.apps.opencontainer.io/auth', 
+  url: 'https://sso-fntapp.apps.cluster-e24d.sandbox447.opentlc.com/auth', 
   realm: 'ocp', 
-  clientId: 'fnt-app', 
+  clientId: 'fntApp', 
   onLoad: 'login-required'
-}
+};
 
 class App extends React.Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class App extends React.Component {
     });
   };
 
-  onDropdownSelect = event => {
+  onDropdownSelect = () => {
     this.setState({
       isDropdownOpen: !this.state.isDropdownOpen,
     });
@@ -91,7 +91,7 @@ class App extends React.Component {
     });
   };
 
-  onKebabDropdownSelect = event => {
+  onKebabDropdownSelect = () => {
     this.setState({
       isKebabDropdownOpen: !this.state.isKebabDropdownOpen,
     });
@@ -101,11 +101,6 @@ class App extends React.Component {
     this.setState({
       activeItem: result.itemId,
     });
-  };
-
-  navigateTo = path => {
-    const { history } = this.props;
-    history.push(path);
   };
 
   render() {
