@@ -22,6 +22,16 @@ spec:
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
+  name: fnt-scraper
+spec:
+  type: image
+  params:
+  - name: url
+    value: image-registry.openshift-image-registry.svc:5000/fntapp/fnt-scraper
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
   name: fnt-git
 spec:
   type: git
