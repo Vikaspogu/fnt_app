@@ -82,6 +82,7 @@ spec:
         name: fnt-backend:latest
         namespace: fntapp
     type: ImageChange
+  - type: ConfigChange
 ---
 apiVersion: v1
 kind: Service
