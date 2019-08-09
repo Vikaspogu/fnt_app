@@ -1,5 +1,5 @@
 FROM vikaspogu/puppeteer-docker
-COPY . .
+COPY image_scraper/* .
 RUN ls
 
 RUN npm install
