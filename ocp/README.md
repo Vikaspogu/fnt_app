@@ -58,7 +58,7 @@ oc adm policy add-role-to-user edit -z pipeline
 3. Optionally, create openshift objects(i.e DeploymentConfig, ImageStream, Service, Route)
 
 ```bash
-oc apply -f fnt-backend-template.yml
+oc apply -f tektoncd/fnt-backend-template.yml
 ```
 
 4. Create a `s2i-go`, `openshift-cli` task. You can find more examples of reusable `task`s in the [Tekton Catalog](https://github.com/tektoncd/catalog) and [OpenShift Catalog](https://github.com/openshift/pipelines-catalog) repositories. 
@@ -71,13 +71,19 @@ oc create -f https://raw.githubusercontent.com/tektoncd/catalog/master/openshift
 5. Create pipeline resources
 
 ```bash
-oc apply -f resources.yml
+oc apply -f tektoncd/resources.yml
 ```
 
 6. Create pipeline, pipelines objective is to build from source and deploy
 
 ```bash
-oc apply -f fnt-backend-pipeline.yml
+oc apply -f tektoncd/fnt-backend-pipeline.yml
 ```
 
-7. Start pipeline
+7. Start pipeline on dashboard or by tektoncli 
+
+```bash
+tkn pipeline start fnt-backend-pipeline \
+    -r app-git=fnt-git -r app-image=fnt-backend \
+    -s pipeline
+```
