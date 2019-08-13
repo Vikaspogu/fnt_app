@@ -43,7 +43,7 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 const initOptions = {
   url: 'https://sso-fntapp.apps.cluster-e24d.sandbox447.opentlc.com/auth', 
   realm: 'ocp', 
-  clientId: 'fntApp', 
+  clientId: 'fntApp',
   onLoad: 'login-required'
 };
 
@@ -69,8 +69,10 @@ class App extends React.Component {
       axios.defaults.headers['Authorization'] = keycloak.token;
       //default header to identify platform
       axios.defaults.headers['Platform'] = 'web';
-      this.setState({ keycloak: keycloak, authenticated: authenticated, email: keycloak.tokenParsed.email })
-    })
+      this.setState({ keycloak: keycloak, authenticated: authenticated,
+                    email: keycloak.tokenParsed.email });
+
+    });
   }
 
   onDropdownToggle = isDropdownOpen => {
@@ -122,7 +124,7 @@ class App extends React.Component {
             <Link to="/requestedsocial">Requested Social Events</Link>
           </NavItem>
           <NavItem itemId={4} isActive={activeItem === 4}>
-            <Link to="/addpoll">Add Poll</Link>
+            <Link to="/reportedissues">Reported Issues</Link>
           </NavItem>
         </NavList>
       </Nav>
@@ -213,6 +215,15 @@ class App extends React.Component {
     const Sidebar = <PageSidebar nav={PageNav} />;
 
     if (keycloak) {
+
+      setTimeout(() => {
+        keycloak.updateToken(5).success((refreshed) => {
+          if (refreshed) {
+            axios.defaults.headers['Authorization'] = keycloak.token;
+          }
+        }).error(() => console.error('Failed to refresh token'));
+      }, 60000);
+
       if (authenticated) {
         return (
           <React.Fragment>

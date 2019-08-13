@@ -55,3 +55,13 @@ type RequestedTalk struct {
 	PhotoUri       string             `json:"photoUri"`
 	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
 }
+
+//ReportedIssue model
+type ReportedIssue struct {
+	ID primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Reporter string `json:"reporter"`
+	Description string `json:"description"`
+	Fixed bool `json:"fixed"`
+	ReportedDate string `json:"reportedDate"`
+	CreatedAt      time.Time          `bson:"created_at" json:"created_at,omitempty"`
+}

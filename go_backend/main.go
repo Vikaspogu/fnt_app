@@ -67,8 +67,15 @@ func main() {
 	//vote for the events
 	router.POST("/votesocial", VerifyToken(), handlers.UpdateSocialVotes)
 
+	//request social event CRUD endpoints
+	router.GET("/allreportedissues", VerifyToken(), handlers.AllReportedIssue)
+	router.POST("/reportedissue", VerifyToken(), handlers.CreateReportedIssue)
+	router.PUT("/updatereportedissue", VerifyToken(), handlers.UpdateReportedIssue)
+	router.PUT("/updatefixedissue", VerifyToken(), handlers.UpdateFixedIssue)
+	router.DELETE("/reportedissue/:id", VerifyToken(), handlers.DeleteReportedIssue)
+
 	// Start and run the server
-	router.Run(":8080")
+	_ = router.Run(":8080")
 }
 
 //VerifyToken jwt
