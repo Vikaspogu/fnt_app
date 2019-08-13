@@ -217,7 +217,7 @@ class App extends React.Component {
     if (keycloak) {
 
       setTimeout(() => {
-        keycloak.updateToken(5).success((refreshed) => {
+        keycloak.updateToken(70).success((refreshed) => {
           if (refreshed) {
             axios.defaults.headers['Authorization'] = keycloak.token;
           }
