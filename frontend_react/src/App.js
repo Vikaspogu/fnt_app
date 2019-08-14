@@ -215,15 +215,13 @@ class App extends React.Component {
     const Sidebar = <PageSidebar nav={PageNav} />;
 
     if (keycloak) {
-
-      setTimeout(() => {
-        keycloak.updateToken(70).success((refreshed) => {
-          if (refreshed) {
-            axios.defaults.headers['Authorization'] = keycloak.token;
-          }
-        }).error(() => console.error('Failed to refresh token'));
-      }, 60000);
-
+      //Refresh token after expiry
+      keycloak.updateToken(70).success((refreshed) => {
+        if (refreshed) {
+          axios.defaults.headers['Authorization'] = keycloak.token;
+        }
+      }).error(() => console.error('Failed to refresh token'));
+      //Is authenticated then render app
       if (authenticated) {
         return (
           <React.Fragment>
