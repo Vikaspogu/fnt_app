@@ -18,6 +18,7 @@ import {
   Toolbar,
   ToolbarGroup,
   ToolbarItem,
+  Progress, ProgressSize, ProgressMeasureLocation, ProgressVariant
 } from '@patternfly/react-core';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
@@ -45,6 +46,13 @@ const initOptions = {
   realm: 'ocp', 
   clientId: 'fntApp',
   onLoad: 'login-required'
+};
+//Style for progress bar
+const divStyle = {
+  height: '100%',
+  display: 'flex',
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 class App extends React.Component {
@@ -212,6 +220,7 @@ class App extends React.Component {
         showNavToggle
       />
     );
+
     const Sidebar = <PageSidebar nav={PageNav} />;
 
     if (keycloak) {
@@ -237,7 +246,10 @@ class App extends React.Component {
       }
     }
     return (
-      <div>Initializing SS0...</div>
+      <div style={divStyle}>
+        <Progress value={33} title="Initializing SS0..." measureLocation={ProgressMeasureLocation.none} />
+      </div>
+
     );
   }
 }
