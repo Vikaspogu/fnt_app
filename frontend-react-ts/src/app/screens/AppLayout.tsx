@@ -1,17 +1,16 @@
-import React, {useEffect} from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 import {
   Nav,
-  NavList,
   NavItem,
+  NavList,
   NavVariants,
   Page,
   PageHeader,
   PageSidebar,
   SkipToContent,
 } from '@patternfly/react-core';
-import { routes } from '@app/routes';
-import axios from 'axios';
+import {routes} from '@app/routes';
 
 interface IAppLayout {
   children: React.ReactNode;
@@ -61,20 +60,13 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   const Sidebar = (
     <PageSidebar
       nav={Navigation}
-      isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen} />
+      isNavOpen={isMobileView ? isNavOpenMobile : isNavOpen}/>
   );
   const PageSkipToContent = (
     <SkipToContent href="#primary-app-container">
       Skip to Content
     </SkipToContent>
   );
-
-  const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
-
-  useEffect(() => {
-    console.log('here');
-    axios.defaults.baseURL = BACKEND_URL
-  }, []);
 
   return (
     <Page
@@ -88,4 +80,4 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({children}) => {
   );
 };
 
-export { AppLayout };
+export {AppLayout};

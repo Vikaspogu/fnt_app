@@ -5,7 +5,10 @@
     "outDir": "dist",
     "module": "esnext",
     "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
@@ -19,13 +22,19 @@
     "strict": true,
     "resolveJsonModule": true,
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@assets/*": ["node_modules/@patternfly/react-core/dist/styles/assets/*"]
-    },
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@assets/*": [
+        "node_modules/@patternfly/react-core/dist/styles/assets/*"
+      ]
+    }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

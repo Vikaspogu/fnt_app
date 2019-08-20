@@ -1,73 +1,63 @@
 import React, {useEffect, useState} from 'react';
 import {
-  PageSection,
-  TextContent,
-  Text,
   Button,
-  Modal,
+  Checkbox,
   Form,
   FormGroup,
-  TextInput,
+  Modal,
+  PageSection,
+  Text,
   TextArea,
-  Checkbox,
+  TextContent,
+  TextInput,
 } from '@patternfly/react-core';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  headerCol,
-  cellWidth,
-  classNames,
-  Visibility,
-} from '@patternfly/react-table';
-import { PlusCircleIcon, CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
-import axios from 'axios';
+import {cellWidth, classNames, headerCol, Table, TableBody, TableHeader, Visibility,} from '@patternfly/react-table';
+import {CheckCircleIcon, ErrorCircleOIcon, PlusCircleIcon} from '@patternfly/react-icons';
+import axios from '@app/utils/api';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-import {
-  changePlace,
-  changeLocation,
-  changeDate,
-  changeAddInfo,
-  changeMobNotification, useIdState, useModalState,
-} from '@app/utils/commonState';
+import {useModalState, useStateSocialEvent,} from '@app/utils/commonState';
 
 
 const SCRAPE_URL = process.env.SCRAPE_URL || 'http://localhost:3000/';
 
 const SocialEvents: React.FunctionComponent<any> = () => {
-  const {place, setPlace, handleTextInputChangePlace} = changePlace();
-  const {location, setLocation, handleTextInputChangeLocation} = changeLocation();
-  const {date, setDate, handleTextInputChangeDate} = changeDate();
-  const {addiInfo, setAddiInfo, handleTextInputChangeAddInfo} = changeAddInfo();
-  const {mobileNotify, setMobileNotify, handleTextInputChangeMobNotification} = changeMobNotification();
-  const {id, setId} = useIdState();
+  const {
+    socialEvent, setSocialEvent, handleTextInputChangeDate,
+    handleTextInputChangeAddInfo, handleTextInputChangeMobNotification,
+    handleTextInputChangeLocation, handleTextInputChangePlace
+  } = useStateSocialEvent();
   const {isModalOpen, setIsModalOpen} = useModalState();
 
   const [columns] = useState([
-    { title: 'Id', columnTransforms: [classNames(Visibility.hidden)]},
-    { title: 'Place', cellTransforms: [headerCol()], transforms: [cellWidth(20)]},
+    {title: 'Id', columnTransforms: [classNames(Visibility.hidden)]},
+    {title: 'Place', cellTransforms: [headerCol()], transforms: [cellWidth(20)]},
     'Location',
     'When',
-    { title: 'MobileVal', columnTransforms: [classNames(Visibility.hidden)] },
+    {title: 'MobileVal', columnTransforms: [classNames(Visibility.hidden)]},
     'Mobile',
     'Information']);
   const [actions] = useState([
     {
       title: 'Edit',
       onClick: (event, rowId, rowData) => {
-        setId(rowData.id.title);
-        setPlace(rowData.place.title);
-        setLocation(rowData.location.title);
-        setDate(moment(rowData.when.title, "MMMM D, YYYY, h:mm a").toDate());
-        setAddiInfo(rowData.information.title);
-        setMobileNotify(rowData.mobileval.title);
+        setSocialEvent({
+          id: rowData.id.title,
+          place: rowData.place.title,
+          location: rowData.location.title,
+          date: moment(rowData.when.title, "MMMM D, YYYY, h:mm a").toDate(),
+          addiInfo: rowData.information.title,
+          mobileNotify: rowData.mobileval.title
+        });
         setIsModalOpen(true);
       },
     },
-    { isSeparator: true, title: 'Separator', onClick:(): void => {} },
+    {
+      isSeparator: true, title: 'Separator', onClick: (): void => {
+      }
+    },
     {
       title: 'Delete',
       onClick: (event, rowId, rowData): void => {
@@ -75,23 +65,25 @@ const SocialEvents: React.FunctionComponent<any> = () => {
       },
     },
   ]);
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<any[]>([]);
 
   const handleModalToggle = () => {
-    setId('');
-    setPlace('');
-    setLocation('');
-    setDate('');
-    setAddiInfo('');
-    setMobileNotify(false);
+    setSocialEvent({
+      id: '',
+      place: '',
+      location: '',
+      date: '',
+      addiInfo: '',
+      mobileNotify: false
+    });
     setIsModalOpen(!isModalOpen);
   };
 
   const getSocialEvents = () => {
     axios.get('allsocialevents').then((res) => {
-      let socialEventRows = [];
+      let socialEventRows: any[] = [];
       res.data && res.data.map(data => {
-        const cells = [
+        const cells: any[] = [
           data.id,
           data.place,
           data.location,
@@ -102,41 +94,40 @@ const SocialEvents: React.FunctionComponent<any> = () => {
           {
             title: (
               <React.Fragment>
-                {data.mobileNotify ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/> }
+                {data.mobileNotify ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/>}
               </React.Fragment>
             )
           },
           data.additionalInfo,
         ];
-        // @ts-ignore
         socialEventRows = [...socialEventRows, cells];
       });
       setRows(socialEventRows);
     });
   };
   const addUpdateSocialEvent = () => {
-    if (place === '' ||  location === '' || date === undefined) {
+    if (socialEvent.place === '' || socialEvent.location === '' || socialEvent.date === undefined) {
       return;
     }
-    if (id !== '') {
+    if (socialEvent.id !== '') {
       axios.put('updatesocialevent', {
-        id,
-        place,
-        location,
-        date,
-        additionalInfo: addiInfo,
-        mobileNotify: mobileNotify,
+        id: socialEvent.id,
+        place: socialEvent.place,
+        location: socialEvent.location,
+        date: socialEvent.date,
+        additionalInfo: socialEvent.addiInfo,
+        mobileNotify: socialEvent.mobileNotify,
       }).then(() => {
         setIsModalOpen(!isModalOpen);
         getSocialEvents();
       });
     } else {
       axios.post('socialevent', {
-        place,
-        location,
-        date,
-        additionalInfo: addiInfo,
-        mobileNotify: mobileNotify,
+        place: socialEvent.place,
+        location: socialEvent.location,
+        date: socialEvent.date,
+        additionalInfo: socialEvent.addiInfo,
+        mobileNotify: socialEvent.mobileNotify,
       }).then(res => {
         setIsModalOpen(!isModalOpen);
         getSocialEvents();
@@ -145,7 +136,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
     }
   };
   const updateImageTechTalk = (keyword, id) => {
-    axios.get(SCRAPE_URL.concat('scrape/'+keyword)).then(res => {
+    axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
       axios.put('updatetechimg', {
         id,
         photoUri: res.data
@@ -155,7 +146,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
 
   useEffect(() => {
     getSocialEvents()
-  },[]);
+  }, []);
 
   return (
     <React.Fragment>
@@ -164,17 +155,17 @@ const SocialEvents: React.FunctionComponent<any> = () => {
           <Text component="h1">Upcoming Social Events</Text>
         </TextContent>
         <Button variant="primary" onClick={handleModalToggle}>
-          <PlusCircleIcon /> Add Social Event
+          <PlusCircleIcon/> Add Social Event
         </Button>
       </PageSection>
       <PageSection>
         <Table aria-label="header" actions={actions} cells={columns} rows={rows}>
-          <TableHeader />
-          <TableBody />
+          <TableHeader/>
+          <TableBody/>
         </Table>
         <Modal
           isLarge
-          title={id !== '' ? 'Update Social Event' : 'Add Social Event'}
+          title={socialEvent.id !== '' ? 'Update Social Event' : 'Add Social Event'}
           isOpen={isModalOpen}
           onClose={handleModalToggle}
           actions={[
@@ -190,7 +181,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
               variant="primary"
               onClick={addUpdateSocialEvent}
             >
-              {id !== '' ? 'Update' : 'Submit'}
+              {socialEvent.id !== '' ? 'Update' : 'Submit'}
             </Button>,
           ]}
         >
@@ -200,12 +191,12 @@ const SocialEvents: React.FunctionComponent<any> = () => {
               isRequired
               fieldId="horizontal-form-name"
               helperTextInvalid="Enter place's name"
-              isValid={place !== ''}
+              isValid={socialEvent.place !== ''}
             >
               <TextInput
-                value={place}
+                value={socialEvent.place}
                 isRequired
-                isValid={place !== ''}
+                isValid={socialEvent.place !== ''}
                 type="text"
                 id="horizontal-form-name"
                 aria-describedby="horizontal-form-name-helper"
@@ -218,13 +209,13 @@ const SocialEvents: React.FunctionComponent<any> = () => {
               isRequired
               fieldId="horizontal-form-email"
               helperTextInvalid="Enter place's location"
-              isValid={location !== ''}
+              isValid={socialEvent.location !== ''}
             >
               <TextInput
-                value={location}
+                value={socialEvent.location}
                 onChange={handleTextInputChangeLocation}
                 isRequired
-                isValid={location !== ''}
+                isValid={socialEvent.location !== ''}
                 type="email"
                 id="horizontal-form-email"
                 name="horizontal-form-email"
@@ -235,9 +226,9 @@ const SocialEvents: React.FunctionComponent<any> = () => {
               isRequired
               fieldId="horizontal-form-date"
               helperTextInvalid="Enter event date & time"
-              isValid={date !== ''}>
+              isValid={socialEvent.date !== ''}>
               <DatePicker
-                selected={date}
+                selected={socialEvent.date}
                 onChange={handleTextInputChangeDate}
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -252,7 +243,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
               fieldId="horizontal-form-exp"
             >
               <TextArea
-                value={addiInfo}
+                value={socialEvent.addiInfo}
                 onChange={handleTextInputChangeAddInfo}
                 name="horizontal-form-exp"
                 id="horizontal-form-exp"
@@ -263,7 +254,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
                 label="Send mobile notification"
                 id="alt-form-checkbox-1"
                 name="alt-form-checkbox-1"
-                isChecked={mobileNotify}
+                isChecked={socialEvent.mobileNotify}
                 aria-label="send-noti-checkbox"
                 onChange={handleTextInputChangeMobNotification}
               />
@@ -275,4 +266,4 @@ const SocialEvents: React.FunctionComponent<any> = () => {
   );
 };
 
-export { SocialEvents };
+export {SocialEvents};

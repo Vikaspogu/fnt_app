@@ -1,26 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {
-  PageSection,
-  PageSectionVariants,
-  TextContent,
-  Text
-} from '@patternfly/react-core';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  headerCol,
-  cellWidth,
-  classNames,
-  Visibility,
-} from '@patternfly/react-table';
-import { CheckCircleIcon, ErrorCircleOIcon } from '@patternfly/react-icons';
+import React, {useEffect, useState} from 'react';
+import {PageSection, PageSectionVariants, Text, TextContent} from '@patternfly/react-core';
+import {cellWidth, classNames, headerCol, Table, TableBody, TableHeader, Visibility,} from '@patternfly/react-table';
+import {CheckCircleIcon, ErrorCircleOIcon} from '@patternfly/react-icons';
 import '@patternfly/react-core/dist/styles/base.css';
 import '@patternfly/patternfly/patternfly.css';
-import axios from 'axios';
+import axios from '@app/utils/api';
 
 const ReportedIssues: React.FunctionComponent<any> = (props) => {
-  const [columns]=useState([
+  const [columns] = useState([
     {
       title: 'Id', columnTransforms: [classNames(Visibility.hidden)],
     },
@@ -34,30 +21,29 @@ const ReportedIssues: React.FunctionComponent<any> = (props) => {
     {
       title: 'Mark as Fixed',
       onClick: (event, rowId, rowData) =>
-        axios.put('updatefixedissue',{
+        axios.put('updatefixedissue', {
           id: rowData.id.title,
           fixed: true,
         }).then(() => getAllReportedIssues()),
     }
   ]);
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<any[]>([]);
   const getAllReportedIssues = () => {
     axios.get('allreportedissues').then(res => {
-      let reportedRows = [];
+      let reportedRows: any[] = [];
       res.data && res.data.map(data => {
-        const cells = [
+        const cells: any[] = [
           data.id,
           data.reporter,
           data.description,
           {
             title: (
               <React.Fragment>
-                {data.fixed ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/> }
+                {data.fixed ? <CheckCircleIcon key="icon" color="green"/> : <ErrorCircleOIcon key="icon"/>}
               </React.Fragment>
             )
           },
         ];
-        // @ts-ignore
         reportedRows = [...reportedRows, cells]
       });
       setRows(reportedRows)
@@ -74,13 +60,13 @@ const ReportedIssues: React.FunctionComponent<any> = (props) => {
         </TextContent>
       </PageSection>
       <PageSection type='nav' style={{height: '80vh'}} isFilled={true}>
-        <Table actions={actions} cells={columns} rows={rows}>
-          <TableHeader />
-          <TableBody />
+        <Table aria-label="table" actions={actions} cells={columns} rows={rows}>
+          <TableHeader/>
+          <TableBody/>
         </Table>
       </PageSection>
     </React.Fragment>
   );
 };
 
-export { ReportedIssues };
+export {ReportedIssues};

@@ -1,91 +1,97 @@
 import { useState } from 'react';
 
-export const changeTopic = () => {
-  const [topic, setTopic] =useState<string>('');
-  return {
-    topic,
-    setTopic,
-    handleTextInputChangeTopic: (topic) => {
-      setTopic(topic);
-    }
-  };
+interface ITechTalk {
+  id?: string;
+  location?: string;
+  topic: string;
+  presenter: string;
+  date: any;
+  addiInfo: string;
+  mobileNotify: boolean;
+}
+
+interface ISocialEvent {
+  id?: string;
+  location?: string;
+  place: string;
+  date: any;
+  addiInfo: string;
+  mobileNotify: boolean;
+}
+
+const initialTechTalkData = {
+  topic: '',
+  presenter: '',
+  date: '',
+  addiInfo: '',
+  mobileNotify: false
 };
-export const changePresenter = () => {
-  const [presenter, setPresenter] =useState<string>('');
-  return {
-    presenter,
-    setPresenter,
-    handleTextInputChangePresenter : (presenter) => {
-      setPresenter(presenter);
-    }
-  };
+
+const initialSocialEventData = {
+  place: '',
+  location: '',
+  date: '',
+  addiInfo: '',
+  mobileNotify: false
 };
-export const changeLocation = () => {
-  const [location, setLocation] =useState<string>('');
+
+export const useStateTechTalk = () => {
+  const [techTalk, setTechTalk] = useState<ITechTalk>(initialTechTalkData);
   return {
-    location,
-    setLocation,
-    handleTextInputChangeLocation: (location) => {
-      setLocation(location);
-    }
-  };
-};
-export const changeDate = () => {
-  const [date, setDate] =useState<any>('');
-  return {
-    date,
-    setDate,
+    techTalk,
+    setTechTalk,
+    handleTextInputChangeTopic: (topic: string) => {
+      setTechTalk({ ...techTalk, topic });
+    },
+    handleTextInputChangePresenter: (presenter: string) => {
+      setTechTalk({ ...techTalk, presenter });
+    },
     handleTextInputChangeDate: date => {
-      setDate(date);
+      setTechTalk({ ...techTalk, date });
+    },
+    handleTextInputChangeAddInfo: (addiInfo: string) => {
+      setTechTalk({ ...techTalk, addiInfo });
+    },
+    handleTextInputChangeMobNotification: (mobileNotify: boolean) => {
+      setTechTalk({ ...techTalk, mobileNotify });
+    },
+    handleTextInputChangeLocation: (location: string) => {
+      setTechTalk({ ...techTalk, location });
     }
   };
 };
-export const changeAddInfo = () => {
-  const [addiInfo, setAddiInfo] =useState<string>('');
+
+export const useStateSocialEvent = () => {
+  const [socialEvent, setSocialEvent] = useState<ISocialEvent>(initialSocialEventData);
   return {
-    addiInfo,
-    setAddiInfo,
-    handleTextInputChangeAddInfo: addiInfo => {
-      setAddiInfo(addiInfo);
+    socialEvent,
+    setSocialEvent,
+    handleTextInputChangePlace: (place: string) => {
+      setSocialEvent({ ...socialEvent, place });
+    },
+    handleTextInputChangeDate: date => {
+      setSocialEvent({ ...socialEvent, date });
+    },
+    handleTextInputChangeAddInfo: (addiInfo: string) => {
+      setSocialEvent({ ...socialEvent, addiInfo });
+    },
+    handleTextInputChangeMobNotification: (mobileNotify: boolean) => {
+      setSocialEvent({ ...socialEvent, mobileNotify });
+    },
+    handleTextInputChangeLocation: (location: string) => {
+      setSocialEvent({ ...socialEvent, location });
     }
-  };
-};
-export const changeMobNotification = () => {
-  const [mobileNotify, setMobileNotify] =useState<boolean>(false);
-  return {
-    mobileNotify,
-    setMobileNotify,
-    handleTextInputChangeMobNotification: mobileNotify => {
-      setMobileNotify(mobileNotify);
-    }
-  };
-};
-export const changePlace = () => {
-  const [place, setPlace] =useState<string>('');
-  return {
-    place,
-    setPlace,
-    handleTextInputChangePlace: (place) => {
-      setPlace(place);
-    }
-  };
-};
-export const useIdState = () => {
-  const [id, setId] =useState<string>('');
-  return {
-    id,
-    setId
   };
 };
 export const useVotesState = () => {
-  const [votes, setVotes] =useState<number>(0);
+  const [votes, setVotes] = useState<number>(0);
   return {
     votes,
     setVotes
   };
 };
 export const useModalState = () => {
-  const [isModalOpen, setIsModalOpen] =useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return {
     isModalOpen,
     setIsModalOpen

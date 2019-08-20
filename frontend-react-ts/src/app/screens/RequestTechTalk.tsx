@@ -1,64 +1,56 @@
 import React, {useEffect, useState} from 'react';
 import {
-  PageSection,
-  PageSectionVariants,
-  TextContent,
-  Text,
   Button,
-  Modal,
+  Checkbox,
   Form,
   FormGroup,
-  TextInput,
+  Modal,
+  PageSection,
+  PageSectionVariants,
+  Text,
   TextArea,
-  Checkbox,
+  TextContent,
+  TextInput,
 } from '@patternfly/react-core';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  headerCol,
-  cellWidth,
-  classNames,
-  Visibility,
-} from '@patternfly/react-table';
+import {cellWidth, classNames, headerCol, Table, TableBody, TableHeader, Visibility,} from '@patternfly/react-table';
 import {CheckCircleIcon, ErrorCircleOIcon} from '@patternfly/react-icons';
-import axios from 'axios';
+import axios from '@app/utils/api';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import {changeTopic,changePresenter,changeDate,changeAddInfo,changeMobNotification } from '@app/utils/commonState';
+import {useStateTechTalk} from '@app/utils/commonState';
 
-const RequestTechTalk: React.FunctionComponent<any> = (props) => {
-  const {topic, setTopic, handleTextInputChangeTopic} = changeTopic();
-  const {presenter, setPresenter, handleTextInputChangePresenter} = changePresenter();
-  const {date, setDate, handleTextInputChangeDate} = changeDate();
-  const {addiInfo, setAddiInfo, handleTextInputChangeAddInfo} = changeAddInfo();
-  const {mobileNotify, setMobileNotify, handleTextInputChangeMobNotification} = changeMobNotification();
-
-  const [id, setId] = useState<string>('');
+const RequestTechTalk: React.FunctionComponent<any> = () => {
+  const {
+    setTechTalk, handleTextInputChangeMobNotification, handleTextInputChangeAddInfo,
+    handleTextInputChangeDate, handleTextInputChangePresenter, handleTextInputChangeTopic, techTalk
+  } = useStateTechTalk();
   const [votes, setVotes] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [columns] = useState([
-      {
+    {
       title: 'Id', columnTransforms: [classNames(Visibility.hidden)],
-      },
-      {
-        title: 'Topic', cellTransforms: [headerCol()], transforms: [cellWidth(20)],
-      },
-      'Presenter',
-      'Votes',
-      'Promoted',
-      'Additional Information']);
+    },
+    {
+      title: 'Topic', cellTransforms: [headerCol()], transforms: [cellWidth(20)],
+    },
+    'Presenter',
+    'Votes',
+    'Promoted',
+    'Additional Information']);
   const [actions] = useState([
     {
       title: 'Promote to Upcoming',
-      onClick: (event, rowId, rowData, extra) => {
-        setId(rowData.id.title);
-        setTopic(rowData.topic.title);
-        setPresenter(rowData.presenter.title);
+      onClick: (event, rowId, rowData) => {
+        setTechTalk({
+          id: rowData.id.title,
+          topic: rowData.topic.title,
+          presenter: rowData.presenter.title,
+          date: '',
+          addiInfo: rowData[5],
+          mobileNotify: true
+        });
+        setIsModalOpen(true);
         setVotes(rowData.votes.title);
-        setDate('');
-        setAddiInfo(rowData[5]);
-        setMobileNotify(true);
       },
     },
     {
@@ -72,15 +64,17 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
       }
     },
   ]);
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState<any[]>([]);
 
   const handleModalToggle = () => {
-    setId('');
-    setTopic('');
-    setPresenter('');
-    setDate('');
-    setAddiInfo('');
-    setMobileNotify(false);
+    setTechTalk({
+      id: '',
+      topic: '',
+      presenter: '',
+      date: '',
+      addiInfo: '',
+      mobileNotify: false
+    });
     setIsModalOpen(!isModalOpen);
   };
 
@@ -90,9 +84,9 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
 
   const getAllRequestedTechEvents = () => {
     axios.get('allrequestedtalk').then(res => {
-      let reqTechEventsRow = [];
+      let reqTechEventsRow: any[] = [];
       res.data && res.data.map(data => {
-        let cells = [
+        let cells: any[] = [
           data.id,
           data.topic,
           data.presenter,
@@ -106,7 +100,6 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
           },
           data.additionalInfo,
         ];
-        // @ts-ignore
         reqTechEventsRow = [...reqTechEventsRow, cells];
       });
       setRows(reqTechEventsRow)
@@ -115,14 +108,14 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
 
   const promoteTechEvent = () => {
     axios.post('techtalk', {
-      topic,
-      presenter,
-      date,
-      additionalInfo: addiInfo,
-      mobileNotify,
+      topic: techTalk.topic,
+      presenter: techTalk.presenter,
+      date: techTalk.date,
+      additionalInfo: techTalk.addiInfo,
+      mobileNotify: techTalk.mobileNotify,
     }).then(() => {
       axios.put('promoterequesttalk', {
-        id,
+        id: techTalk.id,
         promoted: true,
       }).then(() => {
         setIsModalOpen(!isModalOpen);
@@ -134,11 +127,11 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
     <React.Fragment>
       <PageSection variant={PageSectionVariants.light}>
         <TextContent>
-          <Text component="h1">Requested Social Events</Text>
+          <Text component="h1">Requested Tech Talk</Text>
         </TextContent>
       </PageSection>
       <PageSection type="nav" style={{height: '80vh'}} isFilled={true}>
-        <Table actions={actions} cells={columns} rows={rows}>
+        <Table aria-label="table" actions={actions} cells={columns} rows={rows}>
           <TableHeader/>
           <TableBody/>
         </Table>
@@ -168,12 +161,12 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
               isRequired
               fieldId="horizontal-form-name"
               helperTextInvalid="Enter topic's name"
-              isValid={topic !== ''}
+              isValid={techTalk.topic !== ''}
             >
               <TextInput
-                value={topic}
+                value={techTalk.topic}
                 isRequired
-                isValid={topic !== ''}
+                isValid={techTalk.topic !== ''}
                 type="text"
                 id="horizontal-form-name"
                 aria-describedby="horizontal-form-name-helper"
@@ -186,13 +179,13 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
               isRequired
               fieldId="horizontal-form-email"
               helperTextInvalid="Enter topic's presenter"
-              isValid={presenter !== ''}
+              isValid={techTalk.presenter !== ''}
             >
               <TextInput
-                value={presenter}
+                value={techTalk.presenter}
                 onChange={handleTextInputChangePresenter}
                 isRequired
-                isValid={presenter !== ''}
+                isValid={techTalk.presenter !== ''}
                 type="email"
                 id="horizontal-form-email"
                 name="horizontal-form-email"
@@ -200,9 +193,9 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
             </FormGroup>
             <FormGroup label="Date" isRequired fieldId="horizontal-form-date"
                        helperTextInvalid="Enter event date & time"
-                       isValid={date !== ''}>
+                       isValid={techTalk.date !== ''}>
               <DatePicker
-                selected={date}
+                selected={techTalk.date}
                 onChange={handleTextInputChangeDate}
                 showTimeSelect
                 timeFormat="HH:mm"
@@ -217,7 +210,7 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
               fieldId="horizontal-form-exp"
             >
               <TextArea
-                value={addiInfo}
+                value={techTalk.addiInfo}
                 onChange={handleTextInputChangeAddInfo}
                 name="horizontal-form-exp"
                 id="horizontal-form-exp"
@@ -228,7 +221,7 @@ const RequestTechTalk: React.FunctionComponent<any> = (props) => {
                 label="Send mobile notification"
                 id="alt-form-checkbox-1"
                 name="alt-form-checkbox-1"
-                isChecked={mobileNotify}
+                isChecked={techTalk.mobileNotify}
                 aria-label="send-noti-checkbox"
                 onChange={handleTextInputChangeMobNotification}
               />
