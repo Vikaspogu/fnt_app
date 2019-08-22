@@ -44,7 +44,7 @@ const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8080/';
 const initOptions = {
   url: 'https://sso-fntapp.apps.cluster-e24d.sandbox447.opentlc.com/auth', 
   realm: 'ocp', 
-  clientId: 'fntApp',
+  clientId: 'fntAppLocal',
   onLoad: 'login-required'
 };
 //Style for progress bar
@@ -234,7 +234,6 @@ class App extends React.Component {
       }, function(error) {
         return Promise.reject(error);
       });
-
       //Is authenticated then render app
       if (authenticated) {
         return (
