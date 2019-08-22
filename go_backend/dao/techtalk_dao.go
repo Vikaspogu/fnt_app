@@ -24,7 +24,7 @@ var db *mongo.Database
 // Connect establish a connection to database
 func init() {
 	ctx := context.Background()
-	URI := os.Getenv("MONGODB")
+	URI := os.Getenv("MONGODB_URI")
 	if URI == "" {
 		URI = "mongodb://@localhost:27017"
 	}
