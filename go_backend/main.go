@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go_backend/handlers"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,6 +13,10 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	// Set the router as the default one shipped with Gin
 	router := gin.Default()
 	router.Use(cors.New(cors.Config{
@@ -75,7 +80,7 @@ func main() {
 	router.DELETE("/reportedissue/:id", VerifyToken(), handlers.DeleteReportedIssue)
 
 	// Start and run the server
-	_ = router.Run(":8080")
+	_ = router.Run(":" + port)
 }
 
 //VerifyToken jwt
