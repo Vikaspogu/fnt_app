@@ -1,6 +1,6 @@
 {
   "name": "frontend-react-ts",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An open source build scaffolding utility for web apps.",
   "main": "index.js",
   "license": "MIT",
