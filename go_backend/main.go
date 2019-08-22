@@ -98,14 +98,14 @@ func VerifyWebToken(c *gin.Context) {
 		fmt.Println(er)
 		c.Abort()
 		c.Writer.WriteHeader(http.StatusUnauthorized)
-		c.Writer.Write([]byte("Unauthorized"))
+		_, _ = c.Writer.Write([]byte("Unauthorized"))
 		return
 	}
 
 	_, err := jwt.Parse(reqToken, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return key, nil
 	})
@@ -114,7 +114,7 @@ func VerifyWebToken(c *gin.Context) {
 		fmt.Println(err)
 		c.Abort()
 		c.Writer.WriteHeader(http.StatusUnauthorized)
-		c.Writer.Write([]byte("Unauthorized"))
+		_, _ = c.Writer.Write([]byte("Unauthorized"))
 		return
 	}
 }
