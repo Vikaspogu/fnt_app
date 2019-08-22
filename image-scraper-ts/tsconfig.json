@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "es6",     //default is es5
+      "module": "commonjs",//CommonJs style module in output
+      "outDir": "./build",   //change the output directory
+      "rootDir": "./src",
+      "resolveJsonModule": true //to import out json database
+    },
+    "exclude": [
+      "node_modules"     //which files or directories to ignore
+    ]
+ }
