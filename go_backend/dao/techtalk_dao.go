@@ -13,8 +13,6 @@ import (
 )
 
 const (
-	//DBName database name
-	DBName = "fntdb"
 	//TECHCOLL mongo collection
 	TECHCOLL = "techtalk"
 )
@@ -25,6 +23,11 @@ var db *mongo.Database
 func init() {
 	ctx := context.Background()
 	URI := os.Getenv("MONGODB_URI")
+	DBName := os.Getenv("DB_NAME")
+	if DBName == "" {
+		//DBName database name
+		DBName = "fntdb"
+	}
 	if URI == "" {
 		URI = "mongodb://@localhost:27017"
 	}
