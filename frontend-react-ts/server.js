@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const port = process.env.PORT || 9000;
 const app = express();
+
+app.use(cors());
 
 // Body limit is 100Kb to prevent from DOS attacks
 app.use(express.json({limit: '100kb'}));
