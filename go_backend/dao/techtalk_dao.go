@@ -28,6 +28,7 @@ func init() {
 		DBName = "fntdb"
 	}
 	if URI == "" {
+		//mongodb://${user}:${pass}:51655/heroku_mgsrw18w?authMechanism=SCRAM-SHA-1
 		URI = "mongodb://@localhost:27017"
 	}
 	fmt.Println("Mongodb connection details:: ", URI, DBName)

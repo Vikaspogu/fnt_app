@@ -29,6 +29,7 @@ module.exports = merge(common, {
     new webpack.DefinePlugin({
       'process.env': {
         BACKEND_URL: JSON.stringify(process.env.BACKEND_URL),
+        SCRAPE_URL: JSON.stringify(process.env.SCRAPE_URL),
       },
     })
   ]
