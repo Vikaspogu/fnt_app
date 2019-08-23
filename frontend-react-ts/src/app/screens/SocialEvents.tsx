@@ -139,7 +139,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
     axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
       axios.put('updatetechimg', {
         id,
-        photoUri: res.data
+        photoUri: res.data.uri
       }).then(() => console.log("success")).catch(() => console.warn("Couldn't fetch image"));
     })
   };
