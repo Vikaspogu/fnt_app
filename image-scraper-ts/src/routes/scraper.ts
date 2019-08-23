@@ -35,8 +35,9 @@ export class Scraper {
             });
             const filterLinks = stories.filter(link => link != null);
             const images = filterLinks.map(link => querystring.parse(url.parse(link).query).imgurl).filter(img => img);
+            const filterImages = images.filter(img => img.includes('.jpg'));
             await browser.close();
-            resolve(images[0].toString());
+            resolve(filterImages[0].toString());
         });
     }
 }
