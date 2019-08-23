@@ -131,16 +131,16 @@ const SocialEvents: React.FunctionComponent<any> = () => {
       }).then(res => {
         setIsModalOpen(!isModalOpen);
         getSocialEvents();
-        updateImageTechTalk(res.data.place, res.data.id);
+        updateImageSocial(res.data.place, res.data.id);
       });
     }
   };
-  const updateImageTechTalk = (keyword, id) => {
+  const updateImageSocial = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
-      axios.put('updatetechimg', {
+      axios.put('updatesocialimg', {
         id,
         photoUri: res.data.uri
-      }).then(() => console.log("success")).catch(() => console.warn("Couldn't fetch image"));
+      }).catch(() => console.warn("Couldn't fetch image"));
     })
   };
 

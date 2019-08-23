@@ -143,7 +143,7 @@ const TechTalks: React.FunctionComponent<any> = () => {
       axios.put('updatetechimg', {
         id,
         photoUri: res.data.uri
-      }).then(() => console.log('success')).catch(() => console.warn("Couldn't fetch image"));
+      }).catch(() => console.warn("Couldn't fetch image"));
     })
   };
 
