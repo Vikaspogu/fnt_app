@@ -1,5 +1,5 @@
 import * as express from 'express';
-import cors from 'cors';
+import * as cors from 'cors';
 import * as bodyParser from "body-parser";
 import {Scraper} from "./routes/scraper";
 
