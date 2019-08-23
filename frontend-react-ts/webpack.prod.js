@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const merge = require('webpack-merge');
 const common = require('./webpack.common.js');
@@ -23,5 +24,12 @@ module.exports = merge(common, {
         use: ["style-loader", "css-loader"]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        BACKEND_URL: process.env.BACKEND_URL,
+      },
+    })
+  ]
 });
