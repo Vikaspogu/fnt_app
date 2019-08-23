@@ -9,7 +9,9 @@ export class Scraper {
         app.route('/scrape/:keyword').get((req: Request, res: Response) => {
             const keyword = req.params.keyword;
             const uri = this.extractImage(keyword);
-            uri.then(result => res.status(200).send(result));
+            uri.then(result => {
+                res.status(200).send({uri: result})
+            });
         });
         app.route('/').get((req: Request, res: Response) => {
             res.status(200).send({
