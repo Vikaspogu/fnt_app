@@ -29,7 +29,7 @@ func init() {
 		DBName = "fntdb"
 	}
 	if URI == "" {
-		URI = "mongodb://@localhost:27017/?authMechanism=SCRAM-SHA-1"
+		URI = "mongodb://@localhost:27017"
 	}
 	fmt.Println("Mongodb connection details:: ", URI)
 	clientOpts := options.Client().ApplyURI(URI)
