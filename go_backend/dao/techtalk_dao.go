@@ -38,7 +38,7 @@ func init() {
 	}
 	// Collection types can be used to access the database
 	db = client.Database(DBName)
-	fmt.Println("Connection success to Database:: ", db.Name())
+	fmt.Println("Connection success to Database:: ", db.Name(), db.Client())
 }
 
 // InsertOneTalk inserts one item from TechTalk model
