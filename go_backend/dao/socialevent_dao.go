@@ -41,7 +41,7 @@ func GetAllSocialEvents() []models.SocialEvent {
 	if err := cur.Err(); err != nil {
 		fmt.Println(err)
 	}
-	cur.Close(context.Background())
+	_ = cur.Close(context.Background())
 	return elements
 }
 
