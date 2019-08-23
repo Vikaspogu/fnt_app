@@ -25,13 +25,12 @@ func init() {
 	URI := os.Getenv("MONGODB_URI")
 	DBName := os.Getenv("DB_NAME")
 	if DBName == "" {
-		//DBName database name
 		DBName = "fntdb"
 	}
 	if URI == "" {
 		URI = "mongodb://@localhost:27017"
 	}
-	fmt.Println("Mongodb connection details:: ", URI)
+	fmt.Println("Mongodb connection details:: ", URI, DBName)
 	clientOpts := options.Client().ApplyURI(URI)
 	client, err := mongo.Connect(ctx, clientOpts)
 	if err != nil {
