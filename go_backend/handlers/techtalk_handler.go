@@ -21,7 +21,7 @@ func CreateTechTalk(c *gin.Context) {
 	var techTalk models.TechTalk
 	techTalk.ID = primitive.NewObjectID()
 	techTalk.CreatedAt = time.Now()
-	c.BindJSON(&techTalk)
+	_ = c.BindJSON(&techTalk)
 	dao.InsertOneTalk(techTalk)
 	c.JSON(http.StatusOK, techTalk)
 }
