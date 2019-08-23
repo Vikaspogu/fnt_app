@@ -140,6 +140,7 @@ const TechTalks: React.FunctionComponent<any> = () => {
   };
   const updateImageTechTalk = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
+      console.log(res.data, id);
       axios.put('updatetechimg', {
         id,
         photoUri: res.data
