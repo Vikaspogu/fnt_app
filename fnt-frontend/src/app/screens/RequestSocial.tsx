@@ -110,8 +110,7 @@ const RequestSocial: React.FunctionComponent<any> = () => {
       additionalInfo: socialEvent.addiInfo,
       mobileNotify: socialEvent.mobileNotify,
     }).then(() => {
-      axios.put('promotesocialrequest', {
-        id: socialEvent.id,
+      axios.put('updaterequestedsocial/'+socialEvent.id, {
         promoted: true,
       }).then(() => {
         setIsModalOpen(!isModalOpen);

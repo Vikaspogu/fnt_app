@@ -110,8 +110,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
       return;
     }
     if (socialEvent.id !== '') {
-      axios.put('updatesocialevent', {
-        id: socialEvent.id,
+      axios.put('updatesocialevent/'+ socialEvent.id, {
         place: socialEvent.place,
         location: socialEvent.location,
         date: socialEvent.date,
@@ -137,8 +136,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
   };
   const updateImageSocial = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
-      axios.put('updatesocialimg', {
-        id,
+      axios.put('updatesocialevent/' + id, {
         photoUri: res.data.uri
       }).catch(() => console.warn("Couldn't fetch image"));
     })

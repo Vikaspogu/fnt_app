@@ -21,8 +21,7 @@ const ReportedIssues: React.FunctionComponent<any> = (props) => {
     {
       title: 'Mark as Fixed',
       onClick: (event, rowId, rowData) =>
-        axios.put('updatefixedissue', {
-          id: rowData.id.title,
+        axios.put('updatereportedissue/'+rowData.id.title, {
           fixed: true,
         }).then(() => getAllReportedIssues()),
     }

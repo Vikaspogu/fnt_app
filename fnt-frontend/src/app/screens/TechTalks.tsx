@@ -111,8 +111,7 @@ const TechTalks: React.FunctionComponent<any> = () => {
       return;
     }
     if (techTalk.id !== '') {
-      axios.put('updatetechtalk', {
-        id: techTalk.id,
+      axios.put('updatetechtalk/' + techTalk.id, {
         topic: techTalk.topic,
         presenter: techTalk.presenter,
         location: techTalk.location,
@@ -140,8 +139,7 @@ const TechTalks: React.FunctionComponent<any> = () => {
   };
   const updateImageTechTalk = (keyword, id) => {
     axios.get(SCRAPE_URL.concat('scrape/' + keyword)).then(res => {
-      axios.put('updatetechimg', {
-        id,
+      axios.put('updatetechtalk/'+ id, {
         photoUri: res.data.uri
       }).catch(() => console.warn("Couldn't fetch image"));
     })

@@ -114,8 +114,7 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
       additionalInfo: techTalk.addiInfo,
       mobileNotify: techTalk.mobileNotify,
     }).then(() => {
-      axios.put('promoterequesttalk', {
-        id: techTalk.id,
+      axios.put('updaterequestedtalk/'+techTalk.id , {
         promoted: true,
       }).then(() => {
         setIsModalOpen(!isModalOpen);
