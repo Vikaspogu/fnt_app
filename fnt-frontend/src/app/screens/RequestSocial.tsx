@@ -28,18 +28,22 @@ const RequestSocial: React.FunctionComponent<any> = () => {
   } = useStateSocialEvent();
   const {setVotes} = useVotesState();
   const {isModalOpen, setIsModalOpen} = useModalState();
+  const [photoUri, setPhotoUri] = useState<string>();
 
-  const [columns] = useState(
-    [{
+  const [columns] = useState([
+      {
       title: 'Id', columnTransforms: [classNames(Visibility.hidden)],
-    },
+      },
+      {
+        title: 'PhotoUri', columnTransforms: [classNames(Visibility.hidden)],
+      },
       {
         title: 'Place', cellTransforms: [headerCol()], transforms: [cellWidth(20)],
       },
       'Location',
       'Votes',
       'Promoted',
-      'Additional Information']);
+      'Information']);
   const [actions] = useState([
     {
       title: 'Promote to Upcoming',
@@ -48,11 +52,13 @@ const RequestSocial: React.FunctionComponent<any> = () => {
           id: rowData.id.title,
           place: rowData.place.title,
           location: rowData.location.title,
-          date: moment(rowData.when.title, "MMMM D, YYYY, h:mm a").toDate(),
+          date: '',
           addiInfo: rowData.information.title,
-          mobileNotify: rowData.mobileval.title
+          mobileNotify: false
         });
         setVotes(rowData.votes.title);
+        setIsModalOpen(!isModalOpen);
+        setPhotoUri(rowData.photouri.title);
       },
     },
     {
@@ -84,9 +90,10 @@ const RequestSocial: React.FunctionComponent<any> = () => {
       res.data && res.data.map(data => {
         let cells: any[] = [
           data.id,
+          data.photoUri,
           data.place,
           data.location,
-          data.votes !== [] ? data.votes.length : 0,
+          data.votes !== null ? data.votes.length : 0,
           {
             title: (
               <React.Fragment>
@@ -96,7 +103,7 @@ const RequestSocial: React.FunctionComponent<any> = () => {
           },
           data.additionalInfo,
         ];
-        reqSocialEventsRow = [...reqSocialEventsRow, cells];
+        reqSocialEventsRow = [...reqSocialEventsRow, { "cells" : cells }];
       });
       setRows(reqSocialEventsRow)
     });
@@ -109,8 +116,9 @@ const RequestSocial: React.FunctionComponent<any> = () => {
       date: socialEvent.date,
       additionalInfo: socialEvent.addiInfo,
       mobileNotify: socialEvent.mobileNotify,
+      photoUri: photoUri,
     }).then(() => {
-      axios.put('updaterequestedsocial/'+socialEvent.id, {
+      axios.put('updaterequestedsocial/'+ socialEvent.id, {
         promoted: true,
       }).then(() => {
         setIsModalOpen(!isModalOpen);

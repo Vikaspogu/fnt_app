@@ -43,7 +43,7 @@ const ReportedIssues: React.FunctionComponent<any> = (props) => {
             )
           },
         ];
-        reportedRows = [...reportedRows, cells]
+        reportedRows = [...reportedRows,  {"cells": cells}]
       });
       setRows(reportedRows)
     });

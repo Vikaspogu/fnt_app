@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/lib/pq"
 	"time"
 )
 
@@ -36,18 +37,12 @@ type RequestedSocial struct {
 	ID 		 	   uint 		`gorm:"primary_key;auto_increment" json:"id"`
 	Place          string       `gorm:"size:255;not null;unique" json:"place"`
 	Location       string       `gorm:"size:255;not null" json:"location"`
-	Votes          []ReqSocialVotes     `json:"votes"`
+	Votes          pq.StringArray     `gorm:"type:varchar(100)" json:"votes"`
 	AdditionalInfo string       `json:"additionalInfo"`
 	Promoted       bool         `json:"promoted"`
 	PhotoUri       string       `json:"photoUri"`
 	CreatedAt 	   time.Time 	`gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt      time.Time 	`gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
-}
-
-type ReqSocialVotes struct {
-	ID 		 	   uint 		`gorm:"primary_key;auto_increment" json:"id"`
-	Email		string 		`json:"email"`
-	RequestedSocialID uint 	`json:"requestsocialid"`
 }
 
 //RequestedTalk model
@@ -56,18 +51,12 @@ type RequestedTalk struct {
 	Topic          string       `gorm:"size:255;not null;unique" json:"topic"`
 	Presenter      string       `gorm:"size:255;not null" json:"presenter"`
 	Date           string       `json:"date"`
-	Votes          []ReqTalkVotes     `json:"votes"`
+	Votes          pq.StringArray     `gorm:"type:varchar(100)" json:"votes"`
 	AdditionalInfo string       `json:"additionalInfo"`
 	Promoted       bool         `json:"promoted"`
 	PhotoUri       string       `json:"photoUri"`
 	CreatedAt 	   time.Time 	`gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt      time.Time 	`gorm:"default:CURRENT_TIMESTAMP" json:"updated_at"`
-}
-
-type ReqTalkVotes struct {
-	ID 		 	   uint 		`gorm:"primary_key;auto_increment" json:"id"`
-	Email		string 		`json:"email"`
-	RequestedTalkID uint 	`json:"requesttalkid"`
 }
 
 //ReportedIssue model

@@ -101,7 +101,7 @@ const TechTalks: React.FunctionComponent<any> = () => {
           },
           data.additionalInfo,
         ];
-        techTalkRows = [...techTalkRows, cells];
+        techTalkRows = [...techTalkRows,  {"cells": cells}];
       });
       setRows(techTalkRows);
     });

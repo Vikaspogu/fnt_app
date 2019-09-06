@@ -100,7 +100,7 @@ const SocialEvents: React.FunctionComponent<any> = () => {
           },
           data.additionalInfo,
         ];
-        socialEventRows = [...socialEventRows, cells];
+        socialEventRows = [...socialEventRows,  {"cells": cells}];
       });
       setRows(socialEventRows);
     });

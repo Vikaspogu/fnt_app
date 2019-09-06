@@ -26,9 +26,14 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
   } = useStateTechTalk();
   const [votes, setVotes] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [photoUri, setPhotoUri] = useState<string>();
+
   const [columns] = useState([
     {
       title: 'Id', columnTransforms: [classNames(Visibility.hidden)],
+    },
+    {
+      title: 'PhotoUri', columnTransforms: [classNames(Visibility.hidden)],
     },
     {
       title: 'Topic', cellTransforms: [headerCol()], transforms: [cellWidth(20)],
@@ -36,26 +41,27 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
     'Presenter',
     'Votes',
     'Promoted',
-    'Additional Information']);
+    'Information']);
   const [actions] = useState([
     {
       title: 'Promote to Upcoming',
       onClick: (event, rowId, rowData) => {
+        console.log(rowData);
         setTechTalk({
           id: rowData.id.title,
           topic: rowData.topic.title,
           presenter: rowData.presenter.title,
           date: '',
-          addiInfo: rowData[5],
-          mobileNotify: true
+          addiInfo: rowData.information.title,
+          mobileNotify: false
         });
-        setIsModalOpen(true);
         setVotes(rowData.votes.title);
+        setIsModalOpen(true);
+        setPhotoUri(rowData.photouri.title);
       },
     },
     {
-      isSeparator: true, title: 'Separator', onClick: () => {
-      }
+      isSeparator: true, title: 'Separator', onClick: () => {}
     },
     {
       title: 'Delete',
@@ -88,9 +94,10 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
       res.data && res.data.map(data => {
         let cells: any[] = [
           data.id,
+          data.photoUri,
           data.topic,
           data.presenter,
-          data.votes !== [] ? data.votes.length : 0,
+          data.votes !== null ? data.votes.length : 0,
           {
             title: (
               <React.Fragment>
@@ -100,7 +107,7 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
           },
           data.additionalInfo,
         ];
-        reqTechEventsRow = [...reqTechEventsRow, cells];
+        reqTechEventsRow = [...reqTechEventsRow, {"cells": cells}];
       });
       setRows(reqTechEventsRow)
     });
@@ -113,6 +120,7 @@ const RequestTechTalk: React.FunctionComponent<any> = () => {
       date: techTalk.date,
       additionalInfo: techTalk.addiInfo,
       mobileNotify: techTalk.mobileNotify,
+      photoUri: photoUri,
     }).then(() => {
       axios.put('updaterequestedtalk/'+techTalk.id , {
         promoted: true,
