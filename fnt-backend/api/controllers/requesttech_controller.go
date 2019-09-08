@@ -8,7 +8,7 @@ import (
 
 func AllRequestedTalks(c *gin.Context)  {
 	var requestedTalks []models.RequestedTalk
-	err := db.Find(&requestedTalks).Error
+	err := db.Order("created_at desc").Find(&requestedTalks).Error
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return

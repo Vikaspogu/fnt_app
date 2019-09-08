@@ -8,7 +8,7 @@ import (
 
 func AllRequestedSocials(c *gin.Context)  {
 	var requestedSocials []models.RequestedSocial
-	err := db.Find(&requestedSocials).Error
+	err := db.Order("created_at desc").Find(&requestedSocials).Error
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return

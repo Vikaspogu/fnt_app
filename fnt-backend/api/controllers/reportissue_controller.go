@@ -8,7 +8,7 @@ import (
 
 func AllReportedIssue(c *gin.Context)  {
 	var reportedIssue []models.ReportedIssue
-	err := db.Find(&reportedIssue).Error
+	err := db.Order("created_at desc").Find(&reportedIssue).Error
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return

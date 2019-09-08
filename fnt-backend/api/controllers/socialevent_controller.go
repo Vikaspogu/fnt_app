@@ -9,7 +9,7 @@ import (
 //AllSocialEvents endpoint
 func AllSocialEvents(c *gin.Context) {
 	var socialEvent []models.SocialEvent
-	err := db.Find(&socialEvent).Error
+	err := db.Order("created_at desc").Find(&socialEvent).Error
 	if err != nil {
 		c.AbortWithStatus(http.StatusNotFound)
 		return

@@ -9,7 +9,7 @@ import (
 
 func AllTechTalks(c *gin.Context)  {
 	var techTalks []models.TechTalk
-	err := db.Find(&techTalks).Error
+	err := db.Order("created_at desc").Find(&techTalks).Error
 	if err != nil {
 		fmt.Println(err)
 		c.AbortWithStatus(http.StatusNotFound)
